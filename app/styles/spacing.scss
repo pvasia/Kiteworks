@@ -1,0 +1,54 @@
+:root {
+  /* Spacing */
+  --spacing-md: 25px; /* Copy padding */
+  --spacing-lg: 50px; /* Breakline padding */
+  --spacing-xl: 100px; /* Section padding */
+
+  // @media (max-width: 767px) {
+  //   --spacing-md: 15px;
+  //   --spacing-lg: 35px;
+  //   --spacing-xl: 75px;
+  // }
+}
+
+/* Container Breakpoints */
+
+@media (max-width: 2560px) {
+  /* 4k resolution */
+  .container {
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+  }
+}
+
+@media (max-width: 1920px) {
+  /* Desktop */
+  .container {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+  }
+}
+
+@media (max-width: 1240px) {
+  .container {
+    /* Laptop */
+    width: 100%;
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  /* Mobile */
+  .container {
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+}
