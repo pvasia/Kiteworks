@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import Button from "./Button";
+import { fn } from "storybook/test";
 
 const meta = {
   title: "Atoms/Button",
@@ -17,6 +18,12 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     children: "Primary Button",
+    variant: "primary",
+    href: "/",
+    disabled: false,
+    className: "",
+    type: "button",
+    onClick: () => fn(),
   },
 };
 
@@ -24,5 +31,10 @@ export const Secondary: Story = {
   args: {
     children: "Secondary Button",
     variant: "secondary",
+    href: "/",
+    disabled: false,
+    className: "",
+    type: "button",
+    onClick: () => fn(),
   },
 };

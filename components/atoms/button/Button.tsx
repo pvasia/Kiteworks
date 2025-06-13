@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import styles from "./Button.module.scss";
 
 type ButtonVariant = "primary" | "secondary";
@@ -10,6 +11,7 @@ interface ButtonProps {
   className?: string;
   type?: "button" | "submit" | "reset";
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  href?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -19,6 +21,7 @@ const Button: React.FC<ButtonProps> = ({
   className = "",
   type = "button",
   onClick,
+  href,
 }) => {
   const baseClasses = [
     styles.button,
@@ -29,6 +32,16 @@ const Button: React.FC<ButtonProps> = ({
     .filter(Boolean)
     .join(" ");
 
+  // If href is provided, render as Link
+  if (href) {
+    return (
+      <Link href={href} className={baseClasses}>
+        {children}
+      </Link>
+    );
+  }
+
+  // Otherwise render as button
   return (
     <button
       type={type}

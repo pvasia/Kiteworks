@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prepare": "husky"
   },
   "dependencies": {
     "classnames": "^2.5.1",
@@ -25,6 +26,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.3.3",
     "eslint-plugin-storybook": "^9.0.8",
+    "husky": "^9.1.7",
     "sass": "^1.89.2",
     "storybook": "^9.0.8",
     "typescript": "^5"

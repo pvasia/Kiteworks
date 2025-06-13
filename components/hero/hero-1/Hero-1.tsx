@@ -3,7 +3,20 @@ import styles from "./Hero-1.module.scss";
 import Button from "@atoms/button";
 import classNames from "classnames";
 
-const Hero1 = ({ url }: { url: string }) => {
+// Photo Image Left w/ Title and Subtitle Right w/ One Button
+const Hero1 = ({
+  url,
+  title,
+  subtitle,
+  buttonText,
+  buttonLink,
+}: {
+  url: string;
+  title: string;
+  subtitle: string;
+  buttonText: string;
+  buttonLink: string;
+}) => {
   return (
     <div>
       <section className={styles.hero1}>
@@ -17,11 +30,9 @@ const Hero1 = ({ url }: { url: string }) => {
             </div>
 
             <div className={styles.rightSection}>
-              <h1 className="title">Your Private Content Network</h1>
-              <p className="subtitle">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit
-              </p>
-              <Button>Learn more</Button>
+              <h1 className="title">{title}</h1>
+              <p className="subtitle">{subtitle}</p>
+              <Button href={buttonLink}>{buttonText}</Button>
             </div>
           </div>
         </div>
