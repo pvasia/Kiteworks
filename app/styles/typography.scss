@@ -50,6 +50,10 @@
   letter-spacing: -0.02em;
 }
 
+.highlight {
+  color: var(--color-secondary);
+}
+
 @media (max-width: 1024px) {
   .subtitle br {
     display: contents;

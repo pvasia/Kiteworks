@@ -1,0 +1,67 @@
+/* Hero Section Styles */
+.hero4 {
+  position: relative;
+  height: 660px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  font-family: var(--font-family);
+  background-color: var(--color-primary);
+
+  .heroIllustration {
+    object-fit: contain;
+    width: 100%;
+  }
+
+  .heroContentGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+    align-items: center;
+    width: 100%;
+    position: relative;
+    padding: var(--spacing-xl) 0;
+  }
+
+  .leftSection {
+    color: var(--color-white);
+    position: relative;
+    z-index: 3;
+  }
+
+  .rightSection {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    overflow: visible;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 992px) {
+    height: auto;
+
+    .leftSection {
+      order: 2;
+    }
+
+    .heroContentGrid {
+      grid-template-columns: 1fr !important;
+      text-align: center;
+    }
+
+    .heroIllustration {
+      position: relative;
+      left: 0;
+      transform: none;
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .heroIllustration {
+      height: 400px !important;
+    }
+  }
+}
