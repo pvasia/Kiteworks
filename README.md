@@ -1,6 +1,6 @@
 # Kiteworks Strapi Next.js Project
 
-A modern full-stack application combining Strapi CMS with Next.js frontend, built with TypeScript, React 19, and Sass. This project includes Storybook for component development and uses Turbopack for fast development builds.
+A modern full-stack application combining Strapi CMS with Next.js frontend, built with TypeScript, React 19, and Sass. This project includes Storybook for component development and uses Turbopack for fast development builds
 
 ## Tech Stack
 
