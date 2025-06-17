@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Hero1.module.scss";
-import Button from "@atoms/button";
+import Button from "@/components/atoms/Button";
 import classNames from "classnames";
 
 // Photo Image Left w/ Title and Subtitle Right w/ One Button

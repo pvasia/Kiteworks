@@ -6,9 +6,13 @@ import classNames from "classnames";
 const PageSection1 = ({
   title,
   copy,
+  imageUrl,
+  imageAlt = "Page Section 1",
 }: {
   title: string | React.ReactNode;
   copy: string | React.ReactNode;
+  imageUrl: string;
+  imageAlt?: string;
 }) => {
   return (
     <section className={styles.pageSection1}>
@@ -16,8 +20,8 @@ const PageSection1 = ({
         <div className={styles.content}>
           <div className={styles.leftSection}>
             <Image
-              src="/images/section-1.png"
-              alt="Page Section 1"
+              src={imageUrl}
+              alt={imageAlt}
               width={480}
               height={400}
               className={styles.image}
@@ -25,8 +29,20 @@ const PageSection1 = ({
           </div>
           <div className={styles.rightSection}>
             <div className={styles.inner}>
-              <h2 className={styles.title}>{title}</h2>
-              <p className={styles.copy}>{copy}</p>
+              <h2 className={styles.title}>
+                {typeof title === "string" ? (
+                  <span dangerouslySetInnerHTML={{ __html: title }} />
+                ) : (
+                  title
+                )}
+              </h2>
+              <p className={styles.copy}>
+                {typeof copy === "string" ? (
+                  <span dangerouslySetInnerHTML={{ __html: copy }} />
+                ) : (
+                  copy
+                )}
+              </p>
             </div>
           </div>
         </div>

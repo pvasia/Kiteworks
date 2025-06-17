@@ -13,6 +13,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     imageUrl: "/images/img-2.png",
+    imageAlt: "Hero 4",
     title: "Morbi vehicula purus quis augue aliquet elementum.",
     subtitle:
       "Duis sagittis odio nisl, in aliquet libero vulputate quis. In hac habitasse platea dictumst. Sed accumsan sagittis purus non suscipit. Nam placerat id nibh sed sodales.",

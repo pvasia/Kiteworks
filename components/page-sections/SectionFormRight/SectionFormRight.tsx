@@ -1,21 +1,18 @@
 import React from "react";
-import styles from "./PageSection2.module.scss";
-import Image from "next/image";
+import styles from "./SectionFormRight.module.scss";
 import classNames from "classnames";
 
-const PageSection2 = ({
+const SectionFormRight = ({
   title,
   copy,
-  imageUrl,
-  imageAlt = "Page Section 2",
+  subtitle,
 }: {
   title: string | React.ReactNode;
   copy: string | React.ReactNode;
-  imageUrl: string;
-  imageAlt?: string;
+  subtitle: string | React.ReactNode;
 }) => {
   return (
-    <section className={styles.pageSection2}>
+    <section className={styles.sectionFormRight}>
       <div className={classNames(styles.container, "container")}>
         <div className={styles.content}>
           <div className={styles.leftSection}>
@@ -27,6 +24,13 @@ const PageSection2 = ({
                   title
                 )}
               </h2>
+              <h3 className={styles.subtitle}>
+                {typeof subtitle === "string" ? (
+                  <span dangerouslySetInnerHTML={{ __html: subtitle }} />
+                ) : (
+                  subtitle
+                )}
+              </h3>
               <p className={styles.copy}>
                 {typeof copy === "string" ? (
                   <span dangerouslySetInnerHTML={{ __html: copy }} />
@@ -36,19 +40,11 @@ const PageSection2 = ({
               </p>
             </div>
           </div>
-          <div className={styles.rightSection}>
-            <Image
-              src={imageUrl}
-              alt={imageAlt}
-              width={480}
-              height={400}
-              className={styles.image}
-            />
-          </div>
+          <div className={styles.rightSection}></div>
         </div>
       </div>
     </section>
   );
 };
 
-export default PageSection2;
+export default SectionFormRight;

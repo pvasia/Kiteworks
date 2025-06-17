@@ -13,6 +13,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     imageUrl: "/images/img-3.png",
+    imageAlt: "Hero 5",
     title:
       "Governing Compliance and Privacy Risk Across Sensitive Content Communications",
     subtitle: "With Kiteworks Governors",

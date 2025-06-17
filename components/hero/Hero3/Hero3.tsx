@@ -1,4 +1,4 @@
-import Button from "@/components/atoms/button";
+import Button from "@/components/atoms/Button";
 import React from "react";
 import styles from "./Hero3.module.scss";
 import classNames from "classnames";
@@ -7,12 +7,14 @@ import Image from "next/image";
 // Photo Image Right w/ Title and Body Copy w/ One Button
 const Hero3 = ({
   imageUrl,
+  imageAlt = "Hero 3",
   title,
   subtitle,
   buttonText,
   buttonLink,
 }: {
   imageUrl: string;
+  imageAlt?: string;
   title: string;
   subtitle: string;
   buttonText: string;
@@ -25,7 +27,7 @@ const Hero3 = ({
           <div className={styles.leftSection}>
             <Image
               src={imageUrl}
-              alt="Hero Illustration"
+              alt={imageAlt}
               className={styles.heroIllustration}
               width={500}
               height={500}

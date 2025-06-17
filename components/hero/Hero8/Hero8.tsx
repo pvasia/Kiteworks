@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import styles from "./Hero8.module.scss";
-import Button from "@/components/atoms/button";
+import Button from "@/components/atoms/Button";
 import classNames from "classnames";
 
 // Full Background Image w/ Title and Subtitle Center w/ One Button
@@ -26,8 +26,20 @@ const Hero8 = ({
       <div className="container">
         <div className={styles.heroContentGrid}>
           <div className={styles.centerSection}>
-            <h1 className="title">{title}</h1>
-            <p className="subtitle">{subtitle}</p>
+            <h1 className="title">
+              {typeof title === "string" ? (
+                <span dangerouslySetInnerHTML={{ __html: title }} />
+              ) : (
+                title
+              )}
+            </h1>
+            <p className="subtitle">
+              {typeof subtitle === "string" ? (
+                <span dangerouslySetInnerHTML={{ __html: subtitle }} />
+              ) : (
+                subtitle
+              )}
+            </p>
             <Button className="blue-on-hover" href={buttonLink}>
               {buttonText}
             </Button>

@@ -1,13 +1,13 @@
 import React from "react";
-import styles from "./PageSection2.module.scss";
+import styles from "./PageSection6.module.scss";
 import Image from "next/image";
 import classNames from "classnames";
 
-const PageSection2 = ({
+const PageSection6 = ({
   title,
   copy,
   imageUrl,
-  imageAlt = "Page Section 2",
+  imageAlt = "Page Section 6",
 }: {
   title: string | React.ReactNode;
   copy: string | React.ReactNode;
@@ -15,7 +15,7 @@ const PageSection2 = ({
   imageAlt?: string;
 }) => {
   return (
-    <section className={styles.pageSection2}>
+    <section className={styles.pageSection6}>
       <div className={classNames(styles.container, "container")}>
         <div className={styles.content}>
           <div className={styles.leftSection}>
@@ -51,4 +51,4 @@ const PageSection2 = ({
   );
 };
 
-export default PageSection2;
+export default PageSection6;

@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import PageSection2 from "./PageSection2";
+import PageSection6 from "./PageSection6";
 
 const meta = {
-  title: "Components/Page Sections/PageSection2",
-  component: PageSection2,
-} satisfies Meta<typeof PageSection2>;
+  title: "Components/Page Sections/PageSection6",
+  component: PageSection6,
+} satisfies Meta<typeof PageSection6>;
 
 export default meta;
 
@@ -15,7 +15,7 @@ export const Default: Story = {
     title:
       "Tincidunt tortor aliquam nulla<br/><span class='highlight'> facilisi</span> cras fermentum odio eu",
     copy: "A diam maecenas sed enim ut. Viverra justo nec ultrices dui sapien eget. Eu sem integer vitae justo eget. Morbi blandit cursus risus at ultrices. Condimentum lacinia quis vel eros donec ac odio. Urna nunc id cursus metus aliquam eleifend mi in nulla.",
-    imageUrl: "/images/section-2.png",
-    imageAlt: "Page Section 2",
+    imageUrl: "/images/section-6.png",
+    imageAlt: "Page Section 6",
   },
 };
