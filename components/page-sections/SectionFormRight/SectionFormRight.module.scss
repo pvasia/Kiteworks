@@ -57,13 +57,24 @@
 
     .rightSection {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       position: relative;
+
+      .formContainer {
+        width: 100%;
+      }
 
       .form {
         width: 100%;
         max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        @media (max-width: 480px) {
+          max-width: 100%;
+        }
       }
     }
   }

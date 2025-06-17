@@ -6,6 +6,7 @@ interface InputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
   error?: boolean;
   disabled?: boolean;
+  inputClassName?: string;
 }
 
 const Input = ({
@@ -13,11 +14,12 @@ const Input = ({
   disabled = false,
   className,
   placeholder,
+  inputClassName,
   ...rest
 }: InputProps) => {
   const containerClassName = classNames(styles.inputContainer, className);
 
-  const inputClassName = classNames(styles.inputField, {
+  const inputClassNames = classNames(styles.inputField, inputClassName, {
     [styles.disabled]: disabled,
     [styles.error]: error,
   });
@@ -25,7 +27,7 @@ const Input = ({
   return (
     <div className={containerClassName}>
       <input
-        className={inputClassName}
+        className={inputClassNames}
         disabled={disabled}
         placeholder={placeholder}
         {...rest}

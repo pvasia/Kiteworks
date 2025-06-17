@@ -1,8 +1,9 @@
 import React from "react";
 import styles from "./SectionFormRight.module.scss";
 import classNames from "classnames";
-import Form from "@/components/molecules/Form";
 import Image from "next/image";
+import Input from "@/components/atoms/Input";
+import Button from "@/components/atoms/Button";
 
 const SectionFormRight = ({
   title,
@@ -44,7 +45,7 @@ const SectionFormRight = ({
                   title
                 )}
               </h2>
-              <h3 className={styles.subtitle}>
+              <h3 className={classNames(styles.subtitle, "subtitle")}>
                 {typeof subtitle === "string" ? (
                   <span dangerouslySetInnerHTML={{ __html: subtitle }} />
                 ) : (
@@ -61,7 +62,7 @@ const SectionFormRight = ({
             </div>
           </div>
           <div className={styles.rightSection}>
-            <Form
+            {/* <Form
               direction="column"
               onSubmit={onSubmit}
               firstName={firstName}
@@ -72,7 +73,40 @@ const SectionFormRight = ({
               onChangeLastName={onChangeLastName}
               onChangeCompany={onChangeCompany}
               onChangeBusinessEmail={onChangeBusinessEmail}
-            />
+            /> */}
+            <form className={classNames(styles.form)}>
+              <Input
+                type="text"
+                placeholder="Firstname*"
+                value={firstName}
+                required
+                onChange={onChangeFirstName}
+              />
+              <Input
+                type="text"
+                placeholder="Lastname*"
+                value={lastName}
+                required
+                onChange={onChangeLastName}
+              />
+              <Input
+                type="text"
+                placeholder="Company*"
+                value={company}
+                required
+                onChange={onChangeCompany}
+              />
+              <Input
+                type="email"
+                placeholder="Business Email*"
+                value={businessEmail}
+                required
+                onChange={onChangeBusinessEmail}
+              />
+              <Button onClick={onSubmit} variant="primary">
+                Subscribe
+              </Button>
+            </form>
             <div className={classNames(styles.pattern, styles.pattern2)}>
               <Image src="/images/form-pattern-2.png" alt="Pattern2" fill />
             </div>
