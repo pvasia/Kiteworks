@@ -1,4 +1,4 @@
-import Button from "@/components/atoms/Button-backup";
+import Button from "@/components/atoms/Button";
 import React from "react";
 import styles from "./Hero6.module.scss";
 import classNames from "classnames";

@@ -1,4 +1,4 @@
-import Button from "@/components/atoms/Button-backup";
+import Button from "@/components/atoms/Button";
 import Input from "@/components/atoms/Input";
 import React from "react";
 import styles from "./Form.module.scss";

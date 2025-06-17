@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import styles from "./Hero8.module.scss";
-import Button from "@/components/atoms/Button-backup";
+import Button from "@/components/atoms/Button";
 import classNames from "classnames";
 
 // Full Background Image w/ Title and Subtitle Center w/ One Button
