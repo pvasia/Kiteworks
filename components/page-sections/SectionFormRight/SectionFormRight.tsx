@@ -2,15 +2,34 @@ import React from "react";
 import styles from "./SectionFormRight.module.scss";
 import classNames from "classnames";
 import Form from "@/components/molecules/Form";
+import Image from "next/image";
 
 const SectionFormRight = ({
   title,
   copy,
   subtitle,
+  firstName,
+  lastName,
+  company,
+  businessEmail,
+  onSubmit,
+  onChangeFirstName,
+  onChangeLastName,
+  onChangeCompany,
+  onChangeBusinessEmail,
 }: {
   title: string | React.ReactNode;
   copy: string | React.ReactNode;
   subtitle: string | React.ReactNode;
+  firstName: string;
+  lastName: string;
+  company: string;
+  businessEmail: string;
+  onSubmit: () => void;
+  onChangeFirstName: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeLastName: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeCompany: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeBusinessEmail: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
   return (
     <section className={styles.sectionFormRight}>
@@ -18,7 +37,7 @@ const SectionFormRight = ({
         <div className={styles.content}>
           <div className={styles.leftSection}>
             <div className={styles.inner}>
-              <h2 className={styles.title}>
+              <h2 className={classNames(styles.title, "title")}>
                 {typeof title === "string" ? (
                   <span dangerouslySetInnerHTML={{ __html: title }} />
                 ) : (
@@ -44,14 +63,45 @@ const SectionFormRight = ({
           <div className={styles.rightSection}>
             <Form
               direction="column"
-              onSubmit={() => {}}
-              firstName="John"
-              lastName="Doe"
-              company="Company"
-              businessEmail="john.doe@example.com"
+              onSubmit={onSubmit}
+              firstName={firstName}
+              lastName={lastName}
+              company={company}
+              businessEmail={businessEmail}
+              onChangeFirstName={onChangeFirstName}
+              onChangeLastName={onChangeLastName}
+              onChangeCompany={onChangeCompany}
+              onChangeBusinessEmail={onChangeBusinessEmail}
             />
+            <div className={classNames(styles.pattern, styles.pattern2)}>
+              <Image src="/images/form-pattern-2.png" alt="Pattern2" fill />
+            </div>
           </div>
         </div>
+      </div>
+
+      <div
+        className={classNames(styles.rectangleWhite1, styles.rectangleWhite)}
+      ></div>
+      <div
+        className={classNames(styles.rectangleWhite2, styles.rectangleWhite)}
+      ></div>
+      <div
+        className={classNames(styles.rectangleWhite3, styles.rectangleWhite)}
+      ></div>
+
+      <div
+        className={classNames(styles.rectangleOrange1, styles.rectangleOrange)}
+      ></div>
+      <div
+        className={classNames(styles.rectangleOrange2, styles.rectangleOrange)}
+      ></div>
+      <div
+        className={classNames(styles.rectangleOrange3, styles.rectangleOrange)}
+      ></div>
+
+      <div className={classNames(styles.pattern, styles.pattern1)}>
+        <Image src="/images/form-pattern-1.png" alt="Pattern1" fill />
       </div>
     </section>
   );

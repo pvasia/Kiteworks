@@ -4,13 +4,13 @@ import Image from "next/image";
 import classNames from "classnames";
 
 const PageSection4 = ({
-  title,
-  copy,
+  heading,
+  bodyCopy,
   imageUrl,
   imageAlt = "Page Section 4",
 }: {
-  title: string | React.ReactNode;
-  copy: string | React.ReactNode;
+  heading: string | React.ReactNode;
+  bodyCopy: string | React.ReactNode;
   imageUrl: string;
   imageAlt?: string;
 }) => {
@@ -20,18 +20,18 @@ const PageSection4 = ({
         <div className={styles.content}>
           <div className={styles.leftSection}>
             <div className={styles.inner}>
-              <h2 className={styles.title}>
-                {typeof title === "string" ? (
-                  <span dangerouslySetInnerHTML={{ __html: title }} />
+              <h2 className={classNames(styles.heading, "heading")}>
+                {typeof heading === "string" ? (
+                  <span dangerouslySetInnerHTML={{ __html: heading }} />
                 ) : (
-                  title
+                  heading
                 )}
               </h2>
-              <p className={styles.copy}>
-                {typeof copy === "string" ? (
-                  <span dangerouslySetInnerHTML={{ __html: copy }} />
+              <p className={classNames(styles.bodyCopy, "body-copy")}>
+                {typeof bodyCopy === "string" ? (
+                  <span dangerouslySetInnerHTML={{ __html: bodyCopy }} />
                 ) : (
-                  copy
+                  bodyCopy
                 )}
               </p>
             </div>

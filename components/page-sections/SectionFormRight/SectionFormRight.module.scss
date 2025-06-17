@@ -1,15 +1,19 @@
 .sectionFormRight {
   background-color: var(--color-primary);
   color: var(--color-white);
+  position: relative;
 
   .content {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 3fr 2fr;
     gap: var(--spacing-lg);
-    padding: var(--spacing-lg) 0;
+    z-index: 10;
+    padding: var(--spacing-xl) var(--spacing-lg);
+    position: relative;
 
-    @media (max-width: 768px) {
+    @media (max-width: 992px) {
       grid-template-columns: 1fr;
+      padding: var(--spacing-xl) 0;
     }
 
     .leftSection {
@@ -26,19 +30,20 @@
       .inner {
         display: flex;
         flex-direction: column;
-        gap: var(--spacing-md);
 
         .title {
-          font-size: 26px;
-          font-weight: 700;
-          line-height: 1.2;
           color: var(--color-white);
+          margin-bottom: var(--spacing-lg);
 
           @media (max-width: 1024px) {
             br {
               display: none;
             }
           }
+        }
+
+        .subtitle {
+          margin-bottom: var(--spacing-md);
         }
 
         .copy {
@@ -54,10 +59,103 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
 
       .form {
         width: 100%;
         max-width: 400px;
+      }
+    }
+  }
+
+  .rectangleWhite {
+    position: absolute;
+    background-color: var(--color-white);
+
+    &.rectangleWhite1 {
+      width: 60px;
+      height: 60px;
+      top: 50%;
+      left: 25px;
+
+      @media (max-width: 992px) {
+        display: none;
+      }
+    }
+
+    &.rectangleWhite2 {
+      width: 40px;
+      height: 40px;
+      bottom: 0;
+      left: 30%;
+    }
+
+    &.rectangleWhite3 {
+      width: 25px;
+      height: 25px;
+      top: 5%;
+      right: 20%;
+
+      @media (max-width: 768px) {
+        right: 20px;
+      }
+    }
+  }
+
+  .rectangleOrange {
+    position: absolute;
+    background-color: var(--color-secondary);
+
+    &.rectangleOrange1 {
+      width: 80px;
+      height: 80px;
+      top: 2%;
+      left: 0;
+
+      @media (max-width: 768px) {
+        width: 60px;
+        height: 60px;
+      }
+    }
+
+    &.rectangleOrange2 {
+      width: 15px;
+      height: 15px;
+      top: 8%;
+      left: 20%;
+
+      @media (max-width: 768px) {
+        left: 30%;
+        top: 6%;
+      }
+    }
+
+    &.rectangleOrange3 {
+      width: 15px;
+      height: 15px;
+      bottom: 10%;
+      right: 25px;
+    }
+  }
+
+  .pattern {
+    position: absolute;
+
+    &.pattern1 {
+      bottom: 10%;
+      left: 10%;
+      width: 80px;
+      height: 80px;
+    }
+
+    &.pattern2 {
+      top: -5%;
+      right: -10%;
+      width: 60px;
+      height: 60px;
+
+      @media (max-width: 480px) {
+        display: none;
       }
     }
   }

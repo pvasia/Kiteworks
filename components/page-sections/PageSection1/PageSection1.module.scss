@@ -46,10 +46,7 @@
         flex-direction: column;
         gap: var(--spacing-md);
 
-        .title {
-          font-size: 26px;
-          font-weight: 700;
-          line-height: 1.2;
+        .heading {
           color: var(--color-black);
 
           @media (max-width: 1024px) {
@@ -59,10 +56,7 @@
           }
         }
 
-        .copy {
-          font-size: 16px;
-          font-weight: 400;
-          line-height: 1.5;
+        .bodyCopy {
           color: var(--color-black);
         }
       }

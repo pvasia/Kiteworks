@@ -12,6 +12,10 @@ const Form = ({
   lastName,
   company,
   businessEmail,
+  onChangeFirstName,
+  onChangeLastName,
+  onChangeCompany,
+  onChangeBusinessEmail,
 }: {
   direction?: "column" | "row";
   onSubmit: () => void;
@@ -20,14 +24,42 @@ const Form = ({
   lastName: string;
   company: string;
   businessEmail: string;
+  onChangeFirstName: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeLastName: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeCompany: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeBusinessEmail: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
   return (
     <div className={classNames(styles.formContainer, className)}>
       <form className={classNames(styles.form, styles[direction])}>
-        <Input placeholder="Firstname*" value={firstName} required />
-        <Input placeholder="Lastname*" value={lastName} required />
-        <Input placeholder="Company*" value={company} required />
-        <Input placeholder="Business Email*" value={businessEmail} required />
+        <Input
+          type="text"
+          placeholder="Firstname*"
+          value={firstName}
+          required
+          onChange={onChangeFirstName}
+        />
+        <Input
+          type="text"
+          placeholder="Lastname*"
+          value={lastName}
+          required
+          onChange={onChangeLastName}
+        />
+        <Input
+          type="text"
+          placeholder="Company*"
+          value={company}
+          required
+          onChange={onChangeCompany}
+        />
+        <Input
+          type="email"
+          placeholder="Business Email*"
+          value={businessEmail}
+          required
+          onChange={onChangeBusinessEmail}
+        />
       </form>
       <Button onClick={onSubmit}>Submit</Button>
     </div>
