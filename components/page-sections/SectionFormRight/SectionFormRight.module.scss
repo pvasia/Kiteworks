@@ -17,8 +17,6 @@
     }
 
     .leftSection {
-      padding-bottom: var(--spacing-xl);
-
       @media (max-width: 1024px) {
         padding: var(--spacing-md) 0;
       }
@@ -60,6 +58,8 @@
       align-items: flex-start;
       justify-content: center;
       position: relative;
+      flex-direction: column;
+      gap: 50px;
 
       .formContainer {
         width: 100%;
@@ -71,6 +71,10 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
+
+        @media (max-width: 992px) {
+          max-width: 500px;
+        }
 
         @media (max-width: 480px) {
           max-width: 100%;
@@ -153,8 +157,8 @@
     position: absolute;
 
     &.pattern1 {
-      bottom: 10%;
-      left: 10%;
+      bottom: 3%;
+      left: 9%;
       width: 80px;
       height: 80px;
     }

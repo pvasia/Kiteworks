@@ -70,7 +70,7 @@ const SectionFormCenter = ({
               onClick={onSubmit}
               variant="tertiary"
             >
-              Subscribe
+              Submit
             </Button>
           </form>
         </div>

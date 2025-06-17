@@ -62,18 +62,6 @@ const SectionFormRight = ({
             </div>
           </div>
           <div className={styles.rightSection}>
-            {/* <Form
-              direction="column"
-              onSubmit={onSubmit}
-              firstName={firstName}
-              lastName={lastName}
-              company={company}
-              businessEmail={businessEmail}
-              onChangeFirstName={onChangeFirstName}
-              onChangeLastName={onChangeLastName}
-              onChangeCompany={onChangeCompany}
-              onChangeBusinessEmail={onChangeBusinessEmail}
-            /> */}
             <form className={classNames(styles.form)}>
               <Input
                 type="text"
@@ -103,10 +91,10 @@ const SectionFormRight = ({
                 required
                 onChange={onChangeBusinessEmail}
               />
-              <Button onClick={onSubmit} variant="primary">
-                Subscribe
-              </Button>
             </form>
+            <Button onClick={onSubmit} variant="primary">
+              Submit
+            </Button>
             <div className={classNames(styles.pattern, styles.pattern2)}>
               <Image src="/images/form-pattern-2.png" alt="Pattern2" fill />
             </div>
