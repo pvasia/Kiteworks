@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import styles from "./Hero7.module.scss";
-import Button from "@/components/atoms/Button";
+import Button from "@/components/atoms/Button-backup";
 import classNames from "classnames";
 
 // No Graphic w/ Title and Subtitle Center w/ One Button

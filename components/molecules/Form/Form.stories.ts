@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import Form from "./Form";
+import { fn } from "storybook/internal/test";
 
 const meta = {
   title: "Molecules/Form",
@@ -22,5 +23,9 @@ export const Default: Story = {
     lastName: "Doe",
     company: "Company",
     businessEmail: "john.doe@example.com",
+    onChangeFirstName: () => fn(),
+    onChangeLastName: () => fn(),
+    onChangeCompany: () => fn(),
+    onChangeBusinessEmail: () => fn(),
   },
 };
