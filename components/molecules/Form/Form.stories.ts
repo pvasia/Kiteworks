@@ -17,5 +17,10 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     direction: "column",
+    onSubmit: () => {},
+    firstName: "John",
+    lastName: "Doe",
+    company: "Company",
+    businessEmail: "john.doe@example.com",
   },
 };

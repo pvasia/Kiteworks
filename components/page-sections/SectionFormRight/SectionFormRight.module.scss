@@ -1,5 +1,6 @@
 .sectionFormRight {
-  background-color: var(--color-white);
+  background-color: var(--color-primary);
+  color: var(--color-white);
 
   .content {
     display: grid;
@@ -12,10 +13,7 @@
     }
 
     .leftSection {
-      padding: var(--spacing-xl) 0;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
+      padding-bottom: var(--spacing-xl);
 
       @media (max-width: 1024px) {
         padding: var(--spacing-md) 0;
@@ -34,7 +32,7 @@
           font-size: 26px;
           font-weight: 700;
           line-height: 1.2;
-          color: var(--color-black);
+          color: var(--color-white);
 
           @media (max-width: 1024px) {
             br {
@@ -47,7 +45,7 @@
           font-size: 16px;
           font-weight: 400;
           line-height: 1.5;
-          color: var(--color-black);
+          color: var(--color-white);
         }
       }
     }

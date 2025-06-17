@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./SectionFormRight.module.scss";
 import classNames from "classnames";
+import Form from "@/components/molecules/Form";
 
 const SectionFormRight = ({
   title,
@@ -40,7 +41,16 @@ const SectionFormRight = ({
               </p>
             </div>
           </div>
-          <div className={styles.rightSection}></div>
+          <div className={styles.rightSection}>
+            <Form
+              direction="column"
+              onSubmit={() => {}}
+              firstName="John"
+              lastName="Doe"
+              company="Company"
+              businessEmail="john.doe@example.com"
+            />
+          </div>
         </div>
       </div>
     </section>
