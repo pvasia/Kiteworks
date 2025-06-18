@@ -95,3 +95,22 @@
     border-color: var(--color-black);
   }
 }
+
+.link {
+  background-color: transparent;
+  color: var(--color-primary);
+  border-color: transparent;
+  padding: 0;
+  text-align: left;
+  justify-content: flex-start;
+
+  &:hover {
+    color: var(--color-primary);
+    background-color: transparent;
+  }
+
+  &:active {
+    color: var(--color-primary);
+    background-color: transparent;
+  }
+}

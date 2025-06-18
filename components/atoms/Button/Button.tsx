@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import styles from "./Button.module.scss";
 
-type ButtonVariant = "primary" | "secondary" | "tertiary";
+type ButtonVariant = "primary" | "secondary" | "tertiary" | "link";
 
 interface ButtonProps {
   children: React.ReactNode;

@@ -38,3 +38,27 @@ export const Secondary: Story = {
     onClick: () => fn(),
   },
 };
+
+export const Tertiary: Story = {
+  args: {
+    children: "Tertiary Button",
+    variant: "tertiary",
+    href: "/",
+    disabled: false,
+    className: "",
+    type: "button",
+    onClick: () => fn(),
+  },
+};
+
+export const Link: Story = {
+  args: {
+    children: "Link Button",
+    variant: "link",
+    href: "/",
+    disabled: false,
+    className: "",
+    type: "button",
+    onClick: () => fn(),
+  },
+};
