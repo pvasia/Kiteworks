@@ -6,6 +6,7 @@
   cursor: pointer;
   text-decoration: none;
   transition: var(--transition);
+  text-align: center;
 
   border: none;
   padding: 18px 40px;
@@ -31,7 +32,6 @@
   }
 
   &:hover {
-    transform: translateY(-3px);
     color: var(--color-white);
     background-color: var(--color-black);
   }
@@ -54,13 +54,13 @@
   border-color: var(--color-secondary);
 
   &:hover:not(.disabled) {
-    background-color: var(--color-secondary);
-    border-color: var(--color-secondary);
+    background-color: var(--color-secondary-dark);
+    border-color: var(--color-secondary-dark);
   }
 
   &:active:not(.disabled) {
-    background-color: var(--color-secondary);
-    border-color: var(--color-secondary);
+    background-color: var(--color-secondary-dark);
+    border-color: var(--color-secondary-dark);
   }
 }
 
@@ -70,13 +70,13 @@
   border-color: var(--color-primary);
 
   &:hover:not(.disabled) {
-    background-color: var(--color-primary);
-    border-color: var(--color-primary);
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
   }
 
   &:active:not(.disabled) {
-    background-color: var(--color-primary);
-    border-color: var(--color-primary);
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
   }
 }
 
@@ -86,13 +86,13 @@
   border-color: var(--color-black);
 
   &:hover:not(.disabled) {
-    background-color: var(--color-black);
-    border-color: var(--color-black);
+    background-color: var(--color-neutral-dark);
+    border-color: var(--color-neutral-dark);
   }
 
   &:active:not(.disabled) {
-    background-color: var(--color-black);
-    border-color: var(--color-black);
+    background-color: var(--color-neutral-dark);
+    border-color: var(--color-neutral-dark);
   }
 }
 
@@ -105,12 +105,12 @@
   justify-content: flex-start;
 
   &:hover {
-    color: var(--color-primary);
+    color: var(--color-primary-light);
     background-color: transparent;
   }
 
   &:active {
-    color: var(--color-primary);
+    color: var(--color-primary-light);
     background-color: transparent;
   }
 }

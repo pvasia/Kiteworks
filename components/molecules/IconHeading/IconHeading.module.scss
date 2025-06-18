@@ -1,6 +1,8 @@
 .iconHeading {
   display: flex;
   flex-direction: column;
+  background-color: var(--color-white);
+  color: var(--color-black);
 
   .icon {
     margin-bottom: 15px;

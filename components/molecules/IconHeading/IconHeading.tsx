@@ -4,19 +4,21 @@ import styles from "./IconHeading.module.scss";
 import classNames from "classnames";
 import Button from "@/components/atoms/Button/Button";
 
+export interface IconHeadingProps {
+  icon: string;
+  heading: string | React.ReactNode;
+  bodyCopy: string | React.ReactNode;
+  buttonLabel?: string;
+  buttonUrl?: string;
+}
+
 const IconHeading = ({
   icon,
   heading,
   bodyCopy,
   buttonLabel,
   buttonUrl,
-}: {
-  icon: string;
-  heading: string | React.ReactNode;
-  bodyCopy: string | React.ReactNode;
-  buttonLabel?: string;
-  buttonUrl?: string;
-}) => {
+}: IconHeadingProps) => {
   return (
     <div className={styles.iconHeading}>
       <div className={styles.icon}>

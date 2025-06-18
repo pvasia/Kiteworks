@@ -1,10 +1,17 @@
+$height: 600px;
+$height-image: 250px;
+$height-image-illustration: 240px;
+
 .featureCard {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  justify-content: center;
+  justify-content: space-between;
   position: relative;
-  max-width: 600px;
+  max-width: 480px;
+  width: 100%;
+  background-color: var(--color-white);
+  margin: 0 auto;
 
   @media (max-width: 768px) {
     max-width: 100%;
@@ -12,9 +19,15 @@
 
   .inner {
     border: 1px solid var(--color-primary-lightest);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 
     .content {
       padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md);
+      color: var(--color-black);
+      z-index: 1;
+      position: relative;
     }
 
     .badge {
@@ -32,7 +45,7 @@
 
     .imageWrapper {
       width: 100%;
-      height: 250px;
+      height: $height-image;
       position: relative;
 
       .image {
@@ -48,11 +61,15 @@
 
     .bodyCopy {
       margin-bottom: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
   }
 }
 
-.illustration {
+.illustrationCard {
   background-color: var(--color-secondary);
 
   .inner {
@@ -61,18 +78,88 @@
     .logo {
       margin-bottom: var(--spacing-md);
     }
+
+    .content {
+      padding-top: 40px;
+      max-width: 380px;
+      height: 100%;
+    }
   }
 
   .illustrationWrapper {
     position: relative;
     width: 100%;
-    height: 300px;
+    height: $height-image-illustration;
 
     .illustration {
       width: 100%;
       height: 100%;
       object-fit: contain;
       object-position: bottom;
+    }
+  }
+
+  .pattern {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+
+    &.pattern1 {
+      top: 1%;
+      left: 25%;
+      width: calc(192px / 5 * 2);
+      height: calc(66px / 5 * 2);
+    }
+
+    &.pattern2 {
+      top: 2%;
+      right: 2%;
+      width: calc(314px / 5 * 2);
+      height: calc(356px / 5 * 2);
+    }
+
+    &.pattern3 {
+      bottom: 30%;
+      left: 2%;
+      width: calc(76px / 5 * 2);
+      height: calc(196px / 5 * 2);
+    }
+
+    &.pattern4 {
+      bottom: 50%;
+      right: 2%;
+      width: calc(38px / 5 * 2);
+      height: calc(46px / 5 * 2);
+    }
+  }
+}
+
+.iconCard {
+  .inner {
+    padding: var(--spacing-md);
+
+    .iconWrapper {
+      width: 100%;
+      height: 200px;
+      position: relative;
+
+      .icon {
+        width: auto;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+      }
+    }
+
+    .content {
+      color: var(--color-black);
+      z-index: 1;
+      position: relative;
+      text-align: center;
+      padding-top: 15px;
+      padding-left: 0;
+      padding-right: 0;
     }
   }
 }

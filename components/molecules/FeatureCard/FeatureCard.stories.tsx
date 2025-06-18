@@ -35,3 +35,15 @@ export const Illustration: Story = {
     buttonUrl: "/",
   },
 };
+
+export const Icon: Story = {
+  args: {
+    variant: "icon",
+    iconUrl: "/images/feature-icon-1.png",
+    heading: "Nisi vitae suscipit tellus mauris",
+    bodyCopy:
+      "Amet volutpat consequat mauris nunc congue nisi vitae suscipit. Eget aliquet nibh praesent tristique magna sit amet purus.",
+    buttonLabel: "Learn More",
+    buttonUrl: "/",
+  },
+};

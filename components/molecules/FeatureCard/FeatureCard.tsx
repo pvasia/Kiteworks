@@ -4,6 +4,17 @@ import classNames from "classnames";
 import Image from "next/image";
 import Button from "@/components/atoms/Button/Button";
 
+export interface FeatureCardProps {
+  variant: "default" | "illustration" | "icon";
+  badge?: string;
+  imageUrl?: string;
+  heading: string;
+  bodyCopy: string;
+  buttonLabel?: string;
+  buttonUrl?: string;
+  iconUrl?: string;
+}
+
 const FeatureCard = ({
   variant,
   badge,
@@ -12,28 +23,26 @@ const FeatureCard = ({
   bodyCopy,
   buttonLabel,
   buttonUrl,
-}: {
-  variant: "default" | "illustration";
-  badge?: string;
-  imageUrl: string;
-  heading: string;
-  bodyCopy: string;
-  buttonLabel?: string;
-  buttonUrl?: string;
-}) => {
+  iconUrl,
+}: FeatureCardProps) => {
   const isDefault = variant === "default";
   const isIllustration = variant === "illustration";
+  const isIcon = variant === "icon";
 
   return (
-    <div className={classNames(styles.featureCard, styles[variant])}>
+    <div className={classNames(styles.featureCard, styles[`${variant}Card`])}>
       <div className={classNames(styles.inner)}>
         {badge && isDefault && <div className={styles.badge}>{badge}</div>}
-        {isDefault && (
+        {isDefault && imageUrl && (
           <div className={styles.imageWrapper}>
             <Image src={imageUrl} alt={heading} fill className={styles.image} />
           </div>
         )}
-
+        {isIcon && iconUrl && (
+          <div className={styles.iconWrapper}>
+            <Image src={iconUrl} alt={heading} fill className={styles.icon} />
+          </div>
+        )}
         <div className={styles.content}>
           {isIllustration && (
             <div className={styles.logoWrapper}>
@@ -77,6 +86,39 @@ const FeatureCard = ({
         <Button variant="secondary" href={buttonUrl}>
           {buttonLabel}
         </Button>
+      )}
+
+      {isIllustration && (
+        <>
+          <div className={classNames(styles.pattern, styles.pattern1)}>
+            <Image
+              src="/images/pattern-feature-1.png"
+              alt="feature pattern 1"
+              fill
+            />
+          </div>
+          <div className={classNames(styles.pattern, styles.pattern2)}>
+            <Image
+              src="/images/pattern-feature-2.png"
+              alt="feature pattern 2"
+              fill
+            />
+          </div>
+          <div className={classNames(styles.pattern, styles.pattern3)}>
+            <Image
+              src="/images/pattern-feature-3.png"
+              alt="feature pattern 3"
+              fill
+            />
+          </div>
+          <div className={classNames(styles.pattern, styles.pattern4)}>
+            <Image
+              src="/images/pattern-feature-4.png"
+              alt="feature pattern 4"
+              fill
+            />
+          </div>
+        </>
       )}
     </div>
   );
