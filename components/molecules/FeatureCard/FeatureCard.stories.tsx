@@ -47,3 +47,32 @@ export const Icon: Story = {
     buttonUrl: "/",
   },
 };
+
+export const DefaultWithMeta: Story = {
+  args: {
+    variant: "default",
+    badge: "NEW",
+    imageUrl: "https://picsum.photos/800/800",
+    heading: "Tincidunt tortor aliquam nulla facilisi cras fermentum odio eu",
+    bodyCopy:
+      "A diam maecenas sed enim ut. Viverra justo nec ultrices dui sapien eget. Eu sem integer vitae justo eget. Morbi blandit cursus risus at ultrices. Condimentum lacinia quis vel eros donec ac odio. Urna nunc id cursus metus aliquam eleifend mi in nulla.",
+    buttonLabel: "Learn More",
+    buttonUrl: "/",
+    date: "November 19, 2025",
+    location: "New York, NY",
+    tag: "Press Release",
+  },
+};
+
+export const Special: Story = {
+  args: {
+    variant: "special",
+    heading: "Vitae sapien pellentesque habitant morbi tristique",
+    bodyCopy:
+      "A diam maecenas sed enim ut. Viverra justo nec ultrices dui sapien eget. Eu sem integer vitae justo eget. Morbi blandit cursus risus at ultrices. Condimentum lacinia quis vel eros donec ac odio. Urna nunc id cursus metus aliquam eleifend mi in nulla.",
+    buttonLabel: "Learn More",
+    buttonUrl: "/",
+    date: "November 19, 2025",
+    tag: "PARTNER ALLIANCE",
+  },
+};

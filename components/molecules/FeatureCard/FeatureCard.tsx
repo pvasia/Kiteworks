@@ -5,7 +5,7 @@ import Image from "next/image";
 import Button from "@/components/atoms/Button/Button";
 
 export interface FeatureCardProps {
-  variant: "default" | "illustration" | "icon";
+  variant: "default" | "illustration" | "icon" | "special";
   badge?: string;
   imageUrl?: string;
   heading: string;
@@ -13,6 +13,9 @@ export interface FeatureCardProps {
   buttonLabel?: string;
   buttonUrl?: string;
   iconUrl?: string;
+  date?: string;
+  tag?: string;
+  location?: string;
 }
 
 const FeatureCard = ({
@@ -24,10 +27,14 @@ const FeatureCard = ({
   buttonLabel,
   buttonUrl,
   iconUrl,
+  date,
+  location,
+  tag,
 }: FeatureCardProps) => {
   const isDefault = variant === "default";
   const isIllustration = variant === "illustration";
   const isIcon = variant === "icon";
+  const isSpecial = variant === "special";
 
   return (
     <div className={classNames(styles.featureCard, styles[`${variant}Card`])}>
@@ -43,6 +50,16 @@ const FeatureCard = ({
             <Image src={iconUrl} alt={heading} fill className={styles.icon} />
           </div>
         )}
+        {isSpecial && (
+          <div className={styles.logoWrapper}>
+            <Image
+              src={"/images/symantec.png"}
+              alt={"symantec"}
+              fill
+              className={styles.logo}
+            />
+          </div>
+        )}
         <div className={styles.content}>
           {isIllustration && (
             <div className={styles.logoWrapper}>
@@ -55,6 +72,15 @@ const FeatureCard = ({
               />
             </div>
           )}
+          {date && location && tag && isDefault && (
+            <div className={styles.meta}>
+              <p className={classNames(styles.date, "sub-headline")}>{date}</p>
+              <p className={classNames(styles.tag, "sub-headline")}>{tag}</p>
+              <p className={classNames(styles.location, "sub-headline")}>
+                {location}
+              </p>
+            </div>
+          )}
           <h2 className={classNames(styles.heading, "heading")}>
             {typeof heading === "string" ? (
               <span dangerouslySetInnerHTML={{ __html: heading }} />
@@ -62,6 +88,18 @@ const FeatureCard = ({
               heading
             )}
           </h2>
+
+          {date && tag && isSpecial && (
+            <div className={styles.meta}>
+              <p className={classNames(styles.date, "sub-headline")}>{date}</p>
+              <p className={classNames(styles.tag, "sub-headline")}>{tag}</p>
+              {location && (
+                <p className={classNames(styles.location, "sub-headline")}>
+                  {location}
+                </p>
+              )}
+            </div>
+          )}
           <p className={classNames(styles.bodyCopy, "body-copy")}>
             {typeof bodyCopy === "string" ? (
               <span dangerouslySetInnerHTML={{ __html: bodyCopy }} />
@@ -81,9 +119,19 @@ const FeatureCard = ({
             />
           </div>
         )}
+
+        {isSpecial && (
+          <div className={classNames(styles.pattern, styles.patternSpecial)}>
+            <Image
+              src="/images/pattern-feature-special.png"
+              alt="special pattern"
+              fill
+            />
+          </div>
+        )}
       </div>
       {buttonLabel && buttonUrl && (
-        <Button variant="secondary" href={buttonUrl}>
+        <Button variant={isSpecial ? "primary" : "secondary"} href={buttonUrl}>
           {buttonLabel}
         </Button>
       )}

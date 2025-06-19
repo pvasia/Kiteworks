@@ -86,13 +86,13 @@
   border-color: var(--color-black);
 
   &:hover:not(.disabled) {
-    background-color: var(--color-neutral-dark);
-    border-color: var(--color-neutral-dark);
+    background-color: var(--color-neutral-darkest);
+    border-color: var(--color-neutral-darkest);
   }
 
   &:active:not(.disabled) {
-    background-color: var(--color-neutral-dark);
-    border-color: var(--color-neutral-dark);
+    background-color: var(--color-neutral-darkest);
+    border-color: var(--color-neutral-darkest);
   }
 }
 
