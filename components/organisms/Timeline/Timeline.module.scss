@@ -1,0 +1,234 @@
+.timeline {
+  padding: var(--spacing-lg) 0;
+
+  .header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+
+    .heading {
+      margin-bottom: var(--spacing-md);
+    }
+
+    .bodyCopy {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+  }
+
+  .timelineContainer {
+    position: relative;
+  }
+
+  .timelineLine {
+    position: absolute;
+    background-color: var(--color-black);
+    z-index: 1;
+  }
+
+  .timelineItem {
+    position: relative;
+    z-index: 2;
+
+    .timelineMarker {
+      position: absolute;
+      background-color: var(--color-secondary);
+      border-radius: 0;
+      z-index: 3;
+    }
+
+    .timelineContent {
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      padding: var(--spacing-md);
+      border-radius: 0;
+      position: relative;
+
+      .itemTitle {
+        margin-bottom: var(--spacing-xs);
+        color: var(--color-white);
+      }
+
+      .itemDate {
+        font-size: 14px;
+        opacity: 0.8;
+        margin-bottom: var(--spacing-xs);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .itemDescription {
+        margin-bottom: var(--spacing-sm);
+        color: var(--color-white);
+      }
+
+      .itemLink {
+        color: var(--color-white);
+        text-decoration: underline;
+        font-weight: 500;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+
+  // Horizontal variant
+  &.horizontal {
+    .timelineContainer {
+      position: relative;
+      padding: 0;
+      min-height: 600px;
+    }
+
+    .timelineLine {
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 4px;
+      width: 100%;
+      transform: translateY(-50%);
+    }
+
+    .timelineItem {
+      position: absolute;
+      width: 300px;
+
+      // Alternate positioning above and below the line
+      &:nth-child(odd) {
+        top: 0;
+
+        .timelineMarker {
+          bottom: 0;
+          left: -2px;
+          width: 15px;
+          height: 15px;
+        }
+      }
+
+      &:nth-child(even) {
+        bottom: 0;
+
+        .timelineMarker {
+          width: 20px;
+          height: 20px;
+        }
+      }
+
+      // Position items horizontally based on their index
+      &:nth-child(1) {
+        left: 0;
+      }
+      &:nth-child(2) {
+        left: calc(15% - 100px);
+      }
+      &:nth-child(3) {
+        left: calc(50% - 150px);
+      }
+      &:nth-child(4) {
+        left: calc(75% - 150px);
+      }
+      &:nth-child(5) {
+        right: 0;
+      }
+
+      // For more than 5 items, continue the pattern
+      &:nth-child(n + 6) {
+        position: relative;
+        display: none; // Hide additional items for now, or implement scrolling
+      }
+    }
+  }
+
+  // Vertical variant
+  &.vertical {
+    .timelineContainer {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .timelineLine {
+      left: 30px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      height: 100%;
+    }
+
+    .timelineItem {
+      margin-bottom: var(--spacing-lg);
+      padding-left: var(--spacing-xl);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .timelineMarker {
+        top: 10px;
+        left: 20px;
+        width: 20px;
+        height: 20px;
+      }
+
+      .timelineContent {
+        &::before {
+          content: "";
+          position: absolute;
+          top: 15px;
+          left: -10px;
+          width: 0;
+          height: 0;
+          border-top: 10px solid transparent;
+          border-bottom: 10px solid transparent;
+          border-right: 10px solid var(--color-primary);
+        }
+      }
+    }
+  }
+
+  // Responsive adjustments
+  @media (max-width: 768px) {
+    &.horizontal {
+      .timelineContainer {
+        min-height: 500px;
+      }
+
+      .timelineItem {
+        width: 250px;
+
+        // Adjust horizontal positioning for mobile
+        &:nth-child(1) {
+          left: 0;
+        }
+        &:nth-child(2) {
+          left: calc(33.33% - 125px);
+        }
+        &:nth-child(3) {
+          left: calc(66.66% - 125px);
+        }
+        &:nth-child(4) {
+          right: 0;
+        }
+        &:nth-child(5) {
+          display: none;
+        } // Hide 5th item on mobile
+      }
+    }
+
+    &.vertical {
+      .timelineLine {
+        left: 20px;
+      }
+
+      .timelineItem {
+        padding-left: var(--spacing-lg);
+
+        .timelineMarker {
+          left: 10px;
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+  }
+}
