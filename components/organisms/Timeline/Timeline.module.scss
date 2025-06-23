@@ -1,3 +1,8 @@
+$timeline-marker-size: 16px;
+$timeline-item-height: 280px;
+$timeline-item-width: 300px;
+$timeline-item-space: 30px;
+
 .timeline {
   padding: var(--spacing-lg) 0;
 
@@ -25,6 +30,15 @@
     z-index: 1;
   }
 
+  .timelineBox {
+    content: "";
+    position: absolute;
+    width: $timeline-item-space;
+    height: $timeline-item-space;
+    background-color: var(--color-secondary);
+    z-index: 3;
+  }
+
   .timelineItem {
     position: relative;
     z-index: 2;
@@ -33,44 +47,94 @@
       position: absolute;
       background-color: var(--color-secondary);
       border-radius: 0;
-      z-index: 3;
+      z-index: 2;
+
+      width: $timeline-marker-size;
+      height: $timeline-marker-size;
     }
 
     .timelineContent {
-      background-color: var(--color-primary);
-      color: var(--color-white);
-      padding: var(--spacing-md);
-      border-radius: 0;
-      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 5px;
 
-      .itemTitle {
-        margin-bottom: var(--spacing-xs);
+      .timelineContentMain {
+        background-color: var(--color-primary);
         color: var(--color-white);
+        border-radius: 0;
+        position: relative;
+        height: $timeline-item-height;
+        padding: 30px 50px;
+        overflow: hidden;
+
+        .itemTitle {
+          margin-bottom: var(--spacing-sm);
+          color: var(--color-white);
+        }
+
+        .itemDescription {
+          margin-bottom: var(--spacing-md);
+          color: var(--color-white);
+          line-clamp: 4;
+          display: -webkit-box;
+          -webkit-line-clamp: 4;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .itemLink {
+          color: var(--color-white);
+          text-decoration: underline;
+          font-weight: bold;
+          font-size: 14px;
+
+          &:hover {
+            color: var(--color-neutral-lightest);
+          }
+        }
+
+        .timelinePattern {
+          position: absolute;
+          top: 36px;
+          left: 14px;
+          width: 23px;
+          height: 56px;
+
+          .timelinePatternImage {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
       }
 
-      .itemDate {
-        font-size: 14px;
-        opacity: 0.8;
-        margin-bottom: var(--spacing-xs);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
+      .timelineContentSide {
+        background-color: var(--color-white);
+        color: var(--color-black);
+        border-radius: 0;
+        height: $timeline-item-height;
+        padding: 30px 0;
 
-      .itemDescription {
-        margin-bottom: var(--spacing-sm);
-        color: var(--color-white);
-      }
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 25px;
 
-      .itemLink {
-        color: var(--color-white);
-        text-decoration: underline;
-        font-weight: 500;
-
-        &:hover {
-          opacity: 0.8;
+        .itemDescription {
+          margin-bottom: 0;
+          line-clamp: 4;
+          display: -webkit-box;
+          -webkit-line-clamp: 4;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
       }
     }
+  }
+
+  .timelineInner {
+    position: relative;
   }
 
   // Horizontal variant
@@ -78,115 +142,166 @@
     .timelineContainer {
       position: relative;
       padding: 0;
-      min-height: 600px;
+      min-height: $timeline-item-height * 2;
+      display: flex;
+      flex-direction: row;
+      gap: $timeline-item-space;
+    }
+
+    .timelineBox {
+      top: calc(50% + 2px);
+      right: calc(3% - 30px);
+      transform: translateY(-50%);
     }
 
     .timelineLine {
       top: 50%;
       left: 0;
       right: 0;
-      height: 4px;
-      width: 100%;
-      transform: translateY(-50%);
+      height: 5px;
+      width: 96%;
+      margin: 0 auto;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 5px;
+        height: 60px;
+        background-color: var(--color-black);
+        transform: translateY(-50%);
+      }
     }
 
     .timelineItem {
-      position: absolute;
-      width: 300px;
+      width: $timeline-item-width;
+      height: $timeline-item-height * 2;
 
-      // Alternate positioning above and below the line
+      .timelineMarker {
+        left: -$timeline-marker-size / 2;
+        top: calc(50% - 6px);
+      }
+
       &:nth-child(odd) {
-        top: 0;
-
-        .timelineMarker {
-          bottom: 0;
-          left: -2px;
-          width: 15px;
-          height: 15px;
+        .timelineContentSide {
+          justify-content: flex-start;
         }
       }
 
       &:nth-child(even) {
-        bottom: 0;
-
-        .timelineMarker {
-          width: 20px;
-          height: 20px;
+        .timelineContent {
+          flex-direction: column-reverse;
         }
-      }
 
-      // Position items horizontally based on their index
-      &:nth-child(1) {
-        left: 0;
-      }
-      &:nth-child(2) {
-        left: calc(15% - 100px);
-      }
-      &:nth-child(3) {
-        left: calc(50% - 150px);
-      }
-      &:nth-child(4) {
-        left: calc(75% - 150px);
-      }
-      &:nth-child(5) {
-        right: 0;
-      }
-
-      // For more than 5 items, continue the pattern
-      &:nth-child(n + 6) {
-        position: relative;
-        display: none; // Hide additional items for now, or implement scrolling
+        .timelineContentSide {
+          justify-content: flex-end;
+        }
       }
     }
   }
 
   // Vertical variant
   &.vertical {
+    .timelineInner {
+      padding-top: 40px;
+      padding-bottom: 60px;
+    }
+
     .timelineContainer {
-      max-width: 800px;
-      margin: 0 auto;
+      position: relative;
+      padding: 0;
+      min-height: $timeline-item-height * 2;
+      display: flex;
+      flex-direction: column;
+      gap: $timeline-item-space;
     }
 
     .timelineLine {
-      left: 30px;
       top: 0;
-      bottom: 0;
-      width: 2px;
+      left: 0;
+      right: 0;
+      width: 5px;
       height: 100%;
+      margin: 0 auto;
+      z-index: 2;
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        width: 60px;
+        height: 5px;
+        background-color: var(--color-black);
+        transform: translateX(-50%);
+      }
+    }
+
+    .timelineBox {
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
     }
 
     .timelineItem {
-      margin-bottom: var(--spacing-lg);
-      padding-left: var(--spacing-xl);
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-
       .timelineMarker {
-        top: 10px;
-        left: 20px;
-        width: 20px;
-        height: 20px;
+        left: 50%;
+        top: -8px;
+        transform: translateX(-50%);
+        z-index: 3;
       }
 
-      .timelineContent {
-        &::before {
-          content: "";
-          position: absolute;
-          top: 15px;
-          left: -10px;
-          width: 0;
-          height: 0;
-          border-top: 10px solid transparent;
-          border-bottom: 10px solid transparent;
-          border-right: 10px solid var(--color-primary);
+      .timelineContentMain {
+        width: 50%;
+      }
+
+      .timelineContentSide {
+        padding: 0;
+        width: 50%;
+        align-items: flex-start;
+        padding-right: 30px;
+        padding-left: 30px;
+        padding-bottom: 30px;
+        gap: 0;
+
+        .itemTitle {
+          margin-bottom: var(--spacing-sm);
+        }
+      }
+
+      &:nth-child(odd) {
+        .timelineContent {
+          flex-direction: row;
+        }
+      }
+
+      &:nth-child(even) {
+        .timelineContent {
+          flex-direction: row-reverse;
+
+          .timelineContentSide {
+            align-items: flex-end;
+            text-align: right;
+          }
         }
       }
     }
   }
 
   // Responsive adjustments
+  @media (max-width: 1200px) {
+    &.horizontal {
+      .timelineItem {
+        .timelineContentMain {
+          padding: 20px;
+
+          .timelinePattern {
+            left: -12px;
+          }
+        }
+      }
+    }
+  }
   @media (max-width: 768px) {
     &.horizontal {
       .timelineContainer {
@@ -216,17 +331,29 @@
     }
 
     &.vertical {
-      .timelineLine {
-        left: 20px;
-      }
-
       .timelineItem {
-        padding-left: var(--spacing-lg);
+        .timelineContentMain {
+          padding: 20px;
+          min-height: 100%;
+          height: 300px;
 
-        .timelineMarker {
-          left: 10px;
-          width: 16px;
-          height: 16px;
+          .timelinePattern {
+            left: -10px;
+          }
+        }
+
+        .timelineContentSide {
+          padding: 20px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    &.vertical {
+      .timelineItem {
+        .timelineContentMain {
+          height: 350px;
         }
       }
     }
