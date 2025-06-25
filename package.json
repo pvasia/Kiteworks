@@ -17,6 +17,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "classnames": "^2.5.1",
     "next": "15.3.3",
     "react": "^19.0.0",

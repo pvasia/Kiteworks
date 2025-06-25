@@ -1,0 +1,318 @@
+.footer {
+  background-color: var(--color-black);
+  color: var(--color-neutral-white, #ffffff);
+  padding: var(--spacing-xl) 0 var(--spacing-lg);
+  margin-top: var(--spacing-xl);
+}
+
+.footerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+// Navigation Section
+.footerNavigation {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-xl);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  @media (max-width: 1023px) {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+}
+
+// Brand Section
+.brandSection {
+  .logoLink {
+    display: inline-block;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .logo {
+    height: 48px;
+    width: auto;
+    filter: brightness(0) invert(1); // Make logo white
+  }
+
+  .brandDescription {
+    font-size: var(--font-size-lg, 18px);
+    line-height: var(--line-height-relaxed, 1.75);
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: var(--spacing-lg);
+    max-width: 320px;
+  }
+
+  .complianceBadges {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px var(--spacing-sm);
+    transition: var(--transition-default, all 0.3s ease);
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-color: var(--color-secondary-yellow, #ffa726);
+      transform: translateY(-2px);
+    }
+  }
+
+  .badgeIcon {
+    width: 16px;
+    height: 16px;
+    color: var(--color-secondary-yellow, #ffa726);
+    flex-shrink: 0;
+  }
+
+  .badgeText {
+    color: var(--color-neutral-white, #ffffff);
+    font-size: var(--font-size-sm, 14px);
+    font-weight: var(--font-weight-semibold, 600);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+// Links Grid
+.linksGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 44px;
+
+  @media (max-width: 1023px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+  }
+
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+}
+
+.footerSection {
+  .sectionTitle {
+    font-size: var(--font-size-xl, 20px);
+    font-weight: var(--font-weight-semibold, 600);
+    color: var(--color-neutral-white, #ffffff);
+    margin-bottom: var(--spacing-md);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+  }
+
+  .linkList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .linkItem {
+    margin-bottom: var(--spacing-sm);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .footerLink {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: var(--font-size-base, 16px);
+    line-height: var(--line-height-normal, 1.5);
+    transition: var(--transition-default, all 0.3s ease);
+    display: block;
+
+    &:hover {
+      color: var(--color-secondary-yellow, #ffa726);
+      transform: translateX(4px);
+    }
+  }
+}
+
+// Contact Section
+.contactSection {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--spacing-xl);
+  padding: var(--spacing-xl) 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: var(--spacing-lg);
+
+  @media (max-width: 1023px) {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+}
+
+.contactLeft {
+  .contactTitle {
+    font-size: 3.5rem;
+    font-weight: var(--font-weight-bold, 700);
+    color: var(--color-secondary-yellow, #ffa726);
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+
+    @media (max-width: 1023px) {
+      font-size: 2.5rem;
+    }
+
+    @media (max-width: 767px) {
+      font-size: 2rem;
+    }
+  }
+}
+
+.contactRight {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+
+  @media (max-width: 1023px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+  }
+
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+}
+
+.contactColumn {
+  .contactSubtitle {
+    font-size: var(--font-size-xl, 20px);
+    font-weight: var(--font-weight-semibold, 600);
+    color: var(--color-neutral-white, #ffffff);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--color-secondary-yellow, #ffa726);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+  }
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: var(--spacing-sm);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.contactIcon {
+  width: 16px;
+  height: 16px;
+  color: var(--color-secondary-yellow, #ffa726);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.contactText {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: var(--font-size-base, 16px);
+  font-weight: var(--font-weight-medium, 500);
+}
+
+.socialLinks {
+  display: flex;
+  gap: 12px;
+  margin-bottom: var(--spacing-md);
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius-md, 8px);
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: var(--transition-default, all 0.3s ease);
+
+  &:hover {
+    background-color: var(--color-secondary-yellow, #ffa726);
+    border-color: var(--color-secondary-yellow, #ffa726);
+    color: var(--color-neutral-black, #000000);
+    transform: translateY(-2px);
+  }
+}
+
+.socialIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.contractVehicles {
+  margin-top: var(--spacing-md);
+
+  .contractText {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: var(--font-size-sm, 14px);
+    line-height: var(--line-height-normal, 1.5);
+  }
+}
+
+// Footer Bottom
+.footerBottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.bottomLeft {
+  .copyright {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: var(--font-size-base, 16px);
+  }
+}
+
+.bottomRight {
+  display: flex;
+  gap: var(--spacing-md);
+
+  @media (max-width: 767px) {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-md);
+  }
+}
+
+.legalLink {
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  font-size: var(--font-size-base, 16px);
+  transition: var(--transition-default, all 0.3s ease);
+
+  &:hover {
+    color: var(--color-secondary-yellow, #ffa726);
+  }
+}

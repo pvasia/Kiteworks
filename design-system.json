@@ -1,0 +1,365 @@
+{
+  "designSystem": {
+    "name": "Enterprise SaaS Design System",
+    "version": "1.0.0",
+    "description": "A comprehensive design system for enterprise software applications with focus on trust, professionalism, and user engagement",
+
+    "colorPalette": {
+      "primary": {
+        "blue": "#5569E8",
+        "blueLight": "#7B8BF0",
+        "blueDark": "#3D4BC7"
+      },
+      "secondary": {
+        "yellow": "#FFA726",
+        "orange": "#FF9800",
+        "yellowLight": "#FFD54F"
+      },
+      "neutral": {
+        "black": "#000000",
+        "white": "#FFFFFF",
+        "gray100": "#F5F5F5",
+        "gray200": "#E0E0E0",
+        "gray300": "#BDBDBD",
+        "gray400": "#9E9E9E",
+        "gray500": "#757575",
+        "gray600": "#424242"
+      },
+      "semantic": {
+        "success": "#4CAF50",
+        "warning": "#FF9800",
+        "error": "#F44336",
+        "info": "#2196F3"
+      }
+    },
+
+    "typography": {
+      "fontFamily": {
+        "primary": "General Sans",
+        "fallback": "system-ui, -apple-system, sans-serif"
+      },
+      "fontWeights": {
+        "light": 300,
+        "regular": 400,
+        "medium": 500,
+        "semibold": 600,
+        "bold": 700
+      },
+      "fontSizes": {
+        "xs": "12px",
+        "sm": "14px",
+        "base": "16px",
+        "lg": "18px",
+        "xl": "20px",
+        "2xl": "24px",
+        "3xl": "32px",
+        "4xl": "40px",
+        "5xl": "48px",
+        "6xl": "64px"
+      },
+      "lineHeights": {
+        "tight": 1.2,
+        "normal": 1.5,
+        "relaxed": 1.75
+      },
+      "hierarchy": {
+        "h1": {
+          "fontSize": "48px",
+          "fontWeight": "bold",
+          "lineHeight": "tight",
+          "letterSpacing": "-0.02em"
+        },
+        "h2": {
+          "fontSize": "40px",
+          "fontWeight": "bold",
+          "lineHeight": "tight"
+        },
+        "h3": {
+          "fontSize": "32px",
+          "fontWeight": "semibold",
+          "lineHeight": "normal"
+        },
+        "h4": {
+          "fontSize": "24px",
+          "fontWeight": "semibold",
+          "lineHeight": "normal"
+        },
+        "body": {
+          "fontSize": "16px",
+          "fontWeight": "regular",
+          "lineHeight": "relaxed"
+        },
+        "caption": {
+          "fontSize": "14px",
+          "fontWeight": "medium",
+          "lineHeight": "normal"
+        }
+      }
+    },
+
+    "spacing": {
+      "scale": {
+        "xs": "4px",
+        "sm": "8px",
+        "md": "16px",
+        "lg": "24px",
+        "xl": "32px",
+        "2xl": "48px",
+        "3xl": "64px",
+        "4xl": "96px",
+        "5xl": "128px"
+      },
+      "containerPadding": {
+        "mobile": "16px",
+        "tablet": "24px",
+        "desktop": "48px"
+      }
+    },
+
+    "borderRadius": {
+      "none": "0px",
+      "sm": "4px",
+      "md": "8px",
+      "lg": "12px",
+      "xl": "16px",
+      "full": "9999px"
+    },
+
+    "shadows": {
+      "sm": "0 2px 4px rgba(0, 0, 0, 0.1)",
+      "md": "0 4px 8px rgba(0, 0, 0, 0.12)",
+      "lg": "0 8px 16px rgba(0, 0, 0, 0.15)",
+      "xl": "0 20px 40px rgba(0, 0, 0, 0.15)"
+    },
+
+    "patterns": {
+      "dotGrid": {
+        "type": "repeating-pattern",
+        "element": "small circles",
+        "spacing": "regular grid",
+        "opacity": "0.1-0.3",
+        "usage": "background decoration, section dividers"
+      },
+      "geometricShapes": {
+        "type": "abstract illustrations",
+        "style": "flat, geometric",
+        "colors": "primary and secondary palette",
+        "usage": "hero sections, feature highlights"
+      }
+    },
+
+    "components": {
+      "buttons": {
+        "primary": {
+          "backgroundColor": "primary.blue",
+          "color": "white",
+          "padding": "12px 24px",
+          "borderRadius": "md",
+          "fontWeight": "semibold",
+          "transition": "all 0.3s ease",
+          "hoverTransform": "translateY(-2px)"
+        },
+        "secondary": {
+          "backgroundColor": "secondary.yellow",
+          "color": "black",
+          "padding": "12px 24px",
+          "borderRadius": "md",
+          "fontWeight": "semibold"
+        },
+        "outline": {
+          "backgroundColor": "transparent",
+          "border": "2px solid primary.blue",
+          "color": "primary.blue",
+          "padding": "10px 22px",
+          "borderRadius": "md"
+        }
+      },
+
+      "cards": {
+        "elevated": {
+          "backgroundColor": "white",
+          "borderRadius": "lg",
+          "boxShadow": "lg",
+          "padding": "24px",
+          "border": "none"
+        },
+        "outlined": {
+          "backgroundColor": "white",
+          "border": "1px solid gray200",
+          "borderRadius": "lg",
+          "padding": "24px"
+        }
+      },
+
+      "alerts": {
+        "news": {
+          "backgroundColor": "#FF4444",
+          "color": "white",
+          "padding": "8px 16px",
+          "fontSize": "sm",
+          "fontWeight": "medium",
+          "animation": "scrolling-text"
+        },
+        "announcement": {
+          "backgroundColor": "secondary.yellow",
+          "color": "black",
+          "padding": "12px 24px",
+          "fontSize": "base",
+          "fontWeight": "semibold"
+        },
+        "info": {
+          "backgroundColor": "primary.blue",
+          "color": "white",
+          "padding": "12px 24px",
+          "fontSize": "base"
+        }
+      }
+    },
+
+    "layoutPatterns": {
+      "heroSections": {
+        "types": [
+          {
+            "name": "fullWidth",
+            "structure": "full-width background, centered content, CTA below",
+            "contentAlignment": "center",
+            "backgroundType": "solid color or pattern",
+            "ctaPlacement": "below heading and description"
+          },
+          {
+            "name": "splitLayout",
+            "structure": "50/50 split with content left, visual right",
+            "contentAlignment": "left",
+            "visualType": "illustration or photo",
+            "responsive": "stacks on mobile"
+          },
+          {
+            "name": "centeredMinimal",
+            "structure": "centered content with minimal background",
+            "contentAlignment": "center",
+            "backgroundType": "subtle pattern or gradient"
+          }
+        ]
+      },
+
+      "contentSections": {
+        "imageTextBlocks": {
+          "structure": "alternating image and text blocks",
+          "imagePosition": "alternates left/right",
+          "contentWidth": "50% each on desktop",
+          "spacing": "large vertical gaps between sections",
+          "mobileLayout": "stacked, image first"
+        },
+        "centeredContent": {
+          "structure": "centered text with max-width constraint",
+          "maxWidth": "800px",
+          "alignment": "center",
+          "spacing": "generous vertical padding"
+        },
+        "gridLayouts": {
+          "twoColumn": "50/50 split, equal height cards",
+          "threeColumn": "33.33% each, responsive to 2-1 on tablet-mobile",
+          "fourColumn": "25% each, responsive to 2-2-1 on smaller screens"
+        }
+      },
+
+      "specialComponents": {
+        "timeline": {
+          "horizontal": {
+            "structure": "linear progression with connecting lines",
+            "itemAlignment": "alternates above/below line",
+            "visualStyle": "cards connected by line",
+            "mobileLayout": "vertical stack"
+          },
+          "vertical": {
+            "structure": "vertical line with items attached left/right",
+            "itemAlignment": "alternates left/right of central line",
+            "spacing": "consistent vertical gaps",
+            "mobileLayout": "single column, left aligned"
+          }
+        },
+        "logoGrid": {
+          "structure": "uniform grid of company logos",
+          "itemSize": "consistent dimensions",
+          "spacing": "equal gaps",
+          "responsive": "6-4-3-2 columns on different breakpoints",
+          "style": "grayscale with hover color"
+        },
+        "testimonials": {
+          "withLogo": {
+            "structure": "quote, attribution, company logo",
+            "layout": "card-based with company branding",
+            "background": "contrasting to main content"
+          },
+          "withoutLogo": {
+            "structure": "quote and attribution only",
+            "style": "clean, minimal presentation",
+            "emphasis": "typography-focused"
+          }
+        }
+      }
+    },
+
+    "responsiveBreakpoints": {
+      "mobile": "320px - 767px",
+      "tablet": "768px - 1023px",
+      "desktop": "1024px - 1439px",
+      "large": "1440px+"
+    },
+
+    "animations": {
+      "transitions": {
+        "default": "all 0.3s ease",
+        "fast": "all 0.15s ease",
+        "slow": "all 0.5s ease"
+      },
+      "transforms": {
+        "hoverLift": "translateY(-2px)",
+        "hoverScale": "scale(1.05)",
+        "slideIn": "translateX(0) from translateX(-30px)"
+      },
+      "keyframes": {
+        "fadeIn": "opacity 0 to 1",
+        "slideDown": "translateY(-30px) to translateY(0)",
+        "scrollText": "continuous horizontal scroll"
+      }
+    },
+
+    "designPrinciples": {
+      "visual": {
+        "contrast": "High contrast for readability and accessibility",
+        "hierarchy": "Clear visual hierarchy through typography and spacing",
+        "consistency": "Consistent use of colors, spacing, and patterns",
+        "whitespace": "Generous use of whitespace for breathing room"
+      },
+      "interaction": {
+        "feedback": "Immediate visual feedback on interactive elements",
+        "affordance": "Clear indication of clickable/interactive elements",
+        "transitions": "Smooth transitions to enhance user experience"
+      },
+      "layout": {
+        "grid": "12-column grid system for consistent alignment",
+        "rhythm": "Consistent vertical rhythm through spacing scale",
+        "balance": "Visual balance through asymmetric but proportional layouts"
+      }
+    },
+
+    "contentGuidelines": {
+      "headingLengths": {
+        "hero": "6-10 words maximum",
+        "section": "4-8 words maximum",
+        "card": "3-6 words maximum"
+      },
+      "descriptionLengths": {
+        "hero": "1-2 sentences, 15-25 words",
+        "feature": "1 sentence, 10-15 words",
+        "card": "1-2 sentences, 8-20 words"
+      },
+      "tone": {
+        "voice": "Professional, confident, approachable",
+        "style": "Clear, concise, benefit-focused",
+        "terminology": "Industry-standard, accessible language"
+      }
+    }
+  }
+}
