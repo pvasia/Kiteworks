@@ -11,6 +11,11 @@
   --color-primary-lighter: #9699de; /* RGB: 150 153 222 */
   --color-primary-lightest: #dcdbf4; /* RGB: 220 219 244 */
 
+  /* Design System Primary Colors - ADDITIONAL */
+  --color-primary-blue: #5569e8;
+  --color-primary-blue-light: #7b8bf0;
+  --color-primary-blue-dark: #3d4bc7;
+
   /* Brand Secondary Colors - PANTONE 7409 C (Yellow/Orange) */
   --color-secondary: #f4b223; /* PANTONE 7409 C - RGB: 244 178 35 */
   --color-secondary-darkest: #3d2d09; /* RGB: 61 45 9 */
@@ -19,6 +24,11 @@
   --color-secondary-light: #f7c15a; /* RGB: 247 193 90 */
   --color-secondary-lighter: #fcdf83; /* RGB: 252 223 131 */
   --color-secondary-lightest: #faefd5; /* RGB: 250 239 213 */
+
+  /* Design System Secondary Colors - ADDITIONAL */
+  --color-secondary-yellow: #ffa726;
+  --color-secondary-orange: #ff9800;
+  --color-secondary-yellow-light: #ffd54f;
 
   /* Brand Neutral Colors (Grayscale) */
   --color-black: #000000; /* BLACK - RGB: 0 0 0 */
@@ -30,6 +40,14 @@
   --color-neutral-light: #a7a9ac; /* RGB: 167 169 172 */
   --color-neutral-lighter: #bcbec0; /* RGB: 188 190 192 */
   --color-neutral-lightest: #e6e7e8; /* RGB: 230 231 232 */
+
+  /* Design System Neutral Colors - ADDITIONAL */
+  --color-gray-100: #f5f5f5;
+  --color-gray-200: #e0e0e0;
+  --color-gray-300: #bdbdbd;
+  --color-gray-400: #9e9e9e;
+  --color-gray-500: #757575;
+  --color-gray-600: #424242;
 
   /* Brand Accent Colors */
   --color-accent-red: #ed1c24; /* RGB: 237 28 36 */
@@ -47,6 +65,56 @@
   /* Transitions */
   --transition: 0.3s ease;
 
-  /* Global */
-  --max-width-global: 1600px;
+  /* Font Weights */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Font Sizes */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 32px;
+  --font-size-4xl: 40px;
+  --font-size-5xl: 48px;
+  --font-size-6xl: 64px;
+
+  /* Line Heights */
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  /* Border Radius */
+  --border-radius-none: 0px;
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+  --border-radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.15);
+
+  /* Transitions - EXISTING + ADDITIONAL */
+  --transition-default: all 0.3s ease;
+  --transition-fast: all 0.15s ease;
+  --transition-slow: all 0.5s ease;
+
+  /* Transforms */
+  --transform-hover-lift: translateY(-2px);
+  --transform-hover-scale: scale(1.05);
+
+  /* Responsive Breakpoints */
+  --breakpoint-mobile: 320px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-large: 1440px;
 }

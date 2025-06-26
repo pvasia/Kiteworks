@@ -1,14 +1,8 @@
 .footer {
   background-color: var(--color-black);
   color: var(--color-neutral-white, #ffffff);
-  padding: var(--spacing-xl) 0 var(--spacing-lg);
+  padding: var(--spacing-xl) 0 var(--spacing-md);
   margin-top: var(--spacing-xl);
-}
-
-.footerContent {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-md);
 }
 
 // Navigation Section
@@ -16,13 +10,13 @@
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: var(--spacing-xl);
-  margin-bottom: var(--spacing-xl);
   padding-bottom: var(--spacing-xl);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
   @media (max-width: 1023px) {
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
+    padding-bottom: var(--spacing-lg);
   }
 }
 
@@ -89,7 +83,7 @@
 .linksGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 44px;
+  gap: var(--spacing-lg);
 
   @media (max-width: 1023px) {
     grid-template-columns: repeat(2, 1fr);
@@ -98,18 +92,15 @@
 
   @media (max-width: 767px) {
     grid-template-columns: 1fr;
-    gap: var(--spacing-md);
+    gap: var(--spacing-lg);
   }
 }
 
 .footerSection {
   .sectionTitle {
-    font-size: var(--font-size-xl, 20px);
-    font-weight: var(--font-weight-semibold, 600);
-    color: var(--color-neutral-white, #ffffff);
+    color: var(--color-white);
     margin-bottom: var(--spacing-md);
     text-transform: uppercase;
-    letter-spacing: 0.025em;
   }
 
   .linkList {
@@ -128,11 +119,9 @@
 
   .footerLink {
     color: rgba(255, 255, 255, 0.7);
-    text-decoration: none;
-    font-size: var(--font-size-base, 16px);
-    line-height: var(--line-height-normal, 1.5);
     transition: var(--transition-default, all 0.3s ease);
     display: block;
+    margin-bottom: 0;
 
     &:hover {
       color: var(--color-secondary-yellow, #ffa726);
@@ -148,101 +137,158 @@
   gap: var(--spacing-xl);
   padding: var(--spacing-xl) 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
 
   @media (max-width: 1023px) {
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
+    padding: var(--spacing-lg) 0;
+  }
+}
+
+.contactGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg);
+
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
   }
 }
 
 .contactLeft {
   .contactTitle {
-    font-size: 3.5rem;
-    font-weight: var(--font-weight-bold, 700);
-    color: var(--color-secondary-yellow, #ffa726);
-    line-height: 1.1;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
+    color: var(--color-neutral-white, #ffffff);
+    margin-bottom: var(--spacing-md);
+  }
 
-    @media (max-width: 1023px) {
-      font-size: 2.5rem;
+  .contactDescription {
+    color: var(--color-neutral-light);
+    max-width: 400px;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .socialSection {
+    .socialTitle {
+      font-size: var(--font-size-lg, 18px);
+      font-weight: var(--font-weight-semibold, 600);
+      color: var(--color-neutral-white, #ffffff);
+      margin-bottom: var(--spacing-md);
     }
 
-    @media (max-width: 767px) {
-      font-size: 2rem;
+    .socialLinks {
+      display: flex;
+      gap: var(--spacing-sm);
+      flex-wrap: wrap;
     }
   }
 }
 
 .contactRight {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing-lg);
-
-  @media (max-width: 1023px) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-md);
-  }
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
 
   @media (max-width: 767px) {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-md);
+    gap: var(--spacing-lg);
   }
 }
 
-.contactColumn {
-  .contactSubtitle {
-    font-size: var(--font-size-xl, 20px);
-    font-weight: var(--font-weight-semibold, 600);
-    color: var(--color-neutral-white, #ffffff);
-    margin-bottom: var(--spacing-md);
-    padding-bottom: 8px;
-    border-bottom: 2px solid var(--color-secondary-yellow, #ffa726);
-    text-transform: uppercase;
-    letter-spacing: 0.025em;
+.contactCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius-lg, 12px);
+  padding: var(--spacing-lg);
+  transition: var(--transition-default, all 0.3s ease);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
   }
 }
 
-.contactItem {
+.contactCardHeader {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: var(--spacing-sm);
-
-  &:last-child {
-    margin-bottom: 0;
-  }
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.contactIcon {
-  width: 16px;
-  height: 16px;
+.contactCardIcon {
+  width: 32px;
+  height: 32px;
   color: var(--color-secondary-yellow, #ffa726);
   display: flex;
   align-items: center;
+  justify-content: center;
+  background: rgba(255, 167, 38, 0.1);
+  border-radius: var(--border-radius-sm, 6px);
+  padding: 8px;
   flex-shrink: 0;
 }
 
-.contactText {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: var(--font-size-base, 16px);
+.contactCardTitle {
+  color: var(--color-white);
+  margin: 0;
+}
+
+.contactCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.contactDetail {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.contactLabel {
+  font-size: var(--font-size-sm, 14px);
+  color: rgba(255, 255, 255, 0.6);
   font-weight: var(--font-weight-medium, 500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.contactValue {
+  font-size: var(--font-size-base, 16px);
+  color: var(--color-white, #ffffff);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium, 500);
+  transition: var(--transition-default, all 0.3s ease);
+
+  &:hover {
+    color: var(--color-secondary-yellow, #ffa726);
+  }
+}
+
+.socialSection {
+  .socialTitle {
+    font-size: var(--font-size-lg, 18px);
+    font-weight: var(--font-weight-semibold, 600);
+    color: var(--color-neutral-white, #ffffff);
+    margin-bottom: var(--spacing-md);
+  }
 }
 
 .socialLinks {
   display: flex;
-  gap: 12px;
-  margin-bottom: var(--spacing-md);
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
 }
 
 .socialLink {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  background-color: rgba(255, 255, 255, 0.05);
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--border-radius-md, 8px);
   color: rgba(255, 255, 255, 0.7);
@@ -250,7 +296,7 @@
   transition: var(--transition-default, all 0.3s ease);
 
   &:hover {
-    background-color: var(--color-secondary-yellow, #ffa726);
+    background: var(--color-secondary-yellow, #ffa726);
     border-color: var(--color-secondary-yellow, #ffa726);
     color: var(--color-neutral-black, #000000);
     transform: translateY(-2px);
@@ -291,7 +337,7 @@
 .bottomLeft {
   .copyright {
     color: rgba(255, 255, 255, 0.6);
-    font-size: var(--font-size-base, 16px);
+    font-size: var(--font-size-sm);
   }
 }
 
@@ -309,7 +355,7 @@
 .legalLink {
   color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
-  font-size: var(--font-size-base, 16px);
+  font-size: 14px;
   transition: var(--transition-default, all 0.3s ease);
 
   &:hover {

@@ -51,6 +51,12 @@ const federalMenu = [
   {
     label: "About",
     url: "/about",
+    subItems: [
+      { label: "Federal Team", url: "/about/team" },
+      { label: "Procurement", url: "/about/procurement" },
+      { label: "Partners", url: "/about/partners" },
+      { label: "Contact Us", url: "/about/contact" },
+    ],
   },
 ];
 
