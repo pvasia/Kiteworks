@@ -63,40 +63,28 @@
     box-shadow: var(--shadow-md);
     border-color: var(--color-primary);
 
-    .iconWrapper {
+    &::before {
       background: var(--color-primary);
+    }
+
+    .iconWrapper {
       color: var(--color-white);
       transform: scale(1.1) rotate(5deg);
+      background: var(--color-primary);
+      color: var(--color-white);
     }
 
     .agencyName {
-      color: var(--color-primary-dark);
+      color: var(--color-primary);
+    }
+
+    .description {
+      color: var(--color-black);
     }
 
     .cta {
       color: var(--color-primary);
       transform: translateX(8px);
-    }
-  }
-
-  &:hover {
-    border-color: var(--color-primary-dark);
-
-    &::before {
-      background: var(--color-primary-dark);
-    }
-
-    .iconWrapper {
-      background: var(--color-primary-dark);
-      color: var(--color-white);
-    }
-
-    .agencyName {
-      color: var(--color-primary-dark);
-    }
-
-    .cta {
-      color: var(--color-primary-dark);
     }
   }
 }
@@ -144,7 +132,7 @@
   margin-bottom: var(--spacing-lg);
 
   .description {
-    color: var(--color-black);
+    color: var(--color-neutral-darkest);
     margin: 0;
   }
 }
