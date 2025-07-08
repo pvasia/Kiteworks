@@ -1,5 +1,12 @@
 .fourTiles {
   padding: var(--spacing-lg) 0;
+  background-color: var(--color-white);
+
+  .header {
+    text-align: center;
+    color: var(--color-black);
+    margin-bottom: var(--spacing-lg);
+  }
 
   .inner {
     display: grid;

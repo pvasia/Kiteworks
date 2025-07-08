@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./styles/globals.scss";
+import { sharedContent } from "@/lib/content/shared-content";
+import Header from "@/components/molecules/Header";
+import Footer from "@/components/molecules/Footer";
 
 const generalSans = localFont({
   src: [
@@ -35,7 +38,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${generalSans.className} ${generalSans.style}`}>
+        <Header
+          alert={sharedContent.header.alert}
+          menu={sharedContent.header.menu}
+        />
         {children}
+        <Footer />
       </body>
     </html>
   );

@@ -7,9 +7,6 @@
   background-color: var(--color-black);
   color: var(--color-white);
   font-family: var(--font-family);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
 
   &:before {
     content: "";
@@ -20,6 +17,10 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1;
+  }
+
+  .heroBackground {
+    will-change: transform;
   }
 
   .heroContentGrid {
@@ -93,6 +94,6 @@
 
   /* Responsive Design */
   @media (max-width: 992px) {
-    height: auto;
+    height: auto !important;
   }
 }

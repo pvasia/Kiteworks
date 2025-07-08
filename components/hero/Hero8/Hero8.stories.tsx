@@ -19,5 +19,7 @@ export const Default: Story = {
       "Curabitur cursus lectus lorem, <br /> non consequat nibh aliquam,",
     buttonText: "Learn more",
     buttonLink: "/",
+    height: "500px",
+    isParallax: false,
   },
 };

@@ -24,9 +24,9 @@ const Testimonial = ({
 }: TestimonialProps) => {
   const patternHandler = () => {
     if (variant === "primary") {
-      return "images/pattern-testimonial-1.png";
+      return "/images/pattern-testimonial-1.png";
     }
-    return "images/pattern-testimonial-2.png";
+    return "/images/pattern-testimonial-2.png";
   };
   return (
     <div className={classNames(styles.testimonial, styles[variant])}>

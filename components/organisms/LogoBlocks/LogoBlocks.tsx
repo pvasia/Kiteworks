@@ -5,22 +5,22 @@ import Image from "next/image";
 
 interface LogoBlocksProps {
   variant: "heading" | "grid-primary" | "grid-secondary";
-  logos: {
+  logos?: {
     image: string;
     alt: string;
     url: string;
   }[];
+  subtitle?: string;
 }
 
-const LogoBlocks = ({ variant, logos }: LogoBlocksProps) => {
+const LogoBlocks = ({ variant, logos, subtitle }: LogoBlocksProps) => {
   return (
     <div className={classNames(styles.logoBlocks, styles[variant])}>
       {variant === "heading" && (
         <div className={styles.heading}>
           <div className={classNames(styles.container, "container")}>
             <h2 className={classNames(styles.subtitle, "subtitle")}>
-              CISOs and CIOs at more than 2,500 of the world’s leading
-              enterprises and government agencies trust Kiteworks.
+              {subtitle}
             </h2>
           </div>
           <div className={classNames(styles.pattern, styles.pattern1)}>
@@ -36,7 +36,7 @@ const LogoBlocks = ({ variant, logos }: LogoBlocksProps) => {
         <div className={styles.gridPrimary}>
           <div className={classNames(styles.container, "container")}>
             <div className={styles.grid}>
-              {logos.map((logo) => (
+              {logos?.map((logo) => (
                 <div className={styles.item} key={logo.alt}>
                   <Image
                     src={logo.image}
@@ -55,7 +55,7 @@ const LogoBlocks = ({ variant, logos }: LogoBlocksProps) => {
         <div className={styles.gridSecondary}>
           <div className={classNames(styles.container, "container")}>
             <div className={styles.grid}>
-              {logos.map((logo) => (
+              {logos?.map((logo) => (
                 <div className={styles.item} key={logo.alt}>
                   <Image
                     src={logo.image}

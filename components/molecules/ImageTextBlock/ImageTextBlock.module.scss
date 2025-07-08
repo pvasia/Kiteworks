@@ -3,6 +3,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     border: 1px solid var(--color-primary-lightest);
+    background-color: var(--color-white);
 
     @media (max-width: 992px) {
       grid-template-columns: 1fr;

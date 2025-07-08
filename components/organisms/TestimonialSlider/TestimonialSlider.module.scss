@@ -1,0 +1,159 @@
+.testimonialSlider {
+  position: relative;
+  width: 100%;
+
+  &:hover {
+    .swiperNavButton {
+      opacity: 1;
+    }
+  }
+}
+
+.swiperContainer {
+  width: 100%;
+  height: 100%;
+}
+
+.swiperSlide {
+  padding-bottom: var(--spacing-lg);
+  box-sizing: border-box;
+}
+
+.swiperSlidePrimary {
+  background-color: var(--color-secondary);
+}
+
+.swiperSlideSecondary {
+  background-color: var(--color-black);
+}
+
+// Custom Navigation Buttons
+.swiperNavButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--border-radius-full);
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: var(--font-size-xs);
+  color: var(--color-white);
+  transition: var(--transition-default);
+  z-index: 10;
+  user-select: none;
+  opacity: 0;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-50%) var(--transform-hover-scale);
+  }
+
+  &:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+
+  .swiperNavButtonIcon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.swiperButtonPrev {
+  left: 20px;
+}
+
+.swiperButtonNext {
+  right: 20px;
+}
+
+// Custom Pagination
+.swiperPagination {
+  position: absolute;
+  bottom: 30px !important;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--gap);
+  z-index: 10;
+}
+
+.swiperBullet {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--border-radius-full);
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: var(--transition-default);
+  opacity: 1;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.8);
+  }
+}
+
+.swiperBulletActive {
+  background: var(--color-white);
+  transform: scale(1.2);
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .swiperNavButton {
+    width: 40px;
+    height: 40px;
+    font-size: var(--font-size-sm);
+  }
+
+  .swiperButtonPrev {
+    left: 10px;
+  }
+
+  .swiperButtonNext {
+    right: 10px;
+  }
+
+  .swiperPagination {
+    bottom: 10px;
+  }
+
+  .swiperBullet {
+    width: 10px;
+    height: 10px;
+  }
+
+  .swiperSlide {
+    padding-bottom: var(--spacing-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .swiperNavButton {
+    width: 35px;
+    height: 35px;
+    font-size: var(--font-size-xs);
+  }
+
+  .swiperButtonPrev {
+    left: 5px;
+  }
+
+  .swiperButtonNext {
+    right: 5px;
+  }
+
+  .swiperPagination {
+    bottom: 5px;
+  }
+
+  .swiperSlide {
+    padding-bottom: var(--spacing-sm);
+  }
+}

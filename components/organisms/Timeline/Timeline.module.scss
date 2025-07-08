@@ -5,10 +5,12 @@ $timeline-item-space: 30px;
 
 .timeline {
   padding: var(--spacing-lg) 0;
+  background-color: var(--color-white);
 
   .header {
     text-align: center;
     margin-bottom: var(--spacing-lg);
+    color: var(--color-black);
 
     .heading {
       margin-bottom: var(--spacing-md);

@@ -79,3 +79,14 @@ export const IconHeadingTiles: Story = {
     )),
   },
 };
+
+export const HeadingAndBodyCopy: Story = {
+  args: {
+    title: "Featured Cards",
+    bodyCopy:
+      "Amet volutpat consequat mauris nunc congue nisi vitae suscipit. Eget aliquet nibh <br /> praesent tristique magna sit amet purus.",
+    children: mockDataIconHeadings.map((item, key) => (
+      <IconHeading key={key} {...item} />
+    )),
+  },
+};
