@@ -4,7 +4,6 @@ import React, { useRef, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import type { SwiperRef } from "swiper/react";
-import Testimonial from "../Testimonial";
 
 // Import Swiper styles
 import "swiper/css";
@@ -14,9 +13,10 @@ import "swiper/css/autoplay";
 
 import styles from "./TestimonialSlider.module.scss";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
+import classNames from "classnames";
+import Image from "next/image";
 
 interface TestimonialData {
-  variant: "primary" | "secondary";
   title: string;
   quote: string;
   author: string;
@@ -29,12 +29,14 @@ interface TestimonialSliderProps {
   testimonials: TestimonialData[];
   autoAdvance?: boolean;
   autoAdvanceInterval?: number;
+  variant: "primary" | "secondary";
 }
 
 const TestimonialSlider = ({
   testimonials,
   autoAdvance = true,
   autoAdvanceInterval = 5000,
+  variant,
 }: TestimonialSliderProps) => {
   const swiperRef = useRef<SwiperRef>(null);
 
@@ -54,8 +56,23 @@ const TestimonialSlider = ({
     return null;
   }
 
+  const patternHandler = () => {
+    if (variant === "primary") {
+      return "/images/pattern-testimonial-1.png";
+    }
+    return "/images/pattern-testimonial-2.png";
+  };
+
   return (
-    <div className={styles.testimonialSlider}>
+    <div className={classNames(styles.testimonialSlider, styles[variant])}>
+      <div className={styles.patternContainer}>
+        <Image
+          src={patternHandler()}
+          alt="pattern"
+          className={styles.pattern}
+          fill
+        />
+      </div>
       <Swiper
         ref={swiperRef}
         modules={[Navigation, Pagination, Autoplay]}
@@ -84,24 +101,39 @@ const TestimonialSlider = ({
         className={styles.swiperContainer}
       >
         {testimonials.map((testimonial, index) => {
-          const variant = testimonial.variant || "primary";
-          const slideClass = `${styles.swiperSlide} ${
-            variant === "primary"
-              ? styles.swiperSlidePrimary
-              : styles.swiperSlideSecondary
-          }`;
-
           return (
-            <SwiperSlide key={index} className={slideClass}>
-              <Testimonial
-                variant={variant}
-                title={testimonial.title}
-                quote={testimonial.quote}
-                author={testimonial.author}
-                authorTitle={testimonial.authorTitle}
-                authorCompany={testimonial.authorCompany}
-                logo={testimonial.logo}
-              />
+            <SwiperSlide key={index} className={styles.swiperSlide}>
+              <div
+                className={classNames(styles.testimonialContent, "container")}
+              >
+                <h3 className={classNames(styles.heading, "heading")}>
+                  {testimonial.title}
+                </h3>
+                <div className={styles.inner}>
+                  {testimonial.logo && (
+                    <div className={styles.logoContainer}>
+                      <Image
+                        src={testimonial.logo}
+                        alt="logo"
+                        className={styles.logo}
+                        fill
+                      />
+                    </div>
+                  )}
+                  <div className={styles.innerText}>
+                    {testimonial.quote && (
+                      <p className={styles.quote}>“{testimonial.quote}”</p>
+                    )}
+                    <div className={styles.authorContainer}>
+                      -
+                      <div className={styles.author}>
+                        {testimonial.author},&nbsp;{testimonial.authorTitle}
+                        ,&nbsp;{testimonial.authorCompany}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </SwiperSlide>
           );
         })}

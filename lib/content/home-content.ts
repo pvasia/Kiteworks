@@ -1,4 +1,4 @@
-export const clientContent = {
+export const homeContent = {
   hero1: {
     imageUrl: "/images/img-1.png",
     title: "Enterprise Solutions for Federal Agencies",
@@ -41,7 +41,6 @@ export const clientContent = {
   },
   testimonials: [
     {
-      variant: "secondary" as const,
       title: "Why Clients Choose Kiteworks",
       quote:
         "With one solution, we enhanced internal and external collaboration and improved business communications and agility for our employees. Our senior leaders are thrilled that Kiteworks was embraced so quickly.",
@@ -51,7 +50,6 @@ export const clientContent = {
       logo: "/images/logo-nyc.png",
     },
     {
-      variant: "secondary" as const,
       title: "Trusted by Government Agencies",
       quote:
         "Kiteworks has transformed how we handle sensitive documents. The security features and compliance capabilities give us confidence in our file management processes.",
@@ -61,7 +59,6 @@ export const clientContent = {
       logo: "/images/logo-nyc.png",
     },
     {
-      variant: "secondary" as const,
       title: "Enhanced Security & Compliance",
       quote:
         "The FedRAMP High authorization was crucial for our adoption. Kiteworks provides the security and compliance we need while maintaining user-friendly workflows.",
@@ -71,7 +68,6 @@ export const clientContent = {
       logo: "/images/logo-nyc.png",
     },
     {
-      variant: "secondary" as const,
       title: "Streamlined Operations",
       quote:
         "Our team's productivity has increased significantly since implementing Kiteworks. The integration capabilities and intuitive interface made adoption seamless.",
@@ -83,4 +79,4 @@ export const clientContent = {
   ],
 };
 
-export type ClientContent = typeof clientContent;
+export type HomeContent = typeof homeContent;

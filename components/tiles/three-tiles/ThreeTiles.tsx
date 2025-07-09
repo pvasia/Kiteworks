@@ -5,16 +5,16 @@ import classNames from "classnames";
 const ThreeTiles = ({
   children,
   title,
-  bodyCopy,
+  subHeading,
 }: {
   children: React.ReactNode;
   title?: string;
-  bodyCopy?: string;
+  subHeading?: string;
 }) => {
   return (
     <div className={styles.threeTiles}>
       <div className={classNames(styles.container, "container")}>
-        {(title || bodyCopy) && (
+        {(title || subHeading) && (
           <div className={styles.header}>
             {title && (
               <h2 className={classNames(styles.title, "title")}>
@@ -25,12 +25,12 @@ const ThreeTiles = ({
                 )}
               </h2>
             )}
-            {bodyCopy && (
-              <p className={classNames(styles.bodyCopy, "body-copy")}>
-                {typeof bodyCopy === "string" ? (
-                  <span dangerouslySetInnerHTML={{ __html: bodyCopy }} />
+            {subHeading && (
+              <p className={classNames(styles.bodyCopy, "sub-heading")}>
+                {typeof subHeading === "string" ? (
+                  <span dangerouslySetInnerHTML={{ __html: subHeading }} />
                 ) : (
-                  bodyCopy
+                  subHeading
                 )}
               </p>
             )}

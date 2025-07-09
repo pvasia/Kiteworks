@@ -48,7 +48,7 @@ const AgencySelector: React.FC<AgencySelectorProps> = ({
       shortName: "DHS",
       description:
         "Secure communication and data sharing for homeland security initiatives and border protection.",
-      url: "/solutions/dhs",
+      url: "/solutions/homeland-security",
       icon: <HomeIcon />,
       color: "homeland",
     },
@@ -78,7 +78,7 @@ const AgencySelector: React.FC<AgencySelectorProps> = ({
       shortName: "HHS",
       description:
         "HIPAA-compliant platforms for healthcare data management and public health coordination.",
-      url: "/solutions/hhs",
+      url: "/solutions/health-human-services",
       icon: <HeartIcon />,
       color: "health",
     },

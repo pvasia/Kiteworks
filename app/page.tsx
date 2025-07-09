@@ -1,9 +1,5 @@
 import ClientPage from "./client/page";
 
 export default function Home() {
-  return (
-    <div>
-      <ClientPage />
-    </div>
-  );
+  return <ClientPage />;
 }

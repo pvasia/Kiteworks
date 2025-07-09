@@ -26,7 +26,6 @@ type Story = StoryObj<typeof meta>;
 // Sample testimonial data for stories
 const sampleTestimonialsPrimary = [
   {
-    variant: "primary" as const,
     title: "Excellent Service",
     quote:
       "The platform exceeded our expectations. The implementation was smooth and the support team was incredibly responsive throughout the process.",
@@ -36,7 +35,6 @@ const sampleTestimonialsPrimary = [
     logo: "/images/logo-nyc.png",
   },
   {
-    variant: "primary" as const,
     title: "Outstanding Results",
     quote:
       "We've seen a 40% increase in productivity since implementing this solution. The intuitive interface made adoption across our organization seamless.",
@@ -49,7 +47,6 @@ const sampleTestimonialsPrimary = [
 
 const sampleTestimonialsSecondary = [
   {
-    variant: "secondary" as const,
     title: "Why Clients Choose Kiteworks",
     quote:
       "With one solution, we enhanced internal and external collaboration and improved business communications and agility for our employees. Our senior leaders are thrilled that Kiteworks was embraced so quickly.",
@@ -59,7 +56,6 @@ const sampleTestimonialsSecondary = [
     logo: "/images/logo-nyc.png",
   },
   {
-    variant: "secondary" as const,
     title: "Trusted by Government Agencies",
     quote:
       "Kiteworks has transformed how we handle sensitive documents. The security features and compliance capabilities give us confidence in our file management processes.",
@@ -69,7 +65,6 @@ const sampleTestimonialsSecondary = [
     logo: "/images/logo-nyc.png",
   },
   {
-    variant: "secondary" as const,
     title: "Enhanced Security & Compliance",
     quote:
       "The FedRAMP High authorization was crucial for our adoption. Kiteworks provides the security and compliance we need while maintaining user-friendly workflows.",
@@ -80,42 +75,8 @@ const sampleTestimonialsSecondary = [
   },
 ];
 
-const sampleTestimonialsMixed = [
-  {
-    variant: "primary" as const,
-    title: "Exceptional Performance",
-    quote:
-      "The platform has revolutionized how we manage our documents. The security features are top-notch and the user experience is exceptional.",
-    author: "Alex Thompson",
-    authorTitle: "Security Manager",
-    authorCompany: "SecureData Corp",
-    logo: "/images/logo-nyc.png",
-  },
-  {
-    variant: "secondary" as const,
-    title: "Reliable Solution",
-    quote:
-      "Implementation was seamless and the ongoing support has been outstanding. Our team productivity has increased significantly since adopting this platform.",
-    author: "Lisa Rodriguez",
-    authorTitle: "Project Manager",
-    authorCompany: "Enterprise Solutions",
-    logo: "/images/logo-nyc.png",
-  },
-  {
-    variant: "primary" as const,
-    title: "Game Changer",
-    quote:
-      "This solution has transformed our workflow processes. The integration capabilities and security features make it perfect for our enterprise needs.",
-    author: "Robert Davis",
-    authorTitle: "IT Manager",
-    authorCompany: "Global Industries",
-    logo: "/images/logo-nyc.png",
-  },
-];
-
 const singleTestimonial = [
   {
-    variant: "primary" as const,
     title: "Outstanding Experience",
     quote:
       "The comprehensive features and excellent support made this the perfect solution for our organization. Highly recommend for any enterprise looking to modernize their document management.",
@@ -129,9 +90,10 @@ const singleTestimonial = [
 // Default story with multiple testimonials
 export const Default: Story = {
   args: {
-    testimonials: sampleTestimonialsMixed,
+    testimonials: sampleTestimonialsPrimary,
     autoAdvance: true,
     autoAdvanceInterval: 5000,
+    variant: "secondary",
   },
 };
 
@@ -140,6 +102,7 @@ export const SingleTestimonial: Story = {
   args: {
     testimonials: singleTestimonial,
     autoAdvance: false,
+    variant: "secondary",
   },
 };
 
@@ -149,6 +112,7 @@ export const PrimaryVariant: Story = {
     testimonials: sampleTestimonialsPrimary,
     autoAdvance: true,
     autoAdvanceInterval: 4000,
+    variant: "primary",
   },
 };
 
@@ -158,23 +122,7 @@ export const SecondaryVariant: Story = {
     testimonials: sampleTestimonialsSecondary,
     autoAdvance: true,
     autoAdvanceInterval: 6000,
-  },
-};
-
-// Mixed variants
-export const MixedVariants: Story = {
-  args: {
-    testimonials: sampleTestimonialsMixed,
-    autoAdvance: true,
-    autoAdvanceInterval: 5000,
-  },
-};
-
-// Without auto-advance
-export const WithoutAutoAdvance: Story = {
-  args: {
-    testimonials: sampleTestimonialsMixed,
-    autoAdvance: false,
+    variant: "secondary",
   },
 };
 
@@ -184,6 +132,7 @@ export const FastAutoAdvance: Story = {
     testimonials: sampleTestimonialsSecondary,
     autoAdvance: true,
     autoAdvanceInterval: 2000,
+    variant: "secondary",
   },
 };
 
@@ -193,5 +142,6 @@ export const SlowAutoAdvance: Story = {
     testimonials: sampleTestimonialsPrimary,
     autoAdvance: true,
     autoAdvanceInterval: 8000,
+    variant: "primary",
   },
 };

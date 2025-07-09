@@ -14,22 +14,25 @@ export const sharedContent = {
           { label: "Department of Defense", url: "/solutions/defense" },
           {
             label: "Department of Homeland Security",
-            url: "/solutions/dhs",
+            url: "/solutions/homeland-security",
           },
           { label: "Department of Justice", url: "/solutions/justice" },
           {
             label: "Intelligence Community",
             url: "/solutions/intelligence",
           },
-          { label: "Health and Human Services", url: "/solutions/hhs" },
+          {
+            label: "Health and Human Services",
+            url: "/solutions/health-human-services",
+          },
         ],
       },
       {
         label: "Use Cases",
         url: "/use-cases",
         subItems: [
-          { label: "CMMC Compliance", url: "/use-cases/cmmc" },
-          { label: "FOIA Request Management", url: "/use-cases/foia" },
+          { label: "CMMC Compliance", url: "/use-cases/cmmc-compliance" },
+          { label: "FOIA Request Management", url: "/use-cases/foia-requests" },
           { label: "Secure File Sharing", url: "/use-cases/file-sharing" },
           {
             label: "Incident Response",
