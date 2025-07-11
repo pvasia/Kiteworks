@@ -18,6 +18,12 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "picsum.photos",
       },
+      {
+        protocol: "http", // or 'https'
+        hostname: "localhost", // or your Strapi domain
+        port: "1337", // or your Strapi port
+        pathname: "/uploads/**",
+      },
     ],
   },
 };
