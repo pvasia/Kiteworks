@@ -34,8 +34,11 @@ export default async function ExamplePage() {
   return (
     <main>
       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-      {data.data.sections.map((section: any) => (
-        <RenderSection key={section.id} section={section} />
+      {data.data.sections.map((section: any, index: number) => (
+        <RenderSection
+          key={`${section.__component}-${section.id}-${index}`}
+          section={section}
+        />
       ))}
     </main>
   );

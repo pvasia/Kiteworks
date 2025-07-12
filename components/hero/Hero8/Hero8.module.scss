@@ -7,6 +7,9 @@
   background-color: var(--color-black);
   color: var(--color-white);
   font-family: var(--font-family);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 
   &:before {
     content: "";
