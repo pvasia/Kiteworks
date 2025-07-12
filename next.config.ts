@@ -24,6 +24,11 @@ const nextConfig: NextConfig = {
         port: "1337", // or your Strapi port
         pathname: "/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "bold-garden-3f85097a55.strapiapp.com",
+        pathname: "/uploads/**",
+      },
     ],
   },
 };
