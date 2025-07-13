@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import styles from "./SectionFormCenter.module.scss";
 import classNames from "classnames";
 import Input from "@/components/atoms/Input";
@@ -7,24 +9,20 @@ import Button from "@/components/atoms/Button";
 const SectionFormCenter = ({
   title,
   subtitle,
-  fullname,
-  company,
-  businessEmail,
-  onSubmit,
-  onChangeFullname,
-  onChangeCompany,
-  onChangeBusinessEmail,
 }: {
   title: string | React.ReactNode;
   subtitle: string | React.ReactNode;
-  fullname: string;
-  company: string;
-  businessEmail: string;
-  onSubmit: () => void;
-  onChangeFullname: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onChangeCompany: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onChangeBusinessEmail: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
+  const [fullname, setFullname] = useState("");
+  const [company, setCompany] = useState("");
+  const [businessEmail, setBusinessEmail] = useState("");
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Handle form submission logic here
+    console.log({ fullname, company, businessEmail });
+  };
+
   return (
     <section className={styles.sectionFormCenter}>
       <div className={classNames(styles.container, "container")}>
@@ -44,32 +42,30 @@ const SectionFormCenter = ({
             )}
           </h3>
 
-          <form className={styles.formContainer}>
+          <form className={styles.formContainer} onSubmit={handleSubmit}>
             <Input
               placeholder="Fullname"
               value={fullname}
-              onChange={onChangeFullname}
+              onChange={(e) => setFullname(e.target.value)}
               inputClassName={styles.input}
+              required
             />
             <Input
               placeholder="Company"
               value={company}
-              onChange={onChangeCompany}
+              onChange={(e) => setCompany(e.target.value)}
               inputClassName={styles.input}
+              required
             />
             <Input
               placeholder="Business Email"
               value={businessEmail}
-              onChange={onChangeBusinessEmail}
+              onChange={(e) => setBusinessEmail(e.target.value)}
               inputClassName={styles.input}
+              required
             />
 
-            <Button
-              type="submit"
-              className={styles.button}
-              onClick={onSubmit}
-              variant="tertiary"
-            >
+            <Button type="submit" className={styles.button} variant="tertiary">
               Submit
             </Button>
           </form>

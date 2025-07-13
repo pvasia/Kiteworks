@@ -10,6 +10,16 @@ import Hero8 from "@hero/Hero8";
 import HeroMedium from "@hero/HeroMedium";
 import HeroSmall from "@hero/HeroSmall";
 import { getBestImageSize, StrapiMediaObject } from "@/lib/strapi-utils";
+import PageSection1 from "../page-sections/PageSection1/PageSection1";
+import PageSection2 from "../page-sections/PageSection2/PageSection2";
+import PageSection3 from "../page-sections/PageSection3/PageSection3";
+import PageSection4 from "../page-sections/PageSection4/PageSection4";
+import PageSection5 from "../page-sections/PageSection5/PageSection5";
+import PageSection6 from "../page-sections/PageSection6";
+import PageSection7 from "../page-sections/PageSection7/PageSection7";
+import PageSection8 from "../page-sections/PageSection8/PageSection8";
+import SectionFormCenter from "../page-sections/SectionFormCenter";
+import SectionFormRight from "../page-sections/SectionFormRight";
 
 interface StrapiSection {
   __component: string;
@@ -19,6 +29,9 @@ interface StrapiSection {
   buttonLabel?: string;
   buttonLink?: string;
   image?: StrapiMediaObject;
+  heading?: string;
+  bodyCopy?: string;
+  copy?: string;
 }
 
 interface SectionProps {
@@ -123,12 +136,90 @@ export default function RenderSection({ section }: SectionProps) {
           buttonLink={section.buttonLink || ""}
         />
       );
-    case "sections.heroMedium":
+    case "sections.hero-medium":
       return (
         <HeroMedium title={section.title} subtitle={section.subtitle || ""} />
       );
-    case "sections.heroSmall":
+    case "sections.hero-small":
       return <HeroSmall title={section.title} />;
+    case "sections.page-section1":
+      return (
+        <PageSection1
+          heading={section.heading}
+          bodyCopy={section.bodyCopy || ""}
+          imageUrl={imageUrl || ""}
+        />
+      );
+    case "sections.page-section2":
+      return (
+        <PageSection2
+          heading={section.heading}
+          bodyCopy={section.bodyCopy || ""}
+          imageUrl={imageUrl || ""}
+        />
+      );
+    case "sections.page-section3":
+      return (
+        <PageSection3
+          heading={section.heading}
+          bodyCopy={section.bodyCopy || ""}
+          imageUrl={imageUrl || ""}
+        />
+      );
+    case "sections.page-section4":
+      return (
+        <PageSection4
+          heading={section.heading}
+          bodyCopy={section.bodyCopy || ""}
+          imageUrl={imageUrl || ""}
+        />
+      );
+    case "sections.page-section5":
+      return (
+        <PageSection5
+          heading={section.heading}
+          bodyCopy={section.bodyCopy || ""}
+          imageUrl={imageUrl || ""}
+        />
+      );
+    case "sections.page-section6":
+      return (
+        <PageSection6
+          heading={section.heading}
+          bodyCopy={section.bodyCopy || ""}
+          imageUrl={imageUrl || ""}
+        />
+      );
+    case "sections.page-section7":
+      return (
+        <PageSection7
+          heading={section.heading}
+          bodyCopy={section.bodyCopy || ""}
+          imageUrl={imageUrl || ""}
+        />
+      );
+    case "sections.page-section8":
+      return (
+        <PageSection8
+          heading={section.heading}
+          bodyCopy={section.bodyCopy || ""}
+        />
+      );
+    case "sections.section-form-center":
+      return (
+        <SectionFormCenter
+          title={section.title}
+          subtitle={section.subtitle || ""}
+        />
+      );
+    case "sections.section-form-right":
+      return (
+        <SectionFormRight
+          title={section.title}
+          subtitle={section.subtitle || ""}
+          copy={section.copy || ""}
+        />
+      );
     default:
       return null;
   }

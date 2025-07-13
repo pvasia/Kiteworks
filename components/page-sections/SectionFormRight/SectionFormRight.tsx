@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import styles from "./SectionFormRight.module.scss";
 import classNames from "classnames";
 import Image from "next/image";
@@ -9,29 +11,21 @@ const SectionFormRight = ({
   title,
   copy,
   subtitle,
-  firstName,
-  lastName,
-  company,
-  businessEmail,
-  onSubmit,
-  onChangeFirstName,
-  onChangeLastName,
-  onChangeCompany,
-  onChangeBusinessEmail,
 }: {
   title: string | React.ReactNode;
   copy: string | React.ReactNode;
   subtitle: string | React.ReactNode;
-  firstName: string;
-  lastName: string;
-  company: string;
-  businessEmail: string;
-  onSubmit: () => void;
-  onChangeFirstName: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onChangeLastName: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onChangeCompany: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onChangeBusinessEmail: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [company, setCompany] = useState("");
+  const [businessEmail, setBusinessEmail] = useState("");
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Handle form submission logic here
+    console.log({ firstName, lastName, company, businessEmail });
+  };
   return (
     <section className={styles.sectionFormRight}>
       <div className={classNames(styles.container, "container")}>
@@ -62,39 +56,39 @@ const SectionFormRight = ({
             </div>
           </div>
           <div className={styles.rightSection}>
-            <form className={classNames(styles.form)}>
+            <form className={classNames(styles.form)} onSubmit={handleSubmit}>
               <Input
                 type="text"
                 placeholder="Firstname*"
                 value={firstName}
                 required
-                onChange={onChangeFirstName}
+                onChange={(e) => setFirstName(e.target.value)}
               />
               <Input
                 type="text"
                 placeholder="Lastname*"
                 value={lastName}
                 required
-                onChange={onChangeLastName}
+                onChange={(e) => setLastName(e.target.value)}
               />
               <Input
                 type="text"
                 placeholder="Company*"
                 value={company}
                 required
-                onChange={onChangeCompany}
+                onChange={(e) => setCompany(e.target.value)}
               />
               <Input
                 type="email"
                 placeholder="Business Email*"
                 value={businessEmail}
                 required
-                onChange={onChangeBusinessEmail}
+                onChange={(e) => setBusinessEmail(e.target.value)}
               />
+              <Button type="submit" variant="primary">
+                Submit
+              </Button>
             </form>
-            <Button onClick={onSubmit} variant="primary">
-              Submit
-            </Button>
             <div className={classNames(styles.pattern, styles.pattern2)}>
               <Image src="/images/form-pattern-2.png" alt="Pattern2" fill />
             </div>
