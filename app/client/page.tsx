@@ -6,15 +6,10 @@ import PageSection3 from "@/components/page-sections/PageSection3";
 import PageSection4 from "@/components/page-sections/PageSection4";
 import SectionFormCenter from "@/components/page-sections/SectionFormCenter";
 import TestimonialSlider from "@/components/organisms/TestimonialSlider";
-import { useState } from "react";
 
 // import Hero8 from "@/components/hero/Hero8";
 
 export default function ClientPage() {
-  const [fullname, setFullname] = useState("");
-  const [company, setCompany] = useState("");
-  const [businessEmail, setBusinessEmail] = useState("");
-
   return (
     <div>
       <Hero1
@@ -56,15 +51,6 @@ export default function ClientPage() {
       <SectionFormCenter
         title={homeContent.sectionFormCenter.title}
         subtitle={homeContent.sectionFormCenter.subtitle}
-        fullname={fullname}
-        company={company}
-        businessEmail={businessEmail}
-        onSubmit={() => {
-          console.log("Form submitted", fullname, company, businessEmail);
-        }}
-        onChangeFullname={(e) => setFullname(e.target.value)}
-        onChangeCompany={(e) => setCompany(e.target.value)}
-        onChangeBusinessEmail={(e) => setBusinessEmail(e.target.value)}
       />
     </div>
   );
