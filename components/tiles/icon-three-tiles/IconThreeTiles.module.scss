@@ -1,0 +1,27 @@
+.iconThreeTiles {
+  padding: var(--spacing-lg) 0;
+  background-color: var(--color-white);
+
+  .header {
+    text-align: center;
+    color: var(--color-black);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .inner {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 30px;
+    row-gap: 30px;
+    justify-content: center;
+    align-items: stretch;
+
+    @media (max-width: 992px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+}

@@ -5,7 +5,7 @@ import classNames from "classnames";
 import Button from "@/components/atoms/Button/Button";
 
 export interface IconHeadingProps {
-  icon: string;
+  icon?: string;
   heading: string | React.ReactNode;
   bodyCopy: string | React.ReactNode;
   buttonLabel?: string;
@@ -21,9 +21,11 @@ const IconHeading = ({
 }: IconHeadingProps) => {
   return (
     <div className={styles.iconHeading}>
-      <div className={styles.icon}>
-        <Image src={icon} alt="Icon" width={50} height={50} />
-      </div>
+      {icon && (
+        <div className={styles.icon}>
+          <Image src={icon} alt="Icon" width={50} height={50} />
+        </div>
+      )}
       <h2 className={classNames(styles.heading, "heading")}>
         {typeof heading === "string" ? (
           <span dangerouslySetInnerHTML={{ __html: heading }} />

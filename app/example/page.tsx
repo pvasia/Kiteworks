@@ -4,9 +4,7 @@ import RenderSection from "@/components/strapi-sections/RenderSection";
 
 async function getData() {
   // Try deep population first
-  const res = await fetch(
-    `${process.env.STRAPI_API_URL}/api/home?populate[sections][populate]=*`
-  );
+  const res = await fetch(`${process.env.STRAPI_API_URL}/api/home?pLevel`);
 
   if (!res.ok) {
     throw new Error(`Failed to fetch data: ${res.status}`);
