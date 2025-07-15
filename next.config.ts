@@ -19,15 +19,15 @@ const nextConfig: NextConfig = {
         hostname: "picsum.photos",
       },
       {
-        protocol: "http", // or 'https'
-        hostname: "localhost", // or your Strapi domain
-        port: "1337", // or your Strapi port
-        pathname: "/uploads/**",
+        protocol: "http",
+        hostname: "localhost",
+        port: "1337",
+        pathname: "/**",
       },
       {
         protocol: "https",
-        hostname: "bold-garden-3f85097a55.strapiapp.com",
-        pathname: "/uploads/**",
+        hostname: "bold-garden-3f85097a55.media.strapiapp.com",
+        pathname: "/**",
       },
     ],
   },
