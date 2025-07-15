@@ -1,16 +1,27 @@
 // app/example/page.tsx
 
 import RenderSection from "@/components/strapi-sections/RenderSection";
+import { fetchStrapiContent } from "@/lib/strapi-utils";
 
-async function getData() {
-  // Try deep population first
-  const res = await fetch(`${process.env.STRAPI_API_URL}/api/home?pLevel`);
+// Use any for section type to avoid conflicts with RenderSection's internal types
+interface StrapiSection {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
+}
 
-  if (!res.ok) {
-    throw new Error(`Failed to fetch data: ${res.status}`);
-  }
+interface StrapiHomeResponse {
+  data: {
+    sections: StrapiSection[];
+    [key: string]: unknown;
+  };
+}
 
-  return res.json();
+async function getData(): Promise<StrapiHomeResponse> {
+  return await fetchStrapiContent<StrapiHomeResponse>("home", {
+    populate: true,
+    tags: ["home-content", "strapi-content"],
+    revalidate: 3600,
+  });
 }
 
 export default async function ExamplePage() {
@@ -19,8 +30,7 @@ export default async function ExamplePage() {
   console.log("Sections:", data.data.sections);
 
   // Debug: Check if images are present
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data.data.sections.forEach((section: any, index: number) => {
+  data.data.sections.forEach((section: StrapiSection, index: number) => {
     console.log(`Section ${index} (${section.__component}):`, {
       id: section.id,
       title: section.title,

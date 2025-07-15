@@ -49,6 +49,32 @@ corepack prepare pnpm@latest --activate
 pnpm install
 ```
 
+3. Set up environment variables:
+
+Create a `.env.local` file in the root directory and add the following variables:
+
+```env
+# Strapi Configuration
+STRAPI_API_URL=http://localhost:1337
+# For production, use your Strapi URL:
+# STRAPI_API_URL=https://your-strapi-domain.com
+
+# Webhook Security
+# Generate a strong, random secret for webhook verification
+# You can use: openssl rand -hex 32
+WEBHOOK_SECRET=your-webhook-secret-here
+
+# Revalidation Security
+# Generate a strong, random secret for revalidation endpoint
+# You can use: openssl rand -hex 32
+REVALIDATION_SECRET=your-revalidation-secret-here
+
+# Next.js Configuration
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+# For production:
+# NEXT_PUBLIC_SITE_URL=https://your-domain.com
+```
+
 ### Development
 
 Run the development server with Turbopack for faster builds:
@@ -91,6 +117,73 @@ Visit [http://localhost:6006](http://localhost:6006) to view your component libr
 
 ### Integration
 This project is designed to work with a Strapi backend for content management. The frontend fetches content from Strapi API endpoints to display dynamic content.
+
+## Strapi Integration & Revalidation
+
+This project includes a comprehensive revalidation system that automatically updates your Next.js application when content changes in Strapi.
+
+### How It Works
+
+1. **Webhook Endpoint**: The application provides a secure webhook endpoint at `/api/revalidate` that Strapi can call when content changes
+2. **Automatic Revalidation**: When content is updated in Strapi, the webhook triggers Next.js to revalidate the affected pages and clear cached data
+3. **Security**: The system includes webhook signature verification, rate limiting, and secret-based authentication
+
+### Setting up Strapi Webhooks
+
+1. **In your Strapi admin panel**, go to `Settings > Webhooks`
+2. **Create a new webhook** with the following settings:
+   - **Name**: Next.js Revalidation
+   - **URL**: `https://your-nextjs-domain.com/api/revalidate`
+   - **Events**: Select the events you want to trigger revalidation (e.g., `entry.create`, `entry.update`, `entry.delete`)
+   - **Headers**: Add `X-Webhook-Secret` with your `REVALIDATION_SECRET` value
+
+3. **For enhanced security**, you can also set up webhook signatures:
+   - In Strapi, add a webhook signature using your `WEBHOOK_SECRET`
+   - The Next.js endpoint will verify the signature automatically
+
+### Webhook Payload
+
+The webhook should send a JSON payload like this:
+
+```json
+{
+  "event": "entry.update",
+  "model": "home",
+  "entry": {
+    "id": 1
+  },
+  "secret": "your-revalidation-secret"
+}
+```
+
+### Manual Revalidation
+
+For development, you can manually trigger revalidation:
+
+```bash
+# Revalidate all content
+curl -X GET "http://localhost:3000/api/revalidate?secret=your-secret"
+
+# Revalidate specific path
+curl -X GET "http://localhost:3000/api/revalidate?path=/example&secret=your-secret"
+
+# Revalidate specific tag
+curl -X GET "http://localhost:3000/api/revalidate?tag=home-content&secret=your-secret"
+```
+
+### Caching Strategy
+
+The application uses Next.js 15's enhanced caching with:
+- **Cache Tags**: Content is tagged for selective revalidation
+- **Time-based Revalidation**: Fallback revalidation every hour
+- **On-demand Revalidation**: Immediate updates via webhooks
+
+### Content Types & Revalidation
+
+- **home**: Revalidates `/` and `/example` pages
+- **page**: Revalidates specific page paths
+- **global**: Revalidates all pages (headers, footers, etc.)
+- **Custom**: Add your own content types in `lib/webhook-utils.ts`
 
 ## Package Manager
 

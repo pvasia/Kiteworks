@@ -133,3 +133,101 @@ export function getBestImageSize(
   // Fallback to original image
   return getStrapiMediaUrl(mediaObject);
 }
+
+/**
+ * Fetch data from Strapi with Next.js caching and revalidation
+ * @param endpoint - The Strapi API endpoint (e.g., '/api/home')
+ * @param options - Additional fetch options
+ * @returns Promise with the fetched data
+ */
+export async function fetchFromStrapi<T = unknown>(
+  endpoint: string,
+  options: {
+    tags?: string[];
+    revalidate?: number;
+    cache?: RequestCache;
+    signal?: AbortSignal;
+  } = {}
+): Promise<T> {
+  const {
+    tags = ["strapi-content"],
+    revalidate = 3600,
+    cache,
+    signal,
+  } = options;
+
+  const strapiUrl = process.env.STRAPI_API_URL || "http://localhost:1337";
+  const url = `${strapiUrl}${endpoint}`;
+
+  const response = await fetch(url, {
+    next: {
+      tags,
+      revalidate,
+    },
+    cache,
+    signal,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(
+      `Failed to fetch from Strapi: ${response.status} ${response.statusText}`
+    );
+  }
+
+  return response.json();
+}
+
+/**
+ * Fetch specific content type from Strapi
+ * @param contentType - The content type (e.g., 'home', 'page', 'global')
+ * @param options - Additional options
+ * @returns Promise with the fetched data
+ */
+export async function fetchStrapiContent<T = unknown>(
+  contentType: string,
+  options: {
+    populate?: boolean;
+    tags?: string[];
+    revalidate?: number;
+  } = {}
+): Promise<T> {
+  const { populate = true, tags, revalidate = 3600 } = options;
+
+  const endpoint = `/api/${contentType}${populate ? "?pLevel" : ""}`;
+  const contentTags = tags || [`${contentType}-content`, "strapi-content"];
+
+  return fetchFromStrapi<T>(endpoint, {
+    tags: contentTags,
+    revalidate,
+  });
+}
+
+/**
+ * Fetch multiple content types from Strapi
+ * @param contentTypes - Array of content types to fetch
+ * @param options - Additional options
+ * @returns Promise with an object containing all fetched data
+ */
+export async function fetchMultipleStrapiContent<T = Record<string, unknown>>(
+  contentTypes: string[],
+  options: {
+    populate?: boolean;
+    revalidate?: number;
+  } = {}
+): Promise<T> {
+  const { populate = true, revalidate = 3600 } = options;
+
+  const promises = contentTypes.map(async (contentType) => {
+    const data = await fetchStrapiContent(contentType, {
+      populate,
+      revalidate,
+    });
+    return { [contentType]: data };
+  });
+
+  const results = await Promise.all(promises);
+  return results.reduce((acc, result) => ({ ...acc, ...result }), {}) as T;
+}
