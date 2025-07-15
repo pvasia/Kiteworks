@@ -1,9 +1,8 @@
 "use client";
 
 import Hero5 from "@/components/hero/Hero5";
-import IconHeading from "@/components/molecules/IconHeading";
 import SectionFormCenter from "@/components/page-sections/SectionFormCenter";
-import ThreeTiles from "@/components/tiles/three-tiles";
+import IconThreeTiles from "@/components/tiles/icon-three-tiles";
 import { defenseContent } from "@/lib/content/solutions/defense-content";
 
 export default function ClientSolutionsDefense() {
@@ -16,14 +15,11 @@ export default function ClientSolutionsDefense() {
         buttonText={defenseContent.hero.buttonText}
         buttonLink={defenseContent.hero.buttonLink}
       />
-      <ThreeTiles
+      <IconThreeTiles
         title={defenseContent.threeTiles.title}
         subHeading={defenseContent.threeTiles.subHeading}
-      >
-        {defenseContent.threeTiles.map((item, key) => (
-          <IconHeading key={key} {...item} />
-        ))}
-      </ThreeTiles>
+        items={defenseContent.threeTiles}
+      />
       <SectionFormCenter
         title={defenseContent.sectionFormCenter.title}
         subtitle={defenseContent.sectionFormCenter.subtitle}

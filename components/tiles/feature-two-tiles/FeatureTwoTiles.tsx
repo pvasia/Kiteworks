@@ -1,18 +1,23 @@
 import React from "react";
-import styles from "./FourTiles.module.scss";
+import styles from "./FeatureTwoTiles.module.scss";
 import classNames from "classnames";
+import FeatureCard, {
+  FeatureCardProps,
+} from "@/components/molecules/FeatureCard";
 
-const FourTiles = ({
-  children,
-  title,
-  subHeading,
-}: {
-  children: React.ReactNode;
+export interface FeatureTwoTilesProps {
+  items: FeatureCardProps[];
   title?: string;
   subHeading?: string;
-}) => {
+}
+
+const FeatureTwoTiles = ({
+  items,
+  title,
+  subHeading,
+}: FeatureTwoTilesProps) => {
   return (
-    <div className={styles.fourTiles}>
+    <div className={styles.featureTwoTiles}>
       <div className={classNames(styles.container, "container")}>
         {(title || subHeading) && (
           <div className={styles.header}>
@@ -36,10 +41,14 @@ const FourTiles = ({
             )}
           </div>
         )}
-        <div className={styles.inner}>{children}</div>
+        <div className={styles.inner}>
+          {items.map((item, index) => (
+            <FeatureCard key={index} {...item} />
+          ))}
+        </div>
       </div>
     </div>
   );
 };
 
-export default FourTiles;
+export default FeatureTwoTiles;

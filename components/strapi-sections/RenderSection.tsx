@@ -26,6 +26,8 @@ import IconTwoTiles from "../tiles/icon-two-tiles";
 import IconThreeTiles from "../tiles/icon-three-tiles";
 import IconFourTiles from "../tiles/icon-four-tiles";
 import FeatureThreeTiles from "../tiles/feature-three-tiles";
+import FeatureTwoTiles from "../tiles/feature-two-tiles";
+import ImageTextBlock from "../molecules/ImageTextBlock";
 
 // Interface for Strapi items with icon field
 interface StrapiIconItem {
@@ -61,16 +63,106 @@ interface StrapiSection {
   subHeading?: string;
   buttonLabel?: string;
   buttonLink?: string;
+  buttonUrl?: string;
+  variant?: string;
   image?: StrapiMediaObject;
   heading?: string;
   bodyCopy?: string;
   copy?: string;
   items?: StrapiIconItem[];
+  imageRight?: boolean;
 }
 
 interface SectionProps {
   section: StrapiSection;
 }
+
+// Shared utility functions
+const convertToStringFeature = (
+  content: string | object[] | unknown
+): string => {
+  // Ensure we always return a string
+  try {
+    if (content === null || content === undefined) {
+      return "";
+    }
+
+    if (typeof content === "string") {
+      return content;
+    }
+
+    if (typeof content === "number" || typeof content === "boolean") {
+      return String(content);
+    }
+
+    if (Array.isArray(content)) {
+      return content
+        .map(
+          (item: {
+            type?: string;
+            children?: { text?: string }[];
+            text?: string;
+          }) => {
+            if (item && typeof item === "object") {
+              if (item.type === "paragraph" && Array.isArray(item.children)) {
+                return item.children
+                  .map((child: { text?: string }) => child?.text || "")
+                  .join("");
+              }
+              return item.text || "";
+            }
+            return String(item || "");
+          }
+        )
+        .join(" ");
+    }
+
+    // Handle other object types
+    if (typeof content === "object") {
+      // Try to extract text content from object
+      if ("text" in content && typeof content.text === "string") {
+        return content.text;
+      }
+      // Last resort: stringify the object
+      return JSON.stringify(content);
+    }
+
+    return String(content);
+  } catch (error) {
+    console.error("Error converting content to string:", error, content);
+    return "";
+  }
+};
+
+const convertStrapiToFeatureItems = (
+  items: StrapiFeatureItem[]
+): FeatureCardProps[] => {
+  return items.map((item: StrapiFeatureItem, index) => {
+    // Debug logging
+    console.log(`Feature item ${index}:`, item);
+
+    const heading = convertToStringFeature(item.heading) || "";
+    const bodyCopy = convertToStringFeature(item.bodyCopy) || "";
+
+    // Map the correct fields from Strapi
+    const featureCardProps: FeatureCardProps = {
+      variant: item.variant || "default",
+      badge: item.badge || undefined,
+      imageUrl: getBestImageSize(item.image, "card") || undefined,
+      heading,
+      bodyCopy,
+      buttonLabel: item.buttonLabel || undefined,
+      buttonUrl: item.buttonUrl || undefined,
+      iconUrl: getBestImageSize(item.icon, "thumbnail") || undefined,
+      date: item.date || undefined,
+      tag: item.tag || undefined,
+      location: item.location || undefined,
+    };
+
+    console.log(`Converted item ${index}:`, featureCardProps);
+    return featureCardProps;
+  });
+};
 
 export default function RenderSection({ section }: SectionProps) {
   // Get the best image size for hero components
@@ -317,98 +409,40 @@ export default function RenderSection({ section }: SectionProps) {
         );
       }
     case "sections.feature-three-tiles":
-      const convertToStringFeature = (
-        content: string | object[] | unknown
-      ): string => {
-        // Ensure we always return a string
-        try {
-          if (content === null || content === undefined) {
-            return "";
-          }
-
-          if (typeof content === "string") {
-            return content;
-          }
-
-          if (typeof content === "number" || typeof content === "boolean") {
-            return String(content);
-          }
-
-          if (Array.isArray(content)) {
-            return content
-              .map(
-                (item: {
-                  type?: string;
-                  children?: { text?: string }[];
-                  text?: string;
-                }) => {
-                  if (item && typeof item === "object") {
-                    if (
-                      item.type === "paragraph" &&
-                      Array.isArray(item.children)
-                    ) {
-                      return item.children
-                        .map((child: { text?: string }) => child?.text || "")
-                        .join("");
-                    }
-                    return item.text || "";
-                  }
-                  return String(item || "");
-                }
-              )
-              .join(" ");
-          }
-
-          // Handle other object types
-          if (typeof content === "object") {
-            // Try to extract text content from object
-            if ("text" in content && typeof content.text === "string") {
-              return content.text;
-            }
-            // Last resort: stringify the object
-            return JSON.stringify(content);
-          }
-
-          return String(content);
-        } catch (error) {
-          console.error("Error converting content to string:", error, content);
-          return "";
-        }
-      };
-
-      const featureItems: FeatureCardProps[] = (
+      const featureItems: FeatureCardProps[] = convertStrapiToFeatureItems(
         (section.items || []) as StrapiFeatureItem[]
-      ).map((item: StrapiFeatureItem, index) => {
-        // Debug logging
-        console.log(`Feature item ${index}:`, item);
-
-        const heading = convertToStringFeature(item.heading) || "";
-        const bodyCopy = convertToStringFeature(item.bodyCopy) || "";
-
-        // Map the correct fields from Strapi
-        const featureCardProps: FeatureCardProps = {
-          variant: item.variant || "default",
-          badge: item.badge || undefined,
-          imageUrl: getBestImageSize(item.image, "card") || undefined,
-          heading,
-          bodyCopy,
-          buttonLabel: item.buttonLabel || undefined,
-          buttonUrl: item.buttonUrl || undefined,
-          iconUrl: getBestImageSize(item.icon, "thumbnail") || undefined,
-          date: item.date || undefined,
-          tag: item.tag || undefined,
-          location: item.location || undefined,
-        };
-
-        console.log(`Converted item ${index}:`, featureCardProps);
-        return featureCardProps;
-      });
+      );
 
       return (
         <FeatureThreeTiles
           title={section.title}
           subHeading={section.subHeading || ""}
           items={featureItems}
+        />
+      );
+    case "sections.feature-two-tiles":
+      const featureTwoItems: FeatureCardProps[] = convertStrapiToFeatureItems(
+        (section.items || []) as StrapiFeatureItem[]
+      );
+
+      return (
+        <FeatureTwoTiles
+          title={section.title}
+          subHeading={section.subHeading || ""}
+          items={featureTwoItems}
+        />
+      );
+
+    case "sections.image-text-block":
+      return (
+        <ImageTextBlock
+          variant={section.variant as "border" | "borderless"}
+          image={getBestImageSize(section.image, "card") || ""}
+          heading={convertToStringFeature(section.heading) || ""}
+          bodyCopy={convertToStringFeature(section.bodyCopy) || ""}
+          buttonLabel={section.buttonLabel || ""}
+          buttonUrl={section.buttonUrl || ""}
+          imageRight={section.imageRight}
         />
       );
     default:
