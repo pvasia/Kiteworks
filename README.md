@@ -141,7 +141,7 @@ This project includes a comprehensive revalidation system that automatically upd
    - In Strapi, add a webhook signature using your `WEBHOOK_SECRET`
    - The Next.js endpoint will verify the signature automatically
 
-### Webhook Payload
+### Webhook Payload 
 
 The webhook should send a JSON payload like this:
 
