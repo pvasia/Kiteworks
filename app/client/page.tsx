@@ -1,7 +1,7 @@
 "use client";
 import { homeContent } from "@/lib/content/home-content";
 import Hero1 from "@/components/hero/Hero1";
-import AgencySelector from "@/components/molecules/AgencySelector";
+// import AgencySelector from "@/components/molecules/AgencySelector";
 import PageSection3 from "@/components/page-sections/PageSection3";
 import PageSection4 from "@/components/page-sections/PageSection4";
 import SectionFormCenter from "@/components/page-sections/SectionFormCenter";
@@ -19,7 +19,7 @@ export default function ClientPage() {
         buttonText={homeContent.hero1.buttonText}
         buttonLink={homeContent.hero1.buttonLink}
       />
-      <AgencySelector />
+      {/* <AgencySelector /> */}
       <PageSection3
         heading={homeContent.pageSection3.heading}
         bodyCopy={homeContent.pageSection3.bodyCopy}

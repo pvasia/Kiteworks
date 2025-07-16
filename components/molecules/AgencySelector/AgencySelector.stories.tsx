@@ -1,5 +1,82 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import AgencySelector from "./AgencySelector";
+import React from "react";
+
+const sampleAgencies = [
+  {
+    name: "Department of Defense",
+    description:
+      "Advanced cybersecurity solutions for defense operations and classified information handling.",
+    url: "/solutions/defense",
+    icon: "ShieldCheckIcon",
+  },
+  {
+    name: "Department of Homeland Security",
+    description:
+      "Secure communication and data sharing for homeland security initiatives and border protection.",
+    url: "/solutions/homeland-security",
+    icon: "HomeIcon",
+  },
+  {
+    name: "Department of Justice",
+    description:
+      "Compliant file sharing and case management for law enforcement and legal proceedings.",
+    url: "/solutions/justice",
+    icon: "ScaleIcon",
+  },
+  {
+    name: "Intelligence Community",
+    description:
+      "High-security collaboration tools for intelligence gathering and analysis operations.",
+    url: "/solutions/intelligence",
+    icon: "EyeIcon",
+  },
+  {
+    name: "Health and Human Services",
+    description:
+      "HIPAA-compliant platforms for healthcare data management and public health coordination.",
+    url: "/solutions/health-human-services",
+    icon: "HeartIcon",
+  },
+];
+
+const sampleAgenciesWithReactIcons = [
+  {
+    name: "Department of Defense",
+    description:
+      "Advanced cybersecurity solutions for defense operations and classified information handling.",
+    url: "/solutions/defense",
+    icon: "ShieldCheckIcon",
+  },
+  {
+    name: "Department of Homeland Security",
+    description:
+      "Secure communication and data sharing for homeland security initiatives and border protection.",
+    url: "/solutions/homeland-security",
+    icon: "HomeIcon",
+  },
+  {
+    name: "Department of Justice",
+    description:
+      "Compliant file sharing and case management for law enforcement and legal proceedings.",
+    url: "/solutions/justice",
+    icon: "ScaleIcon",
+  },
+  {
+    name: "Intelligence Community",
+    description:
+      "High-security collaboration tools for intelligence gathering and analysis operations.",
+    url: "/solutions/intelligence",
+    icon: "EyeIcon",
+  },
+  {
+    name: "Health and Human Services",
+    description:
+      "HIPAA-compliant platforms for healthcare data management and public health coordination.",
+    url: "/solutions/health-human-services",
+    icon: "HeartIcon",
+  },
+];
 
 const meta: Meta<typeof AgencySelector> = {
   title: "Molecules/AgencySelector",
@@ -22,9 +99,9 @@ const meta: Meta<typeof AgencySelector> = {
       control: "text",
       description: "Supporting text explaining the purpose of the selector",
     },
-    className: {
-      control: "text",
-      description: "Additional CSS classes to apply to the component",
+    items: {
+      control: "object",
+      description: "Array of agency card data to display",
     },
   },
   tags: ["autodocs"],
@@ -35,12 +112,14 @@ type Story = StoryObj<typeof meta>;
 
 // Default story showing the standard agency selector
 export const Default: Story = {
-  args: {},
+  args: {
+    items: sampleAgenciesWithReactIcons,
+  },
   parameters: {
     docs: {
       description: {
         story:
-          "The default agency selector with all 5 federal agencies and standard messaging. Each card includes agency icon, names, description, and navigation.",
+          "The default agency selector with federal agencies and standard messaging. Each card includes agency icon, names, description, and navigation.",
       },
     },
   },
@@ -52,6 +131,7 @@ export const CustomContent: Story = {
     title: "Choose Your Federal Agency",
     subtitle:
       "Discover specialized cybersecurity solutions tailored to your agency's unique requirements and compliance standards.",
+    items: sampleAgenciesWithReactIcons,
   },
   parameters: {
     docs: {
@@ -68,6 +148,7 @@ export const Concise: Story = {
   args: {
     title: "Agency Solutions",
     subtitle: "Select your agency to explore tailored security solutions.",
+    items: sampleAgenciesWithReactIcons,
   },
   parameters: {
     docs: {
@@ -79,19 +160,19 @@ export const Concise: Story = {
   },
 };
 
-// Story with custom CSS class
-export const WithCustomStyling: Story = {
+// Story with string-based icons
+export const WithStringIcons: Story = {
   args: {
-    className: "custom-agency-selector",
-    title: "Secure Federal Solutions",
+    title: "String-Based Icons",
     subtitle:
-      "Find the right cybersecurity platform for your government agency's specific operational requirements.",
+      "Example showing how to use string-based icon names for more flexible icon management.",
+    items: sampleAgencies,
   },
   parameters: {
     docs: {
       description: {
         story:
-          "Example showing how to apply custom CSS classes for additional styling customization while maintaining the core functionality.",
+          "Example showing how to use string-based icon names instead of React elements for more flexible icon management.",
       },
     },
   },
@@ -103,6 +184,7 @@ export const OnDarkBackground: Story = {
     title: "Federal Agency Solutions",
     subtitle:
       "Explore secure, compliant platforms designed specifically for government operations and sensitive data handling.",
+    items: sampleAgenciesWithReactIcons,
   },
   decorators: [
     (Story) => (
@@ -123,7 +205,9 @@ export const OnDarkBackground: Story = {
 
 // Story showing mobile responsiveness
 export const MobileView: Story = {
-  args: {},
+  args: {
+    items: sampleAgenciesWithReactIcons,
+  },
   parameters: {
     viewport: {
       defaultViewport: "mobile1",
@@ -139,7 +223,9 @@ export const MobileView: Story = {
 
 // Story showing tablet responsiveness
 export const TabletView: Story = {
-  args: {},
+  args: {
+    items: sampleAgenciesWithReactIcons,
+  },
   parameters: {
     viewport: {
       defaultViewport: "tablet",
@@ -158,13 +244,14 @@ export const InteractiveDemo: Story = {
   args: {
     title: "Interactive Agency Selector",
     subtitle:
-      "Hover over each agency card to see the interactive effects and agency-specific color themes.",
+      "Hover over each agency card to see the interactive effects and visual feedback.",
+    items: sampleAgenciesWithReactIcons,
   },
   parameters: {
     docs: {
       description: {
         story:
-          "Interactive demonstration highlighting the hover effects, color themes, and visual feedback for each agency card. Each agency has its own distinctive color scheme on hover.",
+          "Interactive demonstration highlighting the hover effects and visual feedback for each agency card.",
       },
     },
   },

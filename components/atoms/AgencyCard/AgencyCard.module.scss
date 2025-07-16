@@ -1,0 +1,116 @@
+.agencyCard {
+  display: block;
+  background: var(--color-white);
+  border: 2px solid var(--color-neutral-darkest);
+  padding: var(--spacing-md);
+  text-decoration: none;
+  transition: var(--transition-default);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: var(--color-neutral-darkest);
+    transition: var(--transition-default);
+  }
+
+  &:hover {
+    transform: var(--transform-hover-lift);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-primary);
+
+    &::before {
+      background: var(--color-primary);
+    }
+
+    .iconWrapper {
+      color: var(--color-white);
+      transform: scale(1.1) rotate(5deg);
+      background: var(--color-primary);
+      color: var(--color-white);
+    }
+
+    .agencyName {
+      color: var(--color-primary);
+    }
+
+    .description {
+      color: var(--color-black);
+    }
+
+    .cta {
+      color: var(--color-primary);
+      transform: translateX(8px);
+    }
+  }
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.iconWrapper {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--border-radius-md);
+  background: var(--color-gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-black);
+  transition: var(--transition-default);
+  flex-shrink: 0;
+  border: 3px solid var(--color-white);
+
+  svg {
+    width: 36px;
+    height: 36px;
+    transition: var(--transition-default);
+  }
+}
+
+.agencyInfo {
+  flex: 1;
+  min-width: 0;
+
+  .agencyName {
+    color: var(--color-black);
+    margin: 0;
+    transition: var(--transition-default);
+  }
+}
+
+.cardBody {
+  min-height: 72px;
+  margin-bottom: var(--spacing-lg);
+
+  .description {
+    color: var(--color-neutral-darkest);
+    margin: 0;
+  }
+}
+
+.cardFooter {
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-gray-200);
+
+  .cta {
+    color: var(--color-black);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-base);
+    transition: var(--transition-default);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+}

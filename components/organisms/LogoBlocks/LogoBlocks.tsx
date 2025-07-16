@@ -8,7 +8,6 @@ interface LogoBlocksProps {
   logos?: {
     image: string;
     alt: string;
-    url: string;
   }[];
   subtitle?: string;
 }
@@ -36,8 +35,8 @@ const LogoBlocks = ({ variant, logos, subtitle }: LogoBlocksProps) => {
         <div className={styles.gridPrimary}>
           <div className={classNames(styles.container, "container")}>
             <div className={styles.grid}>
-              {logos?.map((logo) => (
-                <div className={styles.item} key={logo.alt}>
+              {logos?.map((logo, key) => (
+                <div className={styles.item} key={key}>
                   <Image
                     src={logo.image}
                     alt={logo.alt}
@@ -55,8 +54,8 @@ const LogoBlocks = ({ variant, logos, subtitle }: LogoBlocksProps) => {
         <div className={styles.gridSecondary}>
           <div className={classNames(styles.container, "container")}>
             <div className={styles.grid}>
-              {logos?.map((logo) => (
-                <div className={styles.item} key={logo.alt}>
+              {logos?.map((logo, key) => (
+                <div className={styles.item} key={key}>
                   <Image
                     src={logo.image}
                     alt={logo.alt}
