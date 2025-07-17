@@ -44,6 +44,7 @@ import { FeatureCardProps } from "@/components/molecules/FeatureCard";
 import { AgencyCardProps } from "../molecules/AgencyCard/AgencyCard";
 import LogoBlocks from "../organisms/LogoBlocks/LogoBlocks";
 import TestimonialSlider from "../organisms/TestimonialSlider";
+import Timeline from "../organisms/Timeline/Timeline";
 
 // ============================================================================
 // TYPES & INTERFACES
@@ -96,6 +97,16 @@ interface StrapiTestimonialSliderProps {
   testimonials?: StrapiTestimonialItem[];
 }
 
+interface StrapiTimelineItem {
+  id: number;
+  title: string | object[];
+  description: string | object[];
+  linkText?: string;
+  linkUrl?: string;
+  contentTitle?: string | object[];
+  contentDescription?: string | object[];
+}
+
 interface StrapiSection extends StrapiTestimonialSliderProps {
   __component: string;
   id: number;
@@ -110,7 +121,12 @@ interface StrapiSection extends StrapiTestimonialSliderProps {
   heading?: string;
   bodyCopy?: string;
   copy?: string;
-  items?: StrapiIconItem[];
+  items?:
+    | StrapiIconItem[]
+    | StrapiFeatureItem[]
+    | StrapiAgencyItem[]
+    | StrapiTestimonialItem[]
+    | StrapiTimelineItem[];
   imageRight?: boolean;
   logos?: StrapiMediaObject[];
 }
@@ -237,6 +253,29 @@ const convertStrapiToTestimonialItems = (items: StrapiTestimonialItem[]) => {
   }));
 };
 
+/**
+ * Converts Strapi timeline items to TimelineItem
+ */
+const convertStrapiToTimelineItems = (items: StrapiTimelineItem[]) => {
+  return items.map((item: StrapiTimelineItem) => ({
+    title: convertToStringFeature(item.title) || "",
+    description: convertToStringFeature(item.description) || "",
+    link:
+      item.linkText && item.linkUrl
+        ? {
+            text: item.linkText,
+            url: item.linkUrl,
+          }
+        : undefined,
+    contentTitle: item.contentTitle
+      ? convertToStringFeature(item.contentTitle)
+      : undefined,
+    contentDescription: item.contentDescription
+      ? convertToStringFeature(item.contentDescription)
+      : undefined,
+  }));
+};
+
 // ============================================================================
 // SECTION RENDERERS
 // ============================================================================
@@ -351,7 +390,9 @@ const renderFormSection = (section: StrapiSection) => {
  * Renders icon tile sections
  */
 const renderIconTileSection = (section: StrapiSection) => {
-  const iconItems = convertStrapiToIconItems(section.items || []);
+  const iconItems = convertStrapiToIconItems(
+    (section.items as unknown as StrapiIconItem[]) || []
+  );
   const commonProps = {
     title: convertToStringFeature(section.title) || "",
     subHeading: convertToStringFeature(section.subHeading) || "",
@@ -485,6 +526,21 @@ export default function RenderSection({ section }: SectionProps) {
           autoplay={section.autoplay}
           autoplayDelay={section.autoplayDelay || 3000}
           testimonials={testimonialItems}
+        />
+      );
+
+    case "sections.timeline":
+      const timelineItems = convertStrapiToTimelineItems(
+        (section.items as unknown as StrapiTimelineItem[]) || []
+      );
+      return (
+        <Timeline
+          variant={
+            (section.variant as "horizontal" | "vertical") || "horizontal"
+          }
+          items={timelineItems}
+          title={convertToStringFeature(section.title) || ""}
+          bodyCopy={convertToStringFeature(section.bodyCopy) || ""}
         />
       );
 
