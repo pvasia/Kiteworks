@@ -86,8 +86,8 @@ const TestimonialSlider = ({
         ref={swiperRef}
         modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={0}
-        noSwiping={true}
         slidesPerView={1}
+        simulateTouch={false}
         navigation={{
           nextEl: navigationNextSelector,
           prevEl: navigationPrevSelector,
@@ -108,7 +108,7 @@ const TestimonialSlider = ({
             : false
         }
         loop={testimonials.length > 1}
-        className={classNames(styles.swiperContainer)}
+        className={classNames(styles.swiperContainer, `swiper-${uniqueId}`)}
       >
         {testimonials.map((testimonial, index) => {
           return (
