@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import AgencyCard from "./AgencyCard";
 
 const meta = {
-  title: "Atoms/AgencyCard",
+  title: "Molecules/AgencyCard",
   component: AgencyCard,
   parameters: {
     layout: "centered",

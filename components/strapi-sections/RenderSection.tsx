@@ -34,15 +34,16 @@ import IconFourTiles from "../tiles/icon-four-tiles";
 import FeatureThreeTiles from "../tiles/feature-three-tiles";
 import FeatureTwoTiles from "../tiles/feature-two-tiles";
 
-// Molecule Components
-import ImageTextBlock from "../molecules/ImageTextBlock";
-import AgencySelector from "../molecules/AgencySelector";
+// Organism Components
+import AgencySelector from "../organisms/AgencySelector";
+import ImageTextBlock from "../organisms/ImageTextBlock";
 
 // Type Imports
 import { IconHeadingProps } from "@/components/molecules/IconHeading";
 import { FeatureCardProps } from "@/components/molecules/FeatureCard";
-import { AgencyCardProps } from "../atoms/AgencyCard/AgencyCard";
+import { AgencyCardProps } from "../molecules/AgencyCard/AgencyCard";
 import LogoBlocks from "../organisms/LogoBlocks/LogoBlocks";
+import TestimonialSlider from "../organisms/TestimonialSlider";
 
 // ============================================================================
 // TYPES & INTERFACES
@@ -80,7 +81,22 @@ interface StrapiAgencyItem {
   icon: string;
 }
 
-interface StrapiSection {
+interface StrapiTestimonialItem {
+  title: string;
+  quote: string;
+  author: string;
+  authorTitle: string;
+  authorCompany: string;
+  logo?: StrapiMediaObject;
+}
+
+interface StrapiTestimonialSliderProps {
+  autoplay?: boolean;
+  autoplayDelay?: number;
+  testimonials?: StrapiTestimonialItem[];
+}
+
+interface StrapiSection extends StrapiTestimonialSliderProps {
   __component: string;
   id: number;
   title: string;
@@ -207,6 +223,17 @@ const convertStrapiToAgencyItems = (
     description: convertToStringFeature(item.description) || "",
     url: item.url || "",
     icon: item.icon || "",
+  }));
+};
+
+const convertStrapiToTestimonialItems = (items: StrapiTestimonialItem[]) => {
+  return items.map((item: StrapiTestimonialItem) => ({
+    title: convertToStringFeature(item.title) || "",
+    quote: convertToStringFeature(item.quote) || "",
+    author: convertToStringFeature(item.author) || "",
+    authorTitle: convertToStringFeature(item.authorTitle) || "",
+    authorCompany: convertToStringFeature(item.authorCompany) || "",
+    logo: getBestImageSize(item.logo, "thumbnail") || undefined,
   }));
 };
 
@@ -444,6 +471,20 @@ export default function RenderSection({ section }: SectionProps) {
             section.variant as "heading" | "grid-primary" | "grid-secondary"
           }
           logos={logoItems}
+        />
+      );
+
+    case "sections.testimonial-slider":
+      const testimonialItems = convertStrapiToTestimonialItems(
+        (section.items as unknown as StrapiTestimonialItem[]) || []
+      );
+      console.log("testimonialItems", section);
+      return (
+        <TestimonialSlider
+          variant={section.variant as "primary" | "secondary"}
+          autoplay={section.autoplay}
+          autoplayDelay={section.autoplayDelay || 3000}
+          testimonials={testimonialItems}
         />
       );
 

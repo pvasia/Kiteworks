@@ -9,11 +9,11 @@ const meta: Meta<typeof TestimonialSlider> = {
   },
   tags: ["autodocs"],
   argTypes: {
-    autoAdvance: {
+    autoplay: {
       control: { type: "boolean" },
       description: "Whether the slider should auto-advance",
     },
-    autoAdvanceInterval: {
+    autoplayDelay: {
       control: { type: "number", min: 1000, max: 10000, step: 500 },
       description: "Auto-advance interval in milliseconds",
     },
@@ -91,8 +91,8 @@ const singleTestimonial = [
 export const Default: Story = {
   args: {
     testimonials: sampleTestimonialsPrimary,
-    autoAdvance: true,
-    autoAdvanceInterval: 5000,
+    autoplay: true,
+    autoplayDelay: 5000,
     variant: "secondary",
   },
 };
@@ -101,7 +101,7 @@ export const Default: Story = {
 export const SingleTestimonial: Story = {
   args: {
     testimonials: singleTestimonial,
-    autoAdvance: false,
+    autoplay: false,
     variant: "secondary",
   },
 };
@@ -110,8 +110,8 @@ export const SingleTestimonial: Story = {
 export const PrimaryVariant: Story = {
   args: {
     testimonials: sampleTestimonialsPrimary,
-    autoAdvance: true,
-    autoAdvanceInterval: 4000,
+    autoplay: true,
+    autoplayDelay: 4000,
     variant: "primary",
   },
 };
@@ -120,8 +120,8 @@ export const PrimaryVariant: Story = {
 export const SecondaryVariant: Story = {
   args: {
     testimonials: sampleTestimonialsSecondary,
-    autoAdvance: true,
-    autoAdvanceInterval: 6000,
+    autoplay: true,
+    autoplayDelay: 6000,
     variant: "secondary",
   },
 };
@@ -130,8 +130,8 @@ export const SecondaryVariant: Story = {
 export const FastAutoAdvance: Story = {
   args: {
     testimonials: sampleTestimonialsSecondary,
-    autoAdvance: true,
-    autoAdvanceInterval: 2000,
+    autoplay: true,
+    autoplayDelay: 2000,
     variant: "secondary",
   },
 };
@@ -140,8 +140,8 @@ export const FastAutoAdvance: Story = {
 export const SlowAutoAdvance: Story = {
   args: {
     testimonials: sampleTestimonialsPrimary,
-    autoAdvance: true,
-    autoAdvanceInterval: 8000,
+    autoplay: true,
+    autoplayDelay: 8000,
     variant: "primary",
   },
 };

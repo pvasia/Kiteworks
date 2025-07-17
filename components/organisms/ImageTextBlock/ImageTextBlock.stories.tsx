@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import ImageTextBlock from "./ImageTextBlock";
 
 const meta = {
-  title: "Molecules/ImageTextBlock",
+  title: "Organisms/ImageTextBlock",
   component: ImageTextBlock,
 } satisfies Meta<typeof ImageTextBlock>;
 

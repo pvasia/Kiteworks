@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useId } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import type { SwiperRef } from "swiper/react";
@@ -27,18 +27,19 @@ interface TestimonialData {
 
 interface TestimonialSliderProps {
   testimonials: TestimonialData[];
-  autoAdvance?: boolean;
-  autoAdvanceInterval?: number;
+  autoplay?: boolean;
+  autoplayDelay?: number;
   variant: "primary" | "secondary";
 }
 
 const TestimonialSlider = ({
   testimonials,
-  autoAdvance = true,
-  autoAdvanceInterval = 5000,
+  autoplay = true,
+  autoplayDelay = 3000,
   variant,
 }: TestimonialSliderProps) => {
   const swiperRef = useRef<SwiperRef>(null);
+  const uniqueId = useId();
 
   useEffect(() => {
     const handleResize = () => {
@@ -63,8 +64,16 @@ const TestimonialSlider = ({
     return "/images/pattern-testimonial-2.png";
   };
 
+  // Generate unique selectors for this slider instance
+  const navigationNextSelector = `#${uniqueId} .${styles.swiperButtonNext}`;
+  const navigationPrevSelector = `#${uniqueId} .${styles.swiperButtonPrev}`;
+  const paginationSelector = `#${uniqueId} .${styles.swiperPagination}`;
+
   return (
-    <div className={classNames(styles.testimonialSlider, styles[variant])}>
+    <div
+      id={uniqueId}
+      className={classNames(styles.testimonialSlider, styles[variant])}
+    >
       <div className={styles.patternContainer}>
         <Image
           src={patternHandler()}
@@ -77,28 +86,29 @@ const TestimonialSlider = ({
         ref={swiperRef}
         modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={0}
+        noSwiping={true}
         slidesPerView={1}
         navigation={{
-          nextEl: `.${styles.swiperButtonNext}`,
-          prevEl: `.${styles.swiperButtonPrev}`,
+          nextEl: navigationNextSelector,
+          prevEl: navigationPrevSelector,
         }}
         pagination={{
           clickable: true,
-          el: `.${styles.swiperPagination}`,
+          el: paginationSelector,
           bulletClass: styles.swiperBullet,
           bulletActiveClass: styles.swiperBulletActive,
         }}
         autoplay={
-          autoAdvance
+          autoplay
             ? {
-                delay: autoAdvanceInterval,
+                delay: autoplayDelay,
                 disableOnInteraction: false,
                 pauseOnMouseEnter: true,
               }
             : false
         }
         loop={testimonials.length > 1}
-        className={styles.swiperContainer}
+        className={classNames(styles.swiperContainer)}
       >
         {testimonials.map((testimonial, index) => {
           return (
@@ -122,7 +132,9 @@ const TestimonialSlider = ({
                   )}
                   <div className={styles.innerText}>
                     {testimonial.quote && (
-                      <p className={styles.quote}>“{testimonial.quote}”</p>
+                      <p className={styles.quote}>
+                        &ldquo;{testimonial.quote}&rdquo;
+                      </p>
                     )}
                     <div className={styles.authorContainer}>
                       -

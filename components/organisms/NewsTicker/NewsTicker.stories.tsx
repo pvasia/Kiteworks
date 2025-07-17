@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import NewsTicker from "./NewsTicker";
 
 const meta = {
-  title: "Molecules/NewsTicker",
+  title: "Organisms/NewsTicker",
   component: NewsTicker,
 } satisfies Meta<typeof NewsTicker>;
 

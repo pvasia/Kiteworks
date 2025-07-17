@@ -1,7 +1,9 @@
 import React from "react";
 import styles from "./AgencySelector.module.scss";
 import classNames from "classnames";
-import AgencyCard, { AgencyCardProps } from "@atoms/AgencyCard/AgencyCard";
+import AgencyCard, {
+  AgencyCardProps,
+} from "@/components/molecules/AgencyCard/AgencyCard";
 
 interface AgencySelectorProps {
   title?: string;

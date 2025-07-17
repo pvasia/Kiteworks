@@ -79,7 +79,7 @@ const sampleAgenciesWithReactIcons = [
 ];
 
 const meta: Meta<typeof AgencySelector> = {
-  title: "Molecules/AgencySelector",
+  title: "Organisms/AgencySelector",
   component: AgencySelector,
   parameters: {
     layout: "fullscreen",

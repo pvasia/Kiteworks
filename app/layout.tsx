@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./styles/globals.scss";
 import { sharedContent } from "@/lib/content/shared-content";
-import Header from "@/components/molecules/Header";
-import Footer from "@/components/molecules/Footer";
+import Header from "@/components/organisms/Header";
+import Footer from "@/components/organisms/Footer";
 
 const generalSans = localFont({
   src: [
