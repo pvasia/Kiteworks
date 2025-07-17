@@ -43,8 +43,8 @@ export default function ClientPage() {
 
       <TestimonialSlider
         testimonials={homeContent.testimonials}
-        autoAdvance={true}
-        autoAdvanceInterval={5000}
+        autoplay={true}
+        autoplayDelay={5000}
         variant="secondary"
       />
 
