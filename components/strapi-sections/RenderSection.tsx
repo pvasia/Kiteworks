@@ -1,17 +1,8 @@
 // components/strapi-sections/RenderSection.tsx
 import { getBestImageSize, StrapiMediaObject } from "@/lib/strapi-utils";
 
-// Hero Components
-import Hero1 from "@hero/Hero1";
-import Hero2 from "@hero/Hero2";
-import Hero3 from "@hero/Hero3";
-import Hero4 from "@hero/Hero4";
-import Hero5 from "@hero/Hero5";
-import Hero6 from "@hero/Hero6";
-import Hero7 from "@hero/Hero7";
-import Hero8 from "@hero/Hero8";
-import HeroMedium from "@hero/HeroMedium";
-import HeroSmall from "@hero/HeroSmall";
+// Hero Component
+import RenderHero from "./RenderHero";
 
 // Page Section Components
 import PageSection1 from "../page-sections/PageSection1/PageSection1";
@@ -45,6 +36,7 @@ import { AgencyCardProps } from "../molecules/AgencyCard/AgencyCard";
 import LogoBlocks from "../organisms/LogoBlocks/LogoBlocks";
 import TestimonialSlider from "../organisms/TestimonialSlider";
 import Timeline from "../organisms/Timeline/Timeline";
+import NewsTicker from "../organisms/NewsTicker";
 
 // ============================================================================
 // TYPES & INTERFACES
@@ -121,6 +113,7 @@ interface StrapiSection extends StrapiTestimonialSliderProps {
   heading?: string;
   bodyCopy?: string;
   copy?: string;
+  text?: string | object[];
   items?:
     | StrapiIconItem[]
     | StrapiFeatureItem[]
@@ -281,51 +274,6 @@ const convertStrapiToTimelineItems = (items: StrapiTimelineItem[]) => {
 // ============================================================================
 
 /**
- * Renders hero sections
- */
-const renderHeroSection = (section: StrapiSection, imageUrl: string | null) => {
-  const commonProps = {
-    title: convertToStringFeature(section.title) || "",
-    subtitle: convertToStringFeature(section.subtitle) || "",
-    buttonText: section.buttonLabel || "",
-    buttonLink: section.buttonLink || "",
-  };
-
-  const imageProps = {
-    ...commonProps,
-    imageUrl: imageUrl || "",
-    imageAlt: section.image?.alternativeText || "",
-  };
-
-  switch (section.__component) {
-    case "sections.hero1":
-      return <Hero1 {...imageProps} />;
-    case "sections.hero2":
-      return <Hero2 {...imageProps} />;
-    case "sections.hero3":
-      return <Hero3 {...imageProps} />;
-    case "sections.hero4":
-      return <Hero4 {...imageProps} />;
-    case "sections.hero5":
-      return <Hero5 {...imageProps} />;
-    case "sections.hero6":
-      return <Hero6 {...imageProps} />;
-    case "sections.hero7":
-      return <Hero7 {...commonProps} />;
-    case "sections.hero8":
-      return <Hero8 {...imageProps} />;
-    case "sections.hero-medium":
-      return (
-        <HeroMedium title={commonProps.title} subtitle={commonProps.subtitle} />
-      );
-    case "sections.hero-small":
-      return <HeroSmall title={commonProps.title} />;
-    default:
-      return null;
-  }
-};
-
-/**
  * Renders page sections
  */
 const renderPageSection = (section: StrapiSection, imageUrl: string | null) => {
@@ -442,8 +390,8 @@ export default function RenderSection({ section }: SectionProps) {
   const imageUrl = getBestImageSize(section.image, "hero");
 
   // Hero sections
-  if (section.__component.startsWith("sections.hero")) {
-    return renderHeroSection(section, imageUrl);
+  if (section.__component.startsWith("hero.hero")) {
+    return <RenderHero section={section} />;
   }
 
   // Page sections
@@ -541,6 +489,16 @@ export default function RenderSection({ section }: SectionProps) {
           items={timelineItems}
           title={convertToStringFeature(section.title) || ""}
           bodyCopy={convertToStringFeature(section.bodyCopy) || ""}
+        />
+      );
+
+    case "sections.news-ticker":
+      return (
+        <NewsTicker
+          variant={
+            section.variant as "breaking-news" | "announcements" | "important"
+          }
+          text={convertToStringFeature(section.text) || ""}
         />
       );
 

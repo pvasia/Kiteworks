@@ -26,8 +26,6 @@ async function getData(): Promise<StrapiHomeResponse> {
 
 export default async function ExamplePage() {
   const data = await getData();
-  console.log("Full API response:", JSON.stringify(data, null, 2));
-  console.log("Sections:", data.data.sections);
 
   // Debug: Check if images are present
   data.data.sections.forEach((section: StrapiSection, index: number) => {
@@ -42,12 +40,14 @@ export default async function ExamplePage() {
   return (
     <main>
       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-      {data.data.sections.map((section: any, index: number) => (
-        <RenderSection
-          key={`${section.__component}-${section.id}-${index}`}
-          section={section}
-        />
-      ))}
+      {data.data.sections.map((section: any, index: number) => {
+        return (
+          <RenderSection
+            key={`${section.__component}-${section.id}-${index}`}
+            section={section}
+          />
+        );
+      })}
     </main>
   );
 }

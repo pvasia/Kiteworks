@@ -1,57 +1,53 @@
-"use client";
-import { homeContent } from "@/lib/content/home-content";
-import Hero1 from "@/components/hero/Hero1";
-// import AgencySelector from "@/components/molecules/AgencySelector";
-import PageSection3 from "@/components/page-sections/PageSection3";
-import PageSection4 from "@/components/page-sections/PageSection4";
-import SectionFormCenter from "@/components/page-sections/SectionFormCenter";
-import TestimonialSlider from "@/components/organisms/TestimonialSlider";
+// app/page.tsx
 
-// import Hero8 from "@/components/hero/Hero8";
+import RenderSection from "@/components/strapi-sections/RenderSection";
+import { fetchStrapiContent } from "@/lib/strapi-utils";
 
-export default function ClientPage() {
+// Use any for section type to avoid conflicts with RenderSection's internal types
+interface StrapiSection {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
+}
+
+interface StrapiHomeResponse {
+  data: {
+    sections: StrapiSection[];
+    [key: string]: unknown;
+  };
+}
+
+async function getData(): Promise<StrapiHomeResponse> {
+  return await fetchStrapiContent<StrapiHomeResponse>("home", {
+    populate: true,
+    tags: ["home-content", "strapi-content"],
+    revalidate: 3600,
+  });
+}
+
+export default async function ExamplePage() {
+  const data = await getData();
+
+  // Debug: Check if images are present
+  data.data.sections.forEach((section: StrapiSection, index: number) => {
+    console.log(`Section ${index} (${section.__component}):`, {
+      id: section.id,
+      title: section.title,
+      image: section.image,
+      hasImage: !!section.image,
+    });
+  });
+
   return (
-    <div>
-      <Hero1
-        imageUrl={homeContent.hero1.imageUrl}
-        title={homeContent.hero1.title}
-        subtitle={homeContent.hero1.subtitle}
-        buttonText={homeContent.hero1.buttonText}
-        buttonLink={homeContent.hero1.buttonLink}
-      />
-      {/* <AgencySelector /> */}
-      <PageSection3
-        heading={homeContent.pageSection3.heading}
-        bodyCopy={homeContent.pageSection3.bodyCopy}
-        imageUrl={homeContent.pageSection3.imageUrl}
-      />
-      <PageSection4
-        heading={homeContent.pageSection4.heading}
-        bodyCopy={homeContent.pageSection4.bodyCopy}
-        imageUrl={homeContent.pageSection4.imageUrl}
-      />
-
-      {/* <Hero8
-        imageUrl={homeContent.hero.imageUrl}
-        title={homeContent.hero.title}
-        subtitle={homeContent.hero.subtitle}
-        buttonText={homeContent.hero.buttonText}
-        buttonLink={homeContent.hero.buttonLink}
-        height={homeContent.hero.height}
-        isParallax={homeContent.hero.isParallax}
-      /> */}
-
-      <TestimonialSlider
-        testimonials={homeContent.testimonials}
-        autoplay={true}
-        autoplayDelay={5000}
-        variant="secondary"
-      />
-
-      <SectionFormCenter
-        title={homeContent.sectionFormCenter.title}
-        subtitle={homeContent.sectionFormCenter.subtitle}
-      />
-    </div>
+    <main>
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+      {data.data.sections.map((section: any, index: number) => {
+        return (
+          <RenderSection
+            key={`${section.__component}-${section.id}-${index}`}
+            section={section}
+          />
+        );
+      })}
+    </main>
   );
 }
