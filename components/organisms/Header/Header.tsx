@@ -25,7 +25,7 @@ interface MenuItem {
 }
 
 interface HeaderProps {
-  menu: MenuItem[];
+  menu?: MenuItem[];
   showCompliance?: boolean;
   showSearch?: boolean;
   contactUsLabel?: string;
@@ -181,7 +181,7 @@ const Header = ({
             {/* Desktop Navigation */}
             <nav className={styles.navigation}>
               <ul className={styles.menu}>
-                {menu.map((item) => (
+                {menu?.map((item) => (
                   <li
                     key={item.label}
                     className={styles.menuItemWrapper}
@@ -287,7 +287,7 @@ const Header = ({
             >
               <div className={styles.mobileMenuContent}>
                 <nav className={styles.mobileNavigation}>
-                  {menu.map((item) => (
+                  {menu?.map((item) => (
                     <div
                       key={item.label}
                       className={styles.mobileMenuSection}
