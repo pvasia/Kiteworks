@@ -15,16 +15,22 @@ import {
 } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
 import Button from "@/components/atoms/Button";
+import AlertBanner from "@/components/molecules/AlertBanner";
+import { getBestImageSize, StrapiMediaObject } from "@/lib/strapi-utils";
 
 interface MenuItem {
   label: string;
   url: string;
-  subItems?: MenuItem[];
+  subMenu?: MenuItem[];
 }
 
 interface HeaderProps {
   menu: MenuItem[];
   showCompliance?: boolean;
+  showSearch?: boolean;
+  contactUsLabel?: string;
+  contactUsLink?: string;
+  logo?: StrapiMediaObject;
   alert?: {
     type: "news" | "announcement" | "info";
     message: string;
@@ -32,12 +38,22 @@ interface HeaderProps {
   };
 }
 
-const Header = ({ menu, showCompliance = true, alert }: HeaderProps) => {
+const Header = ({
+  menu,
+  showCompliance = true,
+  showSearch = true,
+  contactUsLabel = "Contact Us",
+  contactUsLink,
+  logo,
+  alert,
+}: HeaderProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isSearchClosing, setIsSearchClosing] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
+  const imageUrl = getBestImageSize(logo, "card");
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -81,8 +97,15 @@ const Header = ({ menu, showCompliance = true, alert }: HeaderProps) => {
     }
   };
 
+  // Set hydration flag
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
   // Detect mobile device
   useEffect(() => {
+    if (!isHydrated) return;
+
     const checkIsMobile = () => {
       setIsMobile(window.innerWidth <= 1024);
     };
@@ -91,10 +114,12 @@ const Header = ({ menu, showCompliance = true, alert }: HeaderProps) => {
     window.addEventListener("resize", checkIsMobile);
 
     return () => window.removeEventListener("resize", checkIsMobile);
-  }, []);
+  }, [isHydrated]);
 
   // Close search on escape key
   useEffect(() => {
+    if (!isHydrated || !showSearch) return;
+
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isSearchOpen) {
         closeSearch();
@@ -103,10 +128,12 @@ const Header = ({ menu, showCompliance = true, alert }: HeaderProps) => {
 
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [isSearchOpen]);
+  }, [isSearchOpen, isHydrated, showSearch]);
 
   // Close dropdowns when clicking outside (only on mobile and outside mobile menu)
   useEffect(() => {
+    if (!isHydrated) return;
+
     const handleClickOutside = (event: MouseEvent) => {
       if (isMobile) {
         const target = event.target as Element;
@@ -122,40 +149,34 @@ const Header = ({ menu, showCompliance = true, alert }: HeaderProps) => {
 
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
-  }, [isMobile]);
+  }, [isMobile, isHydrated]);
 
   return (
     <>
       {/* Alert Banner */}
       {alert && (
-        <div className={styles.alert} data-type={alert.type}>
-          <div className={classNames(styles.container, "container")}>
-            <div className={styles.alertContent}>
-              <ShieldCheckIcon className={styles.alertIcon} />
-              <span className={styles.alertText}>{alert.message}</span>
-              {alert.link && (
-                <Link href={alert.link} className={styles.alertLink}>
-                  Learn More
-                </Link>
-              )}
-            </div>
-          </div>
-        </div>
+        <AlertBanner
+          type={alert.type}
+          message={alert.message}
+          link={alert.link}
+        />
       )}
 
       <header className={styles.header}>
         <div className={classNames(styles.container, "container")}>
           <div className={styles.inner}>
             {/* Logo */}
-            <Link href="/" className={styles.logoLink}>
-              <Image
-                src="/logo/logo.svg"
-                alt="Kiteworks - Secure Content Platform"
-                width={120}
-                height={40}
-                className={styles.logo}
-              />
-            </Link>
+            {imageUrl && (
+              <Link href="/" className={styles.logoLink}>
+                <Image
+                  src={imageUrl}
+                  alt={logo?.alternativeText || ""}
+                  width={logo?.width || 120}
+                  height={logo?.height || 40}
+                  className={styles.logo}
+                />
+              </Link>
+            )}
 
             {/* Desktop Navigation */}
             <nav className={styles.navigation}>
@@ -166,30 +187,34 @@ const Header = ({ menu, showCompliance = true, alert }: HeaderProps) => {
                     className={styles.menuItemWrapper}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    {item.subItems ? (
+                    {item.subMenu ? (
                       <div
                         className={styles.dropdown}
                         onMouseEnter={() => handleMouseEnter(item.label)}
                         onMouseLeave={handleMouseLeave}
                       >
-                        <button
-                          className={styles.menuItem}
-                          onClick={() =>
-                            isMobile && handleDropdownToggle(item.label)
-                          }
-                          aria-expanded={activeDropdown === item.label}
-                        >
-                          {item.label}
-                          <ChevronDownIcon
-                            className={classNames(styles.chevron, {
-                              [styles.chevronOpen]:
-                                activeDropdown === item.label,
-                            })}
-                          />
-                        </button>
+                        <div className={styles.menuItemContainer}>
+                          <Link href={item.url} className={styles.menuItem}>
+                            {item.label}
+                          </Link>
+                          <button
+                            className={styles.dropdownToggle}
+                            onClick={() =>
+                              isMobile && handleDropdownToggle(item.label)
+                            }
+                            aria-expanded={activeDropdown === item.label}
+                          >
+                            <ChevronDownIcon
+                              className={classNames(styles.chevron, {
+                                [styles.chevronOpen]:
+                                  activeDropdown === item.label,
+                              })}
+                            />
+                          </button>
+                        </div>
                         {activeDropdown === item.label && (
                           <div className={styles.dropdownMenu}>
-                            {item.subItems.map((subItem) => (
+                            {item.subMenu.map((subItem) => (
                               <Link
                                 key={subItem.label}
                                 href={subItem.url}
@@ -214,105 +239,140 @@ const Header = ({ menu, showCompliance = true, alert }: HeaderProps) => {
 
             {/* Desktop Actions */}
             <div className={styles.actions}>
-              <button
-                className={styles.searchButton}
-                onClick={toggleSearch}
-                aria-label="Search"
-              >
-                <MagnifyingGlassIcon className={styles.searchIcon} />
-              </button>
-              <Button variant="secondary" size="small">
-                Contact Us
-              </Button>
+              {showSearch && (
+                <button
+                  className={styles.searchButton}
+                  onClick={toggleSearch}
+                  aria-label="Search"
+                >
+                  <MagnifyingGlassIcon className={styles.searchIcon} />
+                </button>
+              )}
+              {contactUsLabel &&
+                (contactUsLink ? (
+                  <Link href={contactUsLink}>
+                    <Button variant="secondary" size="small">
+                      {contactUsLabel}
+                    </Button>
+                  </Link>
+                ) : (
+                  <Button variant="secondary" size="small">
+                    {contactUsLabel}
+                  </Button>
+                ))}
             </div>
 
             {/* Mobile Hamburger Button */}
-            <button
-              className={styles.hamburger}
-              onClick={toggleMobileMenu}
-              aria-label="Toggle mobile menu"
-            >
-              {isMobileMenuOpen ? (
-                <XMarkIcon className={styles.hamburgerIcon} />
-              ) : (
-                <Bars3Icon className={styles.hamburgerIcon} />
-              )}
-            </button>
+            {isHydrated && (
+              <button
+                className={styles.hamburger}
+                onClick={toggleMobileMenu}
+                aria-label="Toggle mobile menu"
+              >
+                {isMobileMenuOpen ? (
+                  <XMarkIcon className={styles.hamburgerIcon} />
+                ) : (
+                  <Bars3Icon className={styles.hamburgerIcon} />
+                )}
+              </button>
+            )}
           </div>
 
           {/* Mobile Menu */}
-          <div
-            className={classNames(styles.mobileMenu, {
-              [styles.mobileMenuOpen]: isMobileMenuOpen,
-            })}
-          >
-            <div className={styles.mobileMenuContent}>
-              <nav className={styles.mobileNavigation}>
-                {menu.map((item) => (
-                  <div
-                    key={item.label}
-                    className={styles.mobileMenuSection}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {item.subItems ? (
-                      <>
-                        <button
-                          className={styles.mobileMenuHeader}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleDropdownToggle(item.label);
-                          }}
+          {isHydrated && (
+            <div
+              className={classNames(styles.mobileMenu, {
+                [styles.mobileMenuOpen]: isMobileMenuOpen,
+              })}
+            >
+              <div className={styles.mobileMenuContent}>
+                <nav className={styles.mobileNavigation}>
+                  {menu.map((item) => (
+                    <div
+                      key={item.label}
+                      className={styles.mobileMenuSection}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {item.subMenu ? (
+                        <>
+                          <div className={styles.mobileMenuHeaderContainer}>
+                            <Link
+                              href={item.url}
+                              className={styles.mobileMenuItem}
+                              onClick={closeMobileMenu}
+                            >
+                              {item.label}
+                            </Link>
+                            <button
+                              className={styles.mobileDropdownToggle}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDropdownToggle(item.label);
+                              }}
+                              aria-expanded={activeDropdown === item.label}
+                            >
+                              <ChevronDownIcon
+                                className={classNames(styles.mobileChevron, {
+                                  [styles.mobileChevronOpen]:
+                                    activeDropdown === item.label,
+                                })}
+                              />
+                            </button>
+                          </div>
+                          {activeDropdown === item.label && (
+                            <div className={styles.mobileSubMenu}>
+                              {item.subMenu.map((subItem) => (
+                                <Link
+                                  key={subItem.label}
+                                  href={subItem.url}
+                                  className={styles.mobileMenuItem}
+                                  onClick={closeMobileMenu}
+                                >
+                                  {subItem.label}
+                                </Link>
+                              ))}
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <Link
+                          href={item.url}
+                          className={styles.mobileMenuItem}
+                          onClick={closeMobileMenu}
                         >
                           {item.label}
-                          <ChevronDownIcon
-                            className={classNames(styles.mobileChevron, {
-                              [styles.mobileChevronOpen]:
-                                activeDropdown === item.label,
-                            })}
-                          />
-                        </button>
-                        {activeDropdown === item.label && (
-                          <div className={styles.mobileSubMenu}>
-                            {item.subItems.map((subItem) => (
-                              <Link
-                                key={subItem.label}
-                                href={subItem.url}
-                                className={styles.mobileMenuItem}
-                                onClick={closeMobileMenu}
-                              >
-                                {subItem.label}
-                              </Link>
-                            ))}
-                          </div>
-                        )}
-                      </>
-                    ) : (
-                      <Link
-                        href={item.url}
-                        className={styles.mobileMenuItem}
-                        onClick={closeMobileMenu}
-                      >
-                        {item.label}
-                      </Link>
-                    )}
-                  </div>
-                ))}
-              </nav>
+                        </Link>
+                      )}
+                    </div>
+                  ))}
+                </nav>
 
-              <div className={styles.mobileActions}>
-                <button
-                  className={styles.mobileSearchButton}
-                  onClick={toggleSearch}
-                >
-                  <MagnifyingGlassIcon className={styles.searchIcon} />
-                  Search
-                </button>
-                <Button variant="secondary" size="medium">
-                  Contact Us
-                </Button>
+                <div className={styles.mobileActions}>
+                  {showSearch && (
+                    <button
+                      className={styles.mobileSearchButton}
+                      onClick={toggleSearch}
+                    >
+                      <MagnifyingGlassIcon className={styles.searchIcon} />
+                      Search
+                    </button>
+                  )}
+                  {contactUsLabel &&
+                    (contactUsLink ? (
+                      <Link href={contactUsLink}>
+                        <Button variant="secondary" size="medium">
+                          {contactUsLabel}
+                        </Button>
+                      </Link>
+                    ) : (
+                      <Button variant="secondary" size="medium">
+                        {contactUsLabel}
+                      </Button>
+                    ))}
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* Compliance Bar */}
@@ -339,7 +399,7 @@ const Header = ({ menu, showCompliance = true, alert }: HeaderProps) => {
       </header>
 
       {/* Search Overlay */}
-      {isSearchOpen && (
+      {showSearch && isSearchOpen && (
         <div
           className={classNames(styles.searchOverlay, {
             [styles.searchOverlayClosing]: isSearchClosing,

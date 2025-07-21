@@ -1,11 +1,22 @@
+// Static fallback content
 export const sharedContent = {
   header: {
+    logo: {
+      src: "/logo/logo.svg",
+      alt: "Kiteworks - Secure Content Platform",
+      width: 120,
+      height: 40,
+    },
     alert: {
       type: "info" as const,
       message:
         "New FedRAMP High Authorization now available for all federal agencies",
       link: "/",
     },
+    showCompliance: true,
+    showSearch: true,
+    contactUsLabel: "Contact Us",
+    contactUsLink: "/contact",
     menu: [
       {
         label: "Solutions",

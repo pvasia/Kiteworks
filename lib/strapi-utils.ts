@@ -2,6 +2,8 @@
  * Utility functions for working with Strapi data
  */
 
+import { sharedContent } from "./content/shared-content";
+
 // Types for Strapi media objects based on actual API response
 interface StrapiImageFormat {
   name: string;
@@ -41,6 +43,36 @@ export interface StrapiMediaObject {
   createdAt?: string;
   updatedAt?: string;
   publishedAt?: string;
+}
+
+// Types for Strapi header data
+interface StrapiHeaderData {
+  data?: {
+    id: number;
+    documentId: string;
+    showCompliance: boolean;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+    menu: Array<{
+      id: number;
+      label: string;
+      url: string;
+      subMenu?: Array<{
+        label: string;
+        url: string;
+      }>;
+    }>;
+    logo: StrapiMediaObject;
+    alert?: {
+      type: "news" | "announcement" | "info";
+      message: string;
+      link?: string;
+    } | null;
+    showSearch?: boolean;
+    contactUsLabel?: string;
+    contactUsLink?: string;
+  };
 }
 
 /**
@@ -230,4 +262,69 @@ export async function fetchMultipleStrapiContent<T = Record<string, unknown>>(
 
   const results = await Promise.all(promises);
   return results.reduce((acc, result) => ({ ...acc, ...result }), {}) as T;
+}
+
+// Type for header data structure
+export interface HeaderData {
+  logo:
+    | {
+        src?: string;
+        alt?: string;
+        width?: number;
+        height?: number;
+      }
+    | StrapiMediaObject;
+  menu: Array<{
+    label: string;
+    url: string;
+    subItems?: Array<{
+      label: string;
+      url: string;
+    }>;
+  }>;
+  alert?: {
+    type: "news" | "announcement" | "info";
+    message: string;
+    link?: string;
+  } | null;
+  showCompliance?: boolean;
+  showSearch?: boolean;
+  contactUsLabel?: string;
+  contactUsLink?: string;
+}
+
+/**
+ * Fetch header data from Strapi
+ * @returns Promise with header data or fallback to static content
+ */
+export async function getHeaderData(): Promise<HeaderData> {
+  try {
+    const strapiData = await fetchStrapiContent<StrapiHeaderData>("header", {
+      tags: ["global-content", "header-content"],
+      revalidate: 3600, // Cache for 1 hour
+    });
+
+    const data = strapiData?.data;
+
+    if (!data) {
+      console.warn("No Strapi header data found, using fallback");
+      return sharedContent.header;
+    }
+
+    // Transform Strapi data to match our interface
+    const headerData = {
+      logo: data.logo,
+      menu: data.menu,
+      alert: data.alert,
+      showCompliance: data.showCompliance,
+      showSearch: data.showSearch,
+      contactUsLabel: data.contactUsLabel,
+      contactUsLink: data.contactUsLink,
+    };
+
+    return headerData;
+  } catch (error) {
+    console.error("Error fetching header data from Strapi:", error);
+    return sharedContent.header;
+  }
 }

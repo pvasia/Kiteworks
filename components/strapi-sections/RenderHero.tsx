@@ -89,6 +89,7 @@ const convertToStringFeature = (
 
 export default function RenderHero({ section }: HeroProps) {
   const imageUrl = getBestImageSize(section.image, "hero");
+  console.log("section.image", section.image);
 
   const commonProps = {
     title: convertToStringFeature(section.title) || "",

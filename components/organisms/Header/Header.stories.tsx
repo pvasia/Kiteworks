@@ -64,6 +64,35 @@ export const Default: Story = {
   args: {
     menu: federalMenu,
     showCompliance: true,
+    contactUsLabel: "Contact Us",
+  },
+};
+
+export const CustomLogo: Story = {
+  args: {
+    menu: federalMenu,
+    showCompliance: true,
+    contactUsLabel: "Contact Us",
+    logo: {
+      url: "/logo/logo.svg",
+      alternativeText: "Custom Company Logo",
+      width: 150,
+      height: 50,
+    },
+  },
+};
+
+export const SmallLogo: Story = {
+  args: {
+    menu: federalMenu,
+    showCompliance: true,
+    contactUsLabel: "Contact Us",
+    logo: {
+      url: "/logo/logo.svg",
+      alternativeText: "Small Company Logo",
+      width: 80,
+      height: 30,
+    },
   },
 };
 
@@ -71,6 +100,7 @@ export const WithInfoAlert: Story = {
   args: {
     menu: federalMenu,
     showCompliance: true,
+    contactUsLabel: "Contact Us",
     alert: {
       type: "info",
       message:
@@ -84,6 +114,7 @@ export const WithNewsAlert: Story = {
   args: {
     menu: federalMenu,
     showCompliance: true,
+    contactUsLabel: "Contact Us",
     alert: {
       type: "news",
       message: "BREAKING: Enhanced CMMC compliance features now available",
@@ -96,6 +127,7 @@ export const WithAnnouncementAlert: Story = {
   args: {
     menu: federalMenu,
     showCompliance: true,
+    contactUsLabel: "Contact Us",
     alert: {
       type: "announcement",
       message: "Join us at the Federal IT Expo - August 24-26 from 9:00 AM",
@@ -108,6 +140,7 @@ export const WithoutCompliance: Story = {
   args: {
     menu: federalMenu,
     showCompliance: false,
+    contactUsLabel: "Contact Us",
   },
 };
 
@@ -120,5 +153,50 @@ export const SimpleMenu: Story = {
       { label: "About", url: "/about" },
     ],
     showCompliance: true,
+    contactUsLabel: "Contact Us",
+  },
+};
+
+export const WithoutSearch: Story = {
+  args: {
+    menu: federalMenu,
+    showCompliance: true,
+    showSearch: false,
+    contactUsLabel: "Contact Us",
+  },
+};
+
+export const WithoutContactUs: Story = {
+  args: {
+    menu: federalMenu,
+    showCompliance: true,
+    // No contactUsLabel prop means no contact button
+  },
+};
+
+export const MinimalHeader: Story = {
+  args: {
+    menu: federalMenu,
+    showCompliance: false,
+    showSearch: false,
+    // No contactUsLabel prop means no contact button
+  },
+};
+
+export const CustomContactButton: Story = {
+  args: {
+    menu: federalMenu,
+    showCompliance: true,
+    contactUsLabel: "Get Started",
+    contactUsLink: "/get-started",
+  },
+};
+
+export const ContactButtonWithoutLink: Story = {
+  args: {
+    menu: federalMenu,
+    showCompliance: true,
+    contactUsLabel: "Request Demo",
+    // No contactUsLink means it's just a button (no navigation)
   },
 };
