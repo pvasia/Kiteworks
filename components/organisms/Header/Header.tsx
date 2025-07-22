@@ -151,6 +151,10 @@ const Header = ({
     return () => document.removeEventListener("click", handleClickOutside);
   }, [isMobile, isHydrated]);
 
+  console.log("header logo", logo);
+  console.log("header menu", menu);
+  console.log("header isHydrated", isHydrated);
+
   return (
     <>
       {/* Alert Banner */}
@@ -194,7 +198,11 @@ const Header = ({
                         onMouseLeave={handleMouseLeave}
                       >
                         <div className={styles.menuItemContainer}>
-                          <Link href={item.url} className={styles.menuItem}>
+                          <Link
+                            href={item.url}
+                            className={styles.menuItem}
+                            prefetch
+                          >
                             {item.label}
                           </Link>
                           <button
@@ -220,6 +228,7 @@ const Header = ({
                                 href={subItem.url}
                                 className={styles.dropdownItem}
                                 onClick={() => setActiveDropdown(null)}
+                                prefetch
                               >
                                 {subItem.label}
                               </Link>
@@ -228,7 +237,11 @@ const Header = ({
                         )}
                       </div>
                     ) : (
-                      <Link href={item.url} className={styles.menuItem}>
+                      <Link
+                        href={item.url}
+                        className={styles.menuItem}
+                        prefetch
+                      >
                         {item.label}
                       </Link>
                     )}
