@@ -4,6 +4,7 @@ import "./styles/globals.scss";
 
 import Header from "@/components/organisms/Header";
 import Footer from "@/components/organisms/Footer";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import { getFooterData, getHeaderData } from "@/lib/strapi-utils";
 
 const generalSans = localFont({
@@ -36,33 +37,75 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headerData = await getHeaderData();
-  const footerData = await getFooterData();
-  console.log("footerData", footerData);
+  let headerData = null;
+  let footerData = null;
+
+  try {
+    console.log("Loading header/footer data...", {
+      env: process.env.NODE_ENV,
+      strapiUrl: process.env.STRAPI_API_URL ? "configured" : "not set",
+    });
+
+    headerData = await getHeaderData();
+    footerData = await getFooterData();
+
+    console.log("Header/footer data loaded successfully", {
+      hasHeader: !!headerData,
+      hasFooter: !!footerData,
+      headerMenu: headerData?.menu?.length || 0,
+      footerMenu: footerData?.menu?.length || 0,
+    });
+  } catch (error) {
+    console.error("Error loading header/footer data:", error);
+    // Set fallback data with proper structure
+    headerData = {
+      menu: [],
+      logo: undefined,
+      alert: undefined,
+      showCompliance: true,
+      showSearch: true,
+      contactUsLabel: "Contact Us",
+      contactUsLink: undefined,
+    };
+    footerData = {
+      menu: [],
+      socialLinks: [],
+      complianceBadges: [],
+      contactCards: [],
+      legalLinks: [],
+    };
+  }
 
   return (
     <html lang="en">
       <body className={`${generalSans.className} ${generalSans.style}`}>
-        <Header
-          alert={headerData?.alert || undefined}
-          menu={headerData?.menu || []}
-          logo={headerData?.logo || undefined}
-          showCompliance={headerData?.showCompliance}
-          showSearch={headerData?.showSearch}
-          contactUsLabel={headerData?.contactUsLabel}
-          contactUsLink={headerData?.contactUsLink}
-        />
-        {children}
-        <Footer
-          logo={footerData?.logo || undefined}
-          brandDescription={footerData?.brandDescription}
-          contactTitle={footerData?.contactTitle}
-          contactDescription={footerData?.contactDescription}
-          menu={footerData?.menu || []}
-          socialLinks={footerData?.socialLinks || []}
-          complianceBadges={footerData?.complianceBadges || []}
-          contactCards={footerData?.contactCards || []}
-        />
+        <ErrorBoundary>
+          {headerData && (
+            <Header
+              alert={headerData?.alert || undefined}
+              menu={headerData?.menu || []}
+              logo={headerData?.logo || undefined}
+              showCompliance={headerData?.showCompliance}
+              showSearch={headerData?.showSearch}
+              contactUsLabel={headerData?.contactUsLabel}
+              contactUsLink={headerData?.contactUsLink}
+            />
+          )}
+          {children}
+          {footerData && (
+            <Footer
+              logo={footerData?.logo || undefined}
+              brandDescription={footerData?.brandDescription}
+              contactTitle={footerData?.contactTitle}
+              contactDescription={footerData?.contactDescription}
+              menu={footerData?.menu || []}
+              socialLinks={footerData?.socialLinks || []}
+              complianceBadges={footerData?.complianceBadges || []}
+              contactCards={footerData?.contactCards || []}
+              legalLinks={footerData?.legalLinks || []}
+            />
+          )}
+        </ErrorBoundary>
       </body>
     </html>
   );

@@ -285,6 +285,12 @@ export async function fetchStrapiContent<T = unknown>(
 ): Promise<T> {
   const { populate = true, tags, revalidate = 3600 } = options;
 
+  // Check if STRAPI_API_URL is available (important for build time)
+  if (!process.env.STRAPI_API_URL) {
+    console.warn(`STRAPI_API_URL not set, cannot fetch ${contentType}`);
+    throw new Error("Strapi URL not configured");
+  }
+
   const endpoint = `/api/${contentType}${populate ? "?pLevel" : ""}`;
   const contentTags = tags || [`${contentType}-content`, "strapi-content"];
 
@@ -405,22 +411,29 @@ export async function getHeaderData(): Promise<HeaderData> {
       revalidate: 3600, // Cache for 1 hour
     });
 
-    const data = strapiData?.data;
-
-    if (!data) {
-      console.warn("No Strapi header data found, using fallback");
+    // Validate response structure
+    if (!strapiData || typeof strapiData !== "object") {
+      console.warn("Invalid Strapi header response, using fallback");
       return sharedContent.header;
     }
 
-    // Transform Strapi data to match our interface
-    const headerData = {
-      logo: data.logo,
-      menu: data.menu,
-      alert: data.alert,
-      showCompliance: data.showCompliance,
-      showSearch: data.showSearch,
-      contactUsLabel: data.contactUsLabel,
-      contactUsLink: data.contactUsLink,
+    const data = strapiData?.data;
+
+    if (!data || typeof data !== "object") {
+      console.warn("No valid Strapi header data found, using fallback");
+      return sharedContent.header;
+    }
+
+    // Transform Strapi data to match our interface with null checks
+    const headerData: HeaderData = {
+      logo: data.logo || undefined,
+      menu: Array.isArray(data.menu) ? data.menu : [],
+      alert: data.alert || undefined,
+      showCompliance:
+        typeof data.showCompliance === "boolean" ? data.showCompliance : true,
+      showSearch: typeof data.showSearch === "boolean" ? data.showSearch : true,
+      contactUsLabel: data.contactUsLabel || undefined,
+      contactUsLink: data.contactUsLink || undefined,
     };
 
     return headerData;
@@ -441,76 +454,96 @@ export async function getFooterData(): Promise<FooterData> {
       revalidate: 3600, // Cache for 1 hour
     });
 
-    const data = strapiData?.data;
-
-    if (!data) {
-      console.warn("No Strapi footer data found, using empty fallback");
+    // Validate response structure
+    if (!strapiData || typeof strapiData !== "object") {
+      console.warn("Invalid Strapi footer response, using empty fallback");
       return {};
     }
 
-    // Transform Strapi data to match our interface
+    const data = strapiData?.data;
+
+    if (!data || typeof data !== "object") {
+      console.warn("No valid Strapi footer data found, using empty fallback");
+      return {};
+    }
+
+    // Transform Strapi data to match our interface with null checks
     const footerData: FooterData = {
-      logo: data.logo,
-      brandDescription: data.brandDescription,
-      contactTitle: data.contactTitle,
-      contactDescription: data.contactDescription,
-      copyrightText: data.copyrightText,
+      logo: data.logo || undefined,
+      brandDescription: data.brandDescription || undefined,
+      contactTitle: data.contactTitle || undefined,
+      contactDescription: data.contactDescription || undefined,
+      copyrightText: data.copyrightText || undefined,
     };
 
     // Transform menu sections
-    if (data.menu) {
-      footerData.menu = data.menu.map((section) => ({
-        id: section.id,
-        label: section.label,
-        url: section.url,
-        subMenu: section.subMenu?.map((item) => ({
-          id: item.id,
-          label: item.label,
-          url: item.url,
-        })),
-      }));
+    if (Array.isArray(data.menu)) {
+      footerData.menu = data.menu
+        .filter((section) => section && typeof section === "object")
+        .map((section) => ({
+          id: section.id,
+          label: section.label || "",
+          url: section.url || "",
+          subMenu: Array.isArray(section.subMenu)
+            ? section.subMenu
+                .filter((item) => item && typeof item === "object")
+                .map((item) => ({
+                  id: item.id,
+                  label: item.label || "",
+                  url: item.url || "",
+                }))
+            : undefined,
+        }));
     }
 
     // Transform social links
-    if (data.socialLinks) {
-      footerData.socialLinks = data.socialLinks.map((link) => ({
-        id: link.id,
-        platform: link.platform as SocialPlatform,
-        url: link.url,
-        ariaLabel: link.ariaLabel,
-        icon: link.icon,
-      }));
+    if (Array.isArray(data.socialLinks)) {
+      footerData.socialLinks = data.socialLinks
+        .filter((link) => link && typeof link === "object")
+        .map((link) => ({
+          id: link.id,
+          platform: link.platform as SocialPlatform,
+          url: link.url || "",
+          ariaLabel: link.ariaLabel || "",
+          icon: link.icon,
+        }));
     }
 
     // Transform compliance badges
-    if (data.complianceBadges) {
-      footerData.complianceBadges = data.complianceBadges.map((badge) => ({
-        id: badge.id,
-        badge: badge.badge as ComplianceBadge,
-        label: badge.label,
-        icon: badge.icon,
-      }));
+    if (Array.isArray(data.complianceBadges)) {
+      footerData.complianceBadges = data.complianceBadges
+        .filter((badge) => badge && typeof badge === "object")
+        .map((badge) => ({
+          id: badge.id,
+          badge: badge.badge as ComplianceBadge,
+          label: badge.label || "",
+          icon: badge.icon,
+        }));
     }
 
     // Transform contact cards
-    if (data.contactCards) {
-      footerData.contactCards = data.contactCards.map((card) => ({
-        id: card.id,
-        type: card.type as ContactType,
-        title: card.title,
-        phone: card.phone,
-        email: card.email,
-        icon: card.icon,
-      }));
+    if (Array.isArray(data.contactCards)) {
+      footerData.contactCards = data.contactCards
+        .filter((card) => card && typeof card === "object")
+        .map((card) => ({
+          id: card.id,
+          type: card.type as ContactType,
+          title: card.title || "",
+          phone: card.phone || "",
+          email: card.email || "",
+          icon: card.icon,
+        }));
     }
 
     // Transform legal links
-    if (data.legalLinks) {
-      footerData.legalLinks = data.legalLinks.map((link) => ({
-        id: link.id,
-        label: link.label,
-        url: link.url,
-      }));
+    if (Array.isArray(data.legalLinks)) {
+      footerData.legalLinks = data.legalLinks
+        .filter((link) => link && typeof link === "object")
+        .map((link) => ({
+          id: link.id,
+          label: link.label || "",
+          url: link.url || "",
+        }));
     }
 
     return footerData;
