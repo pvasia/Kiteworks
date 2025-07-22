@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "./Footer.module.scss";
 import Image from "next/image";
@@ -171,6 +171,13 @@ const Footer = ({
     },
   ],
 }: FooterProps) => {
+  // Handle current year safely to prevent hydration issues
+  const [currentYear, setCurrentYear] = useState(2024);
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
+
   // Use the props directly since they're already in Strapi format
   const activeMenu = menu;
   const activeSocialLinks = socialLinks;
@@ -447,7 +454,7 @@ const Footer = ({
           <div className={styles.bottomLeft}>
             <p className={styles.copyright}>
               {copyrightText ||
-                `© ${new Date().getFullYear()} Kiteworks. All rights reserved.`}
+                `© ${currentYear} Kiteworks. All rights reserved.`}
             </p>
           </div>
 

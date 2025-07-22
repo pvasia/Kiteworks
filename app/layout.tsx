@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import "./styles/globals.scss";
 
 import Header from "@/components/organisms/Header";
-// import Footer from "@/components/organisms/Footer";
+import Footer from "@/components/organisms/Footer";
 import { getFooterData, getHeaderData } from "@/lib/strapi-utils";
 
 const generalSans = localFont({
@@ -53,7 +53,7 @@ export default async function RootLayout({
           contactUsLink={headerData?.contactUsLink}
         />
         {children}
-        {/* <Footer
+        <Footer
           logo={footerData?.logo || undefined}
           brandDescription={footerData?.brandDescription}
           contactTitle={footerData?.contactTitle}
@@ -62,7 +62,7 @@ export default async function RootLayout({
           socialLinks={footerData?.socialLinks || []}
           complianceBadges={footerData?.complianceBadges || []}
           contactCards={footerData?.contactCards || []}
-        /> */}
+        />
       </body>
     </html>
   );
