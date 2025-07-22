@@ -1,15 +1,14 @@
 "use client";
 
-import React from "react";
-import Link from "next/link";
 import Image from "next/image";
-import classNames from "classnames";
 import styles from "./Header.module.scss";
+import Link from "next/link";
+import classNames from "classnames";
 import {
+  MagnifyingGlassIcon,
   Bars3Icon,
   XMarkIcon,
   ChevronDownIcon,
-  MagnifyingGlassIcon,
   ShieldCheckIcon,
   DocumentTextIcon,
   BuildingOfficeIcon,
