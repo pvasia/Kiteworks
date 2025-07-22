@@ -3,6 +3,11 @@
  */
 
 import { sharedContent } from "./content/shared-content";
+import {
+  SocialPlatform,
+  ComplianceBadge,
+  ContactType,
+} from "@/components/organisms/Footer/Footer";
 
 // Types for Strapi media objects based on actual API response
 interface StrapiImageFormat {
@@ -72,6 +77,58 @@ interface StrapiHeaderData {
     showSearch?: boolean;
     contactUsLabel?: string;
     contactUsLink?: string;
+  };
+}
+
+// Types for Strapi footer data
+interface StrapiFooterData {
+  data?: {
+    id: number;
+    documentId: string;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+    logo?: StrapiMediaObject;
+    brandDescription?: string;
+    contactTitle?: string;
+    contactDescription?: string;
+    copyrightText?: string;
+    menu?: Array<{
+      id: number;
+      label: string;
+      url: string;
+      subMenu?: Array<{
+        id: number;
+        label: string;
+        url: string;
+      }>;
+    }>;
+    socialLinks?: Array<{
+      id: number;
+      platform: "linkedin" | "twitter" | "facebook" | "youtube";
+      url: string;
+      ariaLabel: string;
+      icon?: StrapiMediaObject;
+    }>;
+    complianceBadges?: Array<{
+      id: number;
+      badge: "fedramp" | "fisma" | "nist";
+      label: string;
+      icon?: StrapiMediaObject;
+    }>;
+    contactCards?: Array<{
+      id: number;
+      type: "sales" | "support";
+      title: string;
+      phone: string;
+      email: string;
+      icon?: StrapiMediaObject;
+    }>;
+    legalLinks?: Array<{
+      id: number;
+      label: string;
+      url: string;
+    }>;
   };
 }
 
@@ -293,6 +350,50 @@ export interface HeaderData {
   contactUsLink?: string;
 }
 
+export interface FooterData {
+  logo?: StrapiMediaObject;
+  brandDescription?: string;
+  contactTitle?: string;
+  contactDescription?: string;
+  copyrightText?: string;
+  menu?: Array<{
+    id: number;
+    label: string;
+    url: string;
+    subMenu?: Array<{
+      id: number;
+      label: string;
+      url: string;
+    }>;
+  }>;
+  socialLinks?: Array<{
+    id: number;
+    platform: SocialPlatform;
+    url: string;
+    ariaLabel: string;
+    icon?: StrapiMediaObject;
+  }>;
+  complianceBadges?: Array<{
+    id: number;
+    badge: ComplianceBadge;
+    label: string;
+    icon?: StrapiMediaObject;
+  }>;
+  contactCards?: Array<{
+    id: number;
+    type: ContactType;
+    title: string;
+    phone: string;
+    email: string;
+    icon?: StrapiMediaObject;
+  }>;
+  legalLinks?: Array<{
+    id: number;
+    label: string;
+    url: string;
+  }>;
+}
+
 /**
  * Fetch header data from Strapi
  * @returns Promise with header data or fallback to static content
@@ -326,5 +427,95 @@ export async function getHeaderData(): Promise<HeaderData> {
   } catch (error) {
     console.error("Error fetching header data from Strapi:", error);
     return sharedContent.header;
+  }
+}
+
+/**
+ * Fetch footer data from Strapi
+ * @returns Promise with footer data or empty object as fallback
+ */
+export async function getFooterData(): Promise<FooterData> {
+  try {
+    const strapiData = await fetchStrapiContent<StrapiFooterData>("footer", {
+      tags: ["global-content", "footer-content"],
+      revalidate: 3600, // Cache for 1 hour
+    });
+
+    const data = strapiData?.data;
+
+    if (!data) {
+      console.warn("No Strapi footer data found, using empty fallback");
+      return {};
+    }
+
+    // Transform Strapi data to match our interface
+    const footerData: FooterData = {
+      logo: data.logo,
+      brandDescription: data.brandDescription,
+      contactTitle: data.contactTitle,
+      contactDescription: data.contactDescription,
+      copyrightText: data.copyrightText,
+    };
+
+    // Transform menu sections
+    if (data.menu) {
+      footerData.menu = data.menu.map((section) => ({
+        id: section.id,
+        label: section.label,
+        url: section.url,
+        subMenu: section.subMenu?.map((item) => ({
+          id: item.id,
+          label: item.label,
+          url: item.url,
+        })),
+      }));
+    }
+
+    // Transform social links
+    if (data.socialLinks) {
+      footerData.socialLinks = data.socialLinks.map((link) => ({
+        id: link.id,
+        platform: link.platform as SocialPlatform,
+        url: link.url,
+        ariaLabel: link.ariaLabel,
+        icon: link.icon,
+      }));
+    }
+
+    // Transform compliance badges
+    if (data.complianceBadges) {
+      footerData.complianceBadges = data.complianceBadges.map((badge) => ({
+        id: badge.id,
+        badge: badge.badge as ComplianceBadge,
+        label: badge.label,
+        icon: badge.icon,
+      }));
+    }
+
+    // Transform contact cards
+    if (data.contactCards) {
+      footerData.contactCards = data.contactCards.map((card) => ({
+        id: card.id,
+        type: card.type as ContactType,
+        title: card.title,
+        phone: card.phone,
+        email: card.email,
+        icon: card.icon,
+      }));
+    }
+
+    // Transform legal links
+    if (data.legalLinks) {
+      footerData.legalLinks = data.legalLinks.map((link) => ({
+        id: link.id,
+        label: link.label,
+        url: link.url,
+      }));
+    }
+
+    return footerData;
+  } catch (error) {
+    console.error("Error fetching footer data from Strapi:", error);
+    return {};
   }
 }

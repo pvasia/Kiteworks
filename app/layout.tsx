@@ -4,7 +4,7 @@ import "./styles/globals.scss";
 
 import Header from "@/components/organisms/Header";
 import Footer from "@/components/organisms/Footer";
-import { getHeaderData } from "@/lib/strapi-utils";
+import { getFooterData, getHeaderData } from "@/lib/strapi-utils";
 
 const generalSans = localFont({
   src: [
@@ -37,6 +37,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const headerData = await getHeaderData();
+  const footerData = await getFooterData();
+  console.log("footerData", footerData);
 
   return (
     <html lang="en">
@@ -51,7 +53,16 @@ export default async function RootLayout({
           contactUsLink={headerData?.contactUsLink}
         />
         {children}
-        <Footer />
+        <Footer
+          logo={footerData?.logo || undefined}
+          brandDescription={footerData?.brandDescription}
+          contactTitle={footerData?.contactTitle}
+          contactDescription={footerData?.contactDescription}
+          menu={footerData?.menu || []}
+          socialLinks={footerData?.socialLinks || []}
+          complianceBadges={footerData?.complianceBadges || []}
+          contactCards={footerData?.contactCards || []}
+        />
       </body>
     </html>
   );

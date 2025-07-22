@@ -151,10 +151,6 @@ const Header = ({
     return () => document.removeEventListener("click", handleClickOutside);
   }, [isMobile, isHydrated]);
 
-  console.log("header logo", logo);
-  console.log("header menu", menu);
-  console.log("header isHydrated", isHydrated);
-
   return (
     <>
       {/* Alert Banner */}
