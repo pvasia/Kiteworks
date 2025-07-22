@@ -339,99 +339,106 @@ const Footer = ({
             {brandDescription && (
               <p className={styles.brandDescription}>{brandDescription}</p>
             )}
-            <div className={styles.complianceBadges}>
-              {activeComplianceBadges.map((badge) => (
-                <div key={badge.label} className={styles.badge}>
-                  {renderComplianceIcon(badge)}
-                  <span className={styles.badgeText}>{badge.label}</span>
-                </div>
-              ))}
-            </div>
+            {complianceBadges && (
+              <div className={styles.complianceBadges}>
+                {activeComplianceBadges.map((badge) => (
+                  <div key={badge.label} className={styles.badge}>
+                    {renderComplianceIcon(badge)}
+                    <span className={styles.badgeText}>{badge.label}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
-          <div className={styles.linksGrid}>
-            {activeMenu?.map((item) => {
-              return (
-                <MenuSection
-                  key={item.id || item.label}
-                  label={item.label}
-                  menu={item.subMenu}
-                />
-              );
-            })}
-          </div>
+          {activeMenu && (
+            <div className={styles.linksGrid}>
+              {activeMenu?.map((item) => {
+                return (
+                  <MenuSection
+                    key={item.id || item.label}
+                    label={item.label}
+                    menu={item.subMenu}
+                  />
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {/* Contact Section */}
         <div className={styles.contactSection}>
           <div className={styles.contactLeft}>
-            <h2 className={classNames(styles.contactTitle, "title")}>
-              {/* Get in Touch */}
-              {contactTitle}
-            </h2>
-            <p className={classNames(styles.contactDescription, "body-copy")}>
-              {/* Ready to secure your organization&apos;s file sharing and
-              collaboration? Contact our federal team to learn more about our
-              solutions. */}
-              {contactDescription}
-            </p>
-
-            <div className={styles.socialSection}>
-              <div className={styles.socialLinks}>
-                {activeSocialLinks.map((link) => (
-                  <Link
-                    key={link.ariaLabel}
-                    href={link.url}
-                    className={styles.socialLink}
-                    aria-label={link.ariaLabel}
-                  >
-                    {getSocialIcon(link.platform, link.icon)}
-                  </Link>
-                ))}
+            {contactTitle && (
+              <h2 className={classNames(styles.contactTitle, "title")}>
+                {contactTitle}
+              </h2>
+            )}
+            {contactDescription && (
+              <p className={classNames(styles.contactDescription, "body-copy")}>
+                {contactDescription}
+              </p>
+            )}
+            {socialLinks && (
+              <div className={styles.socialSection}>
+                <div className={styles.socialLinks}>
+                  {activeSocialLinks.map((link) => (
+                    <Link
+                      key={link.ariaLabel}
+                      href={link.url}
+                      className={styles.socialLink}
+                      aria-label={link.ariaLabel}
+                    >
+                      {getSocialIcon(link.platform, link.icon)}
+                    </Link>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           <div className={styles.contactRight}>
-            <div className={styles.contactGrid}>
-              {activeContactCards.map((card) => (
-                <div key={card.title} className={styles.contactCard}>
-                  <div className={styles.contactCardHeader}>
-                    <div className={styles.contactCardIcon}>
-                      {renderContactIcon(card)}
-                    </div>
-                    <h3
-                      className={classNames(
-                        styles.contactCardTitle,
-                        "sub-heading"
-                      )}
-                    >
-                      {card.title}
-                    </h3>
-                  </div>
-                  <div className={styles.contactCardBody}>
-                    <div className={styles.contactDetail}>
-                      <span className={styles.contactLabel}>Phone</span>
-                      <Link
-                        href={`tel:${card.phone}`}
-                        className={styles.contactValue}
+            {contactCards && (
+              <div className={styles.contactGrid}>
+                {activeContactCards?.map((card) => (
+                  <div key={card.title} className={styles.contactCard}>
+                    <div className={styles.contactCardHeader}>
+                      <div className={styles.contactCardIcon}>
+                        {renderContactIcon(card)}
+                      </div>
+                      <h3
+                        className={classNames(
+                          styles.contactCardTitle,
+                          "sub-heading"
+                        )}
                       >
-                        {card.phone}
-                      </Link>
+                        {card.title}
+                      </h3>
                     </div>
-                    <div className={styles.contactDetail}>
-                      <span className={styles.contactLabel}>Email</span>
-                      <Link
-                        href={`mailto:${card.email}`}
-                        className={styles.contactValue}
-                      >
-                        {card.email}
-                      </Link>
+                    <div className={styles.contactCardBody}>
+                      <div className={styles.contactDetail}>
+                        <span className={styles.contactLabel}>Phone</span>
+                        <Link
+                          href={`tel:${card.phone}`}
+                          className={styles.contactValue}
+                        >
+                          {card.phone}
+                        </Link>
+                      </div>
+                      <div className={styles.contactDetail}>
+                        <span className={styles.contactLabel}>Email</span>
+                        <Link
+                          href={`mailto:${card.email}`}
+                          className={styles.contactValue}
+                        >
+                          {card.email}
+                        </Link>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
@@ -445,15 +452,16 @@ const Footer = ({
           </div>
 
           <div className={styles.bottomRight}>
-            {legalLinks.map((link) => (
-              <Link
-                key={link.id || link.label}
-                href={link.url}
-                className={styles.legalLink}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {legalLinks &&
+              legalLinks.map((link) => (
+                <Link
+                  key={link.id || link.label}
+                  href={link.url}
+                  className={styles.legalLink}
+                >
+                  {link.label}
+                </Link>
+              ))}
           </div>
         </div>
       </div>
