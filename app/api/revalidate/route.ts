@@ -8,19 +8,29 @@ export async function POST(request: NextRequest) {
   // Check for authorization
   if (!secret || authHeader !== `Bearer ${secret}`) {
     console.error("Unauthorized revalidation attempt");
+    console.error("Expected:", `Bearer ${secret}`);
+    console.error("Received:", authHeader);
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
     const body = await request.json();
-    console.log("Revalidation webhook payload:", body);
+    console.log("=== REVALIDATION WEBHOOK RECEIVED ===");
+    console.log("Full webhook payload:", JSON.stringify(body, null, 2));
+    console.log("========================================");
 
-    const { model, entry } = body;
+    const { model, entry, event } = body;
 
     if (!model) {
       console.error("No model specified in revalidation webhook");
       return NextResponse.json({ error: "Model is required" }, { status: 400 });
     }
+
+    console.log(
+      `Processing revalidation for model: ${model}, event: ${
+        event || "unknown"
+      }`
+    );
 
     // Handle different content types
     switch (model) {
@@ -38,6 +48,9 @@ export async function POST(request: NextRequest) {
 
       case "page":
         console.log("Revalidating page content...");
+        console.log("Entry data:", JSON.stringify(entry, null, 2));
+
+        // Always revalidate general page content
         revalidateTag("page-content");
 
         // If we have entry data with slug, also revalidate the specific page path
@@ -52,6 +65,7 @@ export async function POST(request: NextRequest) {
           } else {
             // Revalidate the direct slug path
             revalidatePath(`/${entry.slug}`);
+            console.log(`Revalidated path: /${entry.slug}`);
 
             // If the page has a parent, also revalidate the hierarchical path
             if (entry.parent?.slug) {
@@ -62,10 +76,15 @@ export async function POST(request: NextRequest) {
               revalidatePath(hierarchicalPath);
             }
           }
+        } else {
+          console.warn(
+            "No slug found in entry data, only revalidating general page-content tag"
+          );
         }
 
         // Also revalidate root path for any potential page changes
         revalidatePath("/");
+        console.log("Revalidated root path for general page changes");
         break;
 
       case "home":
@@ -74,20 +93,57 @@ export async function POST(request: NextRequest) {
         revalidatePath("/");
         break;
 
+      // Handle Strapi collection type names that might be different
+      case "pages":
+        console.log("Revalidating pages collection (treating as page)...");
+        revalidateTag("page-content");
+
+        if (entry?.slug) {
+          revalidateTag(`page-${entry.slug}`);
+          if (entry.slug === "home") {
+            revalidatePath("/");
+          } else {
+            revalidatePath(`/${entry.slug}`);
+            if (entry.parent?.slug) {
+              revalidatePath(`/${entry.parent.slug}/${entry.slug}`);
+            }
+          }
+        }
+        revalidatePath("/");
+        break;
+
       default:
         console.log(`Revalidating generic content for model: ${model}`);
         revalidateTag("strapi-content");
         revalidateTag(`${model}-content`);
+
+        // If it's likely a page-related model, also revalidate page content
+        if (model.includes("page") || entry?.slug) {
+          console.log(
+            "Detected page-like content, also revalidating page tags"
+          );
+          revalidateTag("page-content");
+          if (entry?.slug) {
+            revalidateTag(`page-${entry.slug}`);
+            revalidatePath(`/${entry.slug}`);
+          }
+        }
         break;
     }
 
-    console.log(`Successfully revalidated content for model: ${model}`);
-
-    return NextResponse.json({
+    const responseData = {
       success: true,
       message: `Content revalidated for ${model}`,
       timestamp: new Date().toISOString(),
-    });
+      processedModel: model,
+      processedEvent: event || "unknown",
+      entrySlug: entry?.slug || "none",
+      hasParent: !!entry?.parent,
+    };
+
+    console.log(`Successfully revalidated content:`, responseData);
+
+    return NextResponse.json(responseData);
   } catch (error) {
     console.error("Error during revalidation:", error);
     return NextResponse.json(

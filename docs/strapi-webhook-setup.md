@@ -148,6 +148,40 @@ Common error responses:
 
 ## Step 5: Content-Specific Configuration
 
+### Header Content
+
+For header menu changes, navigation updates, or logo changes:
+
+```json
+{
+  "event": "entry.update",
+  "model": "header",
+  "entry": { "id": 1 },
+  "secret": "your-revalidation-secret"
+}
+```
+
+This will revalidate:
+- All pages (since header appears on every page)
+- Cache tags: `header-content`, `global-content`
+
+### Footer Content
+
+For footer menu changes, contact info updates, or compliance badges:
+
+```json
+{
+  "event": "entry.update", 
+  "model": "footer",
+  "entry": { "id": 1 },
+  "secret": "your-revalidation-secret"
+}
+```
+
+This will revalidate:
+- All pages (since footer appears on every page)
+- Cache tags: `footer-content`, `global-content`
+
 ### Home Page Content
 
 For content that affects the home page:
