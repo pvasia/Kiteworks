@@ -700,11 +700,17 @@ export async function getPageByPath(
   slugPath: string[]
 ): Promise<PageData | null> {
   try {
-    if (slugPath.length === 0) {
+    // Handle empty path or ["home"] - both should map to home page
+    if (
+      slugPath.length === 0 ||
+      (slugPath.length === 1 && slugPath[0] === "home")
+    ) {
+      console.log("Fetching home page...");
       return await getPageBySlug("home");
     }
 
     if (slugPath.length === 1) {
+      console.log(`Fetching single page with slug: ${slugPath[0]}`);
       return await getPageBySlug(slugPath[0]);
     }
 
@@ -768,6 +774,18 @@ export async function getPageByPath(
       `Error fetching page with path ${slugPath.join("/")}:`,
       error
     );
+
+    // Special handling for home page - provide more detailed error info
+    if (
+      slugPath.length === 0 ||
+      (slugPath.length === 1 && slugPath[0] === "home")
+    ) {
+      console.error(
+        "Failed to fetch home page. Check STRAPI_API_URL and Strapi availability."
+      );
+      console.error("STRAPI_API_URL:", process.env.STRAPI_API_URL || "not set");
+    }
+
     return null;
   }
 }

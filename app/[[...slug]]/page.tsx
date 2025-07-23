@@ -29,6 +29,8 @@ export async function generateStaticParams() {
     const params = [
       // Root path (homepage) - empty slug array
       {},
+      // Ensure "home" page is always included
+      { slug: ["home"] },
       // All other paths (both single-level and hierarchical)
       ...paths.map((path) => ({
         slug: path,
@@ -39,7 +41,11 @@ export async function generateStaticParams() {
     return params;
   } catch (error) {
     console.error("Error generating static params:", error);
-    return [{}]; // At least return empty object for homepage
+    // Fallback: ensure at least homepage and home slug are available
+    return [
+      {}, // Root path
+      { slug: ["home"] }, // Home page with slug
+    ];
   }
 }
 
