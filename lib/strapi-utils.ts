@@ -552,3 +552,297 @@ export async function getFooterData(): Promise<FooterData> {
     return {};
   }
 }
+
+// ============================================================================
+// PAGE COLLECTION TYPES AND FUNCTIONS
+// ============================================================================
+
+// Types for Strapi SEO component
+interface StrapiSEO {
+  id: number;
+  metaTitle: string;
+  metaDescription: string;
+  shareImage?: StrapiMediaObject;
+}
+
+// Types for Strapi page data
+interface StrapiPageData {
+  data?: Array<{
+    id: number;
+    documentId: string;
+    title: string;
+    slug: string;
+    SEO?: StrapiSEO;
+    content?: Array<{
+      __component: string;
+      id: number;
+      [key: string]: unknown;
+    }>;
+    parent?: {
+      id: number;
+      documentId: string;
+      title: string;
+      slug: string;
+    };
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+  }>;
+}
+
+// Interface for page data
+export interface PageData {
+  id: number;
+  documentId: string;
+  title: string;
+  slug: string;
+  seo?: {
+    metaTitle: string;
+    metaDescription: string;
+    shareImage?: string;
+  };
+  content?: Array<{
+    __component: string;
+    id: number;
+    [key: string]: unknown;
+  }>;
+  parent?: {
+    id: number;
+    documentId: string;
+    title: string;
+    slug: string;
+  };
+}
+
+/**
+ * Fetch all page slugs from Strapi for static generation
+ * @returns Promise with array of page slugs
+ */
+export async function getAllPageSlugs(): Promise<string[]> {
+  try {
+    const strapiData = await fetchFromStrapi<StrapiPageData>("/api/pages", {
+      tags: ["page-content"],
+      revalidate: 3600,
+    });
+
+    if (!strapiData?.data || !Array.isArray(strapiData.data)) {
+      console.warn("No valid pages data found");
+      return [];
+    }
+
+    return strapiData.data
+      .filter((page) => page && page.slug)
+      .map((page) => page.slug);
+  } catch (error) {
+    console.error("Error fetching page slugs from Strapi:", error);
+    return [];
+  }
+}
+
+/**
+ * Fetch page data by slug from Strapi
+ * @param slug - The page slug
+ * @returns Promise with page data
+ */
+export async function getPageBySlug(slug: string): Promise<PageData | null> {
+  try {
+    const strapiData = await fetchFromStrapi<StrapiPageData>(
+      `/api/pages?filters[slug][$eq]=${slug}&pLevel`,
+      {
+        tags: ["page-content", `page-${slug}`],
+        revalidate: 3600,
+      }
+    );
+
+    if (
+      !strapiData?.data ||
+      !Array.isArray(strapiData.data) ||
+      strapiData.data.length === 0
+    ) {
+      console.warn(`No page found with slug: ${slug}`);
+      return null;
+    }
+
+    const pageData = strapiData.data[0];
+
+    // Transform Strapi data to match our interface
+    const transformedData: PageData = {
+      id: pageData.id,
+      documentId: pageData.documentId,
+      title: pageData.title,
+      slug: pageData.slug,
+      content: pageData.content || [],
+      parent: pageData.parent,
+    };
+
+    // Transform SEO data if present
+    if (pageData.SEO) {
+      transformedData.seo = {
+        metaTitle: pageData.SEO.metaTitle,
+        metaDescription: pageData.SEO.metaDescription,
+        shareImage: getStrapiMediaUrl(pageData.SEO.shareImage) || undefined,
+      };
+    }
+
+    return transformedData;
+  } catch (error) {
+    console.error(`Error fetching page with slug ${slug}:`, error);
+    return null;
+  }
+}
+
+/**
+ * Fetch page data by hierarchical path (e.g., /solutions/defense)
+ * @param slugPath - Array of slugs representing the path (e.g., ['solutions', 'defense'])
+ * @returns Promise with page data
+ */
+export async function getPageByPath(
+  slugPath: string[]
+): Promise<PageData | null> {
+  try {
+    if (slugPath.length === 0) {
+      return await getPageBySlug("home");
+    }
+
+    if (slugPath.length === 1) {
+      return await getPageBySlug(slugPath[0]);
+    }
+
+    // For hierarchical paths, get the target page (last slug in path)
+    const targetSlug = slugPath[slugPath.length - 1];
+    const parentSlug = slugPath[slugPath.length - 2];
+
+    console.log(
+      `Looking for page with slug "${targetSlug}" and parent "${parentSlug}"`
+    );
+
+    // Fetch all pages with the target slug
+    const strapiData = await fetchFromStrapi<StrapiPageData>(
+      `/api/pages?filters[slug][$eq]=${targetSlug}&pLevel`,
+      {
+        tags: ["page-content", `page-${targetSlug}`],
+        revalidate: 3600,
+      }
+    );
+
+    if (!strapiData?.data || !Array.isArray(strapiData.data)) {
+      console.warn(`No pages found with slug: ${targetSlug}`);
+      return null;
+    }
+
+    // Find the page that matches the parent hierarchy
+    const matchingPage = strapiData.data.find((page) => {
+      if (!page.parent) return false;
+      return page.parent.slug === parentSlug;
+    });
+
+    if (!matchingPage) {
+      console.warn(
+        `No page found with slug "${targetSlug}" and parent "${parentSlug}"`
+      );
+      return null;
+    }
+
+    // Transform the matching page data
+    const transformedData: PageData = {
+      id: matchingPage.id,
+      documentId: matchingPage.documentId,
+      title: matchingPage.title,
+      slug: matchingPage.slug,
+      content: matchingPage.content || [],
+      parent: matchingPage.parent,
+    };
+
+    // Transform SEO data if present
+    if (matchingPage.SEO) {
+      transformedData.seo = {
+        metaTitle: matchingPage.SEO.metaTitle,
+        metaDescription: matchingPage.SEO.metaDescription,
+        shareImage: getStrapiMediaUrl(matchingPage.SEO.shareImage) || undefined,
+      };
+    }
+
+    return transformedData;
+  } catch (error) {
+    console.error(
+      `Error fetching page with path ${slugPath.join("/")}:`,
+      error
+    );
+    return null;
+  }
+}
+
+/**
+ * Get all possible page paths including hierarchical ones
+ * @returns Promise with array of slug paths
+ */
+export async function getAllPagePaths(): Promise<string[][]> {
+  try {
+    const strapiData = await fetchFromStrapi<StrapiPageData>(
+      "/api/pages?pLevel",
+      {
+        tags: ["page-content"],
+        revalidate: 3600,
+      }
+    );
+
+    if (!strapiData?.data || !Array.isArray(strapiData.data)) {
+      console.warn("No valid pages data found");
+      return [];
+    }
+
+    const paths: string[][] = [];
+
+    // Add single-level paths and build hierarchical paths
+    strapiData.data.forEach((page) => {
+      if (!page || !page.slug) return;
+
+      if (!page.parent) {
+        // Top-level page
+        paths.push([page.slug]);
+      } else {
+        // Child page - create hierarchical path
+        paths.push([page.parent.slug, page.slug]);
+      }
+    });
+
+    console.log("Generated page paths:", paths);
+    return paths;
+  } catch (error) {
+    console.error("Error fetching page paths from Strapi:", error);
+    return [];
+  }
+}
+
+/**
+ * Generate metadata for a page
+ * @param pageData - The page data from Strapi
+ * @returns Next.js Metadata object
+ */
+export function generatePageMetadata(pageData: PageData) {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com";
+
+  return {
+    title: pageData.seo?.metaTitle || pageData.title,
+    description: pageData.seo?.metaDescription || undefined,
+    openGraph: {
+      title: pageData.seo?.metaTitle || pageData.title,
+      description: pageData.seo?.metaDescription || undefined,
+      url: `${siteUrl}/${pageData.slug}`,
+      images: pageData.seo?.shareImage
+        ? [
+            {
+              url: pageData.seo.shareImage,
+              alt: pageData.title,
+            },
+          ]
+        : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: pageData.seo?.metaTitle || pageData.title,
+      description: pageData.seo?.metaDescription || undefined,
+      images: pageData.seo?.shareImage ? [pageData.seo.shareImage] : undefined,
+    },
+  };
+}

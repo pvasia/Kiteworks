@@ -1,128 +1,100 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidateTag, revalidatePath } from "next/cache";
-import {
-  verifyWebhookSignature,
-  parseWebhookEvent,
-  getRevalidationPaths,
-  getRevalidationTags,
-  isRateLimited,
-} from "@/lib/webhook-utils";
-
-// Types for the webhook payload
-interface RevalidationRequest {
-  event: string;
-  model: string;
-  path?: string;
-  tag?: string;
-  secret?: string;
-}
 
 export async function POST(request: NextRequest) {
+  const authHeader = request.headers.get("authorization");
+  const secret = process.env.REVALIDATION_SECRET;
+
+  // Check for authorization
+  if (!secret || authHeader !== `Bearer ${secret}`) {
+    console.error("Unauthorized revalidation attempt");
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
-    // Get client IP for rate limiting
-    const clientIp =
-      request.headers.get("x-forwarded-for") ||
-      request.headers.get("x-real-ip") ||
-      "unknown";
+    const body = await request.json();
+    console.log("Revalidation webhook payload:", body);
 
-    // Rate limiting
-    if (isRateLimited(clientIp)) {
-      return NextResponse.json(
-        { error: "Rate limit exceeded" },
-        { status: 429 }
-      );
+    const { model, entry } = body;
+
+    if (!model) {
+      console.error("No model specified in revalidation webhook");
+      return NextResponse.json({ error: "Model is required" }, { status: 400 });
     }
 
-    const body: RevalidationRequest = await request.json();
+    // Handle different content types
+    switch (model) {
+      case "header":
+        console.log("Revalidating header content...");
+        revalidateTag("header-content");
+        revalidateTag("global-content");
+        break;
 
-    // Enhanced webhook verification
-    const webhookSecret = process.env.WEBHOOK_SECRET;
-    const revalidationSecret = process.env.REVALIDATION_SECRET;
+      case "footer":
+        console.log("Revalidating footer content...");
+        revalidateTag("footer-content");
+        revalidateTag("global-content");
+        break;
 
-    if (!webhookSecret || !revalidationSecret) {
-      console.error("Missing webhook or revalidation secrets");
-      return NextResponse.json(
-        { error: "Server configuration error" },
-        { status: 500 }
-      );
+      case "page":
+        console.log("Revalidating page content...");
+        revalidateTag("page-content");
+
+        // If we have entry data with slug, also revalidate the specific page path
+        if (entry?.slug) {
+          console.log(`Revalidating specific page: /${entry.slug}`);
+          revalidateTag(`page-${entry.slug}`);
+
+          // If this is the home page, revalidate the root path
+          if (entry.slug === "home") {
+            console.log("Revalidating homepage at root path");
+            revalidatePath("/");
+          } else {
+            // Revalidate the direct slug path
+            revalidatePath(`/${entry.slug}`);
+
+            // If the page has a parent, also revalidate the hierarchical path
+            if (entry.parent?.slug) {
+              const hierarchicalPath = `/${entry.parent.slug}/${entry.slug}`;
+              console.log(
+                `Revalidating hierarchical page: ${hierarchicalPath}`
+              );
+              revalidatePath(hierarchicalPath);
+            }
+          }
+        }
+
+        // Also revalidate root path for any potential page changes
+        revalidatePath("/");
+        break;
+
+      case "home":
+        console.log("Revalidating home content...");
+        revalidateTag("home-content");
+        revalidatePath("/");
+        break;
+
+      default:
+        console.log(`Revalidating generic content for model: ${model}`);
+        revalidateTag("strapi-content");
+        revalidateTag(`${model}-content`);
+        break;
     }
 
-    // Verify webhook signature if provided
-    const signature = request.headers.get("x-webhook-signature");
-    if (signature) {
-      const rawBody = JSON.stringify(body);
-      if (!verifyWebhookSignature(rawBody, signature, webhookSecret)) {
-        return NextResponse.json(
-          { error: "Invalid webhook signature" },
-          { status: 401 }
-        );
-      }
-    }
-
-    // Verify the revalidation secret for additional security
-    const secret = body.secret || request.headers.get("x-webhook-secret");
-    if (secret !== revalidationSecret) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    // Parse webhook event
-    const webhookEvent = parseWebhookEvent(body);
-
-    // Log the revalidation request
-    console.log("Revalidation request received:", {
-      event: webhookEvent.event,
-      model: webhookEvent.model,
-      entityId: webhookEvent.entityId,
-      timestamp: webhookEvent.timestamp,
-      ip: clientIp,
-    });
-
-    // Get paths and tags to revalidate
-    const pathsToRevalidate = getRevalidationPaths(
-      webhookEvent.event,
-      webhookEvent.model
-    );
-    const tagsToRevalidate = getRevalidationTags(
-      webhookEvent.event,
-      webhookEvent.model
-    );
-
-    // Revalidate paths
-    for (const path of pathsToRevalidate) {
-      await revalidatePath(path);
-      console.log(`Revalidated path: ${path}`);
-    }
-
-    // Revalidate tags
-    for (const tag of tagsToRevalidate) {
-      await revalidateTag(tag);
-      console.log(`Revalidated tag: ${tag}`);
-    }
-
-    // Custom path/tag revalidation if provided
-    if (body.path) {
-      await revalidatePath(body.path);
-      console.log(`Custom path revalidated: ${body.path}`);
-    }
-
-    if (body.tag) {
-      await revalidateTag(body.tag);
-      console.log(`Custom tag revalidated: ${body.tag}`);
-    }
+    console.log(`Successfully revalidated content for model: ${model}`);
 
     return NextResponse.json({
-      revalidated: true,
-      now: Date.now(),
-      event: webhookEvent.event,
-      model: webhookEvent.model,
-      entityId: webhookEvent.entityId,
-      revalidatedPaths: pathsToRevalidate,
-      revalidatedTags: tagsToRevalidate,
+      success: true,
+      message: `Content revalidated for ${model}`,
+      timestamp: new Date().toISOString(),
     });
   } catch (error) {
-    console.error("Revalidation error:", error);
+    console.error("Error during revalidation:", error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      {
+        error: "Revalidation failed",
+        details: error instanceof Error ? error.message : "Unknown error",
+      },
       { status: 500 }
     );
   }
