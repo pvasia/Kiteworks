@@ -312,6 +312,87 @@ Consider setting up monitoring for:
 2. **Optimize revalidation**: Limit the number of paths revalidated
 3. **Batch requests**: Consider batching multiple content updates
 
+## Troubleshooting Page Content Revalidation
+
+### Issue: Content Updates Don't Reflect on Website
+
+If your page content changes in Strapi but doesn't update on your website:
+
+#### Step 1: Verify Webhook Delivery
+
+1. **Update content in Strapi** (change title, content, etc.)
+2. **Check Vercel Function logs** immediately:
+   - Go to Vercel Dashboard → Your Project → Functions
+   - Look for `/api/revalidate` function logs
+   - Should see: `=== REVALIDATION WEBHOOK RECEIVED ===`
+
+#### Step 2: Check Webhook Configuration
+
+**In Strapi Admin Panel:**
+- **URL**: `https://your-domain.com/api/revalidate`
+- **Method**: POST
+- **Headers**:
+  ```
+  Authorization: Bearer your-revalidation-secret
+  Content-Type: application/json
+  ```
+- **Events**: Select these events:
+  - `entry.create`
+  - `entry.update` 
+  - `entry.publish`
+  - `entry.unpublish`
+
+#### Step 3: Test Webhook Manually
+
+Use this curl command to test if revalidation works:
+
+```bash
+curl -X POST https://your-domain.com/api/revalidate \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer your-revalidation-secret" \
+  -d '{
+    "event": "entry.update",
+    "model": "page",
+    "entry": {
+      "id": 1,
+      "slug": "home",
+      "title": "Test Update"
+    }
+  }'
+```
+
+**Expected response:**
+```json
+{
+  "success": true,
+  "message": "Content revalidated for page",
+  "processedModel": "page",
+  "entrySlug": "home"
+}
+```
+
+#### Step 4: Check Content Type Name
+
+Your Strapi content type might be named differently:
+- If it's `pages` (plural), the webhook will send `"model": "pages"`
+- If it's `page` (singular), it will send `"model": "page"`
+- Both are supported in the revalidation code
+
+#### Step 5: Clear Browser Cache
+
+Even if revalidation works:
+1. **Hard refresh**: Ctrl+F5 (Windows) or Cmd+Shift+R (Mac)
+2. **Try incognito/private mode**
+3. **Test different browsers**
+
+#### Step 6: Check Strapi Webhook Logs
+
+In Strapi Admin:
+1. Go to Settings → Webhooks
+2. Click on your webhook
+3. Check the "Requests" section for delivery status
+4. Look for any failed deliveries or error messages
+
 ## Custom Content Types
 
 To add support for custom content types, modify `lib/webhook-utils.ts`:
